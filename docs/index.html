@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZephyrOS - Linux Refined</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        zephyr: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            300: '#5eead4',
+                            400: '#2dd4bf',
+                            500: '#14b8a6', // Primary Teal
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                            950: '#042f2e',
+                        },
+                        darkbg: '#0f172a', // Deep Slate
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617; /* Very dark blue/black */
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        /* Custom glowing background effect */
+        .glow-bg {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, rgba(0,0,0,0) 70%);
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo-3d {
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5))
+                    drop-shadow(0 6px 6px rgba(0, 0, 0, 0.4))
+                    drop-shadow(0 0 35px rgba(20, 184, 166, 0.3));
+            transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            transition: transform 0.1s ease-out, filter 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .logo-3d:hover {
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.6))
+                    drop-shadow(0 8px 10px rgba(0, 0, 0, 0.5))
+                    drop-shadow(0 0 45px rgba(20, 184, 166, 0.4));
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="fixed w-full z-50 top-0 start-0 border-b border-white/5 glass-panel">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src="zephyros.png" class="h-10 w-10 object-contain" alt="ZephyrOS Logo">
+                <span class="self-center text-2xl font-semibold whitespace-nowrap text-white tracking-tight">ZephyrOS</span>
+            </a>
+            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <a href="https://github.com/theronlindsay/ZephyrOS" target="_blank" class="text-white bg-zephyr-600 hover:bg-zephyr-500 focus:ring-4 focus:outline-none focus:ring-zephyr-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all shadow-[0_0_15px_rgba(13,148,136,0.5)] hover:shadow-[0_0_25px_rgba(20,184,166,0.6)]">
+                    Download ISO
+                </a>
+                <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-400 rounded-lg md:hidden hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-700 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
+                    <li>
+                        <a href="#home" class="block py-2 px-3 text-white bg-zephyr-600 rounded md:bg-transparent md:text-zephyr-400 md:p-0" aria-current="page">Home</a>
+                    </li>
+                    <li>
+                        <a href="#features" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-zephyr-400 md:p-0 transition-colors">Features</a>
+                    </li>
+                    <li>
+                        <a href="#about" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-zephyr-400 md:p-0 transition-colors">About</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/theronlindsay/ZephyrOS" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-zephyr-400 md:p-0 transition-colors">GitHub</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="relative z-10 pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div class="glow-bg"></div>
+        <div class="px-4 mx-auto max-w-7xl text-center">
+            
+            <div class="flex justify-center mb-8 relative" id="logo-container">
+                <img src="ZephyrLogo.png" alt="ZephyrOS Main Logo" id="hero-logo" class="logo-3d h-48 md:h-64 object-contain">
+            </div>
+
+            <h1 class="mb-6 text-4xl font-extrabold tracking-tight leading-none text-white md:text-6xl lg:text-7xl">
+                The <span class="text-transparent bg-clip-text bg-gradient-to-r from-zephyr-300 to-blue-500">Breeze</span> of Innovation
+            </h1>
+            <p class="mb-8 text-lg font-normal text-gray-400 lg:text-xl sm:px-16 lg:px-48">
+                Experience a Linux distribution designed for speed, elegance, and developer productivity. Built on a robust foundation, refined for the modern user.
+            </p>
+            <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+                <a href="https://github.com/theronlindsay/ZephyrOS" class="inline-flex justify-center items-center py-3 px-6 text-base font-medium text-center text-white rounded-lg bg-zephyr-600 hover:bg-zephyr-500 focus:ring-4 focus:ring-zephyr-900 transition-all transform hover:scale-105">
+                    Get Started
+                    <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                    </svg>
+                </a>
+                <a href="#features" class="inline-flex justify-center items-center py-3 px-6 text-base font-medium text-center text-gray-300 rounded-lg border border-gray-700 hover:text-white hover:bg-gray-800 focus:ring-4 focus:ring-gray-800 glass-panel">
+                    Learn More
+                </a>
+            </div>
+            
+            <div class="mt-12 flex justify-center space-x-4 opacity-70">
+                <div class="flex items-center space-x-2 text-sm text-gray-400">
+                    <svg class="w-5 h-5 text-zephyr-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    <span>Open Source</span>
+                </div>
+                <div class="flex items-center space-x-2 text-sm text-gray-400">
+                    <svg class="w-5 h-5 text-zephyr-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path></svg>
+                    <span>Lightning Fast</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-20 bg-black/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Why ZephyrOS?</h2>
+                <p class="mt-4 text-lg text-gray-400">Engineered to get out of your way and let you focus on what matters.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-2xl glass-panel hover:border-zephyr-500/50 transition-colors duration-300 group">
+                    <div class="w-12 h-12 bg-zephyr-900/50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-zephyr-600 transition-colors">
+                        <svg class="w-6 h-6 text-zephyr-300 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">High Performance</h3>
+                    <p class="text-gray-400">Minimal bloatware and optimized kernel settings ensure your system flies, whether you're compiling code or gaming.</p>
+                </div>
+
+                <div class="p-8 rounded-2xl glass-panel hover:border-zephyr-500/50 transition-colors duration-300 group">
+                    <div class="w-12 h-12 bg-zephyr-900/50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-zephyr-600 transition-colors">
+                        <svg class="w-6 h-6 text-zephyr-300 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Privacy First</h3>
+                    <p class="text-gray-400">No telemetry, no tracking. Your data belongs to you. We believe in transparency and open-source integrity.</p>
+                </div>
+
+                <div class="p-8 rounded-2xl glass-panel hover:border-zephyr-500/50 transition-colors duration-300 group">
+                    <div class="w-12 h-12 bg-zephyr-900/50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-zephyr-600 transition-colors">
+                        <svg class="w-6 h-6 text-zephyr-300 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Fully Customizable</h3>
+                    <p class="text-gray-400">Make it yours. From the window manager to the shell, ZephyrOS is designed to be molded to your workflow.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-12">
+            <div class="w-full md:w-1/2">
+                <img src="ZephyrOSBackground.png" alt="ZephyrOS Dark Theme" class="rounded-xl shadow-2xl shadow-zephyr-500/20 border border-gray-700 w-full hover:scale-[1.02] transition-transform duration-500">
+            </div>
+            <div class="w-full md:w-1/2">
+                <h2 class="text-3xl font-bold text-white mb-6">Designed for Developers</h2>
+                <div class="space-y-6">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 h-6 w-6 rounded-full bg-zephyr-500 flex items-center justify-center mt-1">
+                            <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <p class="ml-4 text-gray-300">Pre-configured with essential dev tools (Git, Vim/Neovim, GCC).</p>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 h-6 w-6 rounded-full bg-zephyr-500 flex items-center justify-center mt-1">
+                            <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <p class="ml-4 text-gray-300">Tiling Window Manager support out of the box for maximum screen real estate.</p>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 h-6 w-6 rounded-full bg-zephyr-500 flex items-center justify-center mt-1">
+                            <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <p class="ml-4 text-gray-300">Community driven and completely open source.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black/40 border-t border-gray-800 py-12">
+        <div class="max-w-7x4 mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            
+            <div class="flex items-center space-x-8 mb-8 md:mb-0">
+                <img src="ZephyrLogo.png" class="h-12 object-contain opacity-80" alt="ZephyrOS Text">
+            </div>
+
+            <div class="flex space-x-6 text-sm text-gray-500">
+                <a href="#" class="hover:text-zephyr-400 transition-colors">Documentation</a>
+                <a href="#" class="hover:text-zephyr-400 transition-colors">Privacy</a>
+                <a href="https://github.com/theronlindsay/ZephyrOS" class="hover:text-zephyr-400 transition-colors">GitHub</a>
+            </div>
+
+            <div class="mt-4 md:mt-0 text-sm text-gray-600">
+                &copy; 2024 ZephyrOS Project.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 3D logo effect - tracks and points toward cursor
+        const logoContainer = document.getElementById('logo-container');
+        const heroLogo = document.getElementById('hero-logo');
+        
+        if (logoContainer && heroLogo) {
+            const maxRotation = 25; // Maximum rotation in degrees
+            const sensitivity = 150; // How far from center the effect extends (in pixels)
+            
+            document.addEventListener('mousemove', (e) => {
+                const rect = heroLogo.getBoundingClientRect();
+                const logoCenterX = rect.left + rect.width / 2;
+                const logoCenterY = rect.top + rect.height / 2;
+                
+                // Calculate distance from cursor to logo center
+                const deltaX = e.clientX - logoCenterX;
+                const deltaY = e.clientY - logoCenterY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                
+                // Only apply effect when cursor is within range
+                const effectRadius = 400;
+                if (distance < effectRadius) {
+                    // Calculate rotation - logo points toward cursor
+                    const rotateY = (deltaX / sensitivity) * maxRotation;
+                    const rotateX = -(deltaY / sensitivity) * maxRotation;
+                    
+                    // Clamp values
+                    const clampedRotateX = Math.max(-maxRotation, Math.min(maxRotation, rotateX));
+                    const clampedRotateY = Math.max(-maxRotation, Math.min(maxRotation, rotateY));
+                    
+                    // Apply slight lift effect when cursor is close
+                    const lift = Math.max(0, (1 - distance / effectRadius) * 15);
+                    
+                    heroLogo.style.transform = `perspective(1000px) rotateX(${clampedRotateX}deg) rotateY(${clampedRotateY}deg) translateZ(${lift}px)`;
+                } else {
+                    // Reset when cursor is far away
+                    heroLogo.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+                }
+            });
+            
+            // Reset on mouse leave from document
+            document.addEventListener('mouseleave', () => {
+                heroLogo.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+            });
+        }
+    </script>
+
+</body>
+</html>
