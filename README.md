@@ -27,7 +27,7 @@ Download BlueBuild:
 
 Create an Image:
 
-`sudo bluebuild generate-iso --iso-name ZephyrOS-nvidia-gnome.iso recipe recipes/recipe.yml`
+`sudo bluebuild generate-iso --iso-name ZephyrOS-nvidia-gnome.iso recipe recipes/zephyros-nvidia-gnome.yml`
 
 ## Installation (Rebasing another Fedora-Atomic Distro)
 

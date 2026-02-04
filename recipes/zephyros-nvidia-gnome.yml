@@ -17,7 +17,7 @@ modules:
       - source: system
         destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
     files: #custom justfile
-      - source: files/justfile
+      - source: justfile
         destination: /usr/share/ublue-os/just/60-custom.just
   - type: dnf
     repos:
