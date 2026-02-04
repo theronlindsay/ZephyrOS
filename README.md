@@ -1,12 +1,37 @@
 # ZephyrOS &nbsp; [![bluebuild build badge](https://github.com/theronlindsay/zephyros/actions/workflows/build.yml/badge.svg)](https://github.com/theronlindsay/zephyros/actions/workflows/build.yml)
 
-See the [BlueBuild docs](https://blue-build.org/how-to/setup/) for quick setup instructions for setting up your own repository based on this template.
+A Fedora Atomic Image of Bazzite-dx optimized for Asus Laptops with Hybrid Graphics
 
-After setup, it is recommended you update this README to describe your custom image.
+## Primary Features:
 
-## Installation
+* [ ] Fan control
 
-> [!WARNING]  
+  * [ ] Asusctl and Rog Control Center preinstalled
+* [ ] Hibernation On Lid Close
+
+  * [ ] Saves Idle battery life
+  * [ ] Works with Full-Disk Encryption Enabled
+  * [ ] Z-Ram Disabled
+* [ ] GPU Switching
+
+  * [ ] EnvyControl preinstalled
+  * [ ] GPU Profile Switcher inside the Gnome Control Center
+* [ ] Dash to Panel Installed by Default for Windows-Like UI ootb
+* [ ] Zen-browser as default
+
+## Creating Images:
+
+Download BlueBuild:
+
+`bash <(curl -s https://raw.githubusercontent.com/blue-build/cli/main/install.sh)`
+
+Create an Image: 
+
+`sudo bluebuild generate-iso --iso-name ZephyrOS-nvidia-gnome.iso recipe recipes/recipe.yml`
+
+## Installation (Rebasing another Fedora-Atomic Distro)
+
+> [!WARNING]
 > [This is an experimental feature](https://www.fedoraproject.org/wiki/Changes/OstreeNativeContainerStable), try at your own discretion.
 
 To rebase an existing atomic Fedora installation to the latest build:
@@ -28,12 +53,6 @@ To rebase an existing atomic Fedora installation to the latest build:
   systemctl reboot
   ```
 
-The `latest` tag will automatically point to the latest build. That build will still always use the Fedora version specified in `recipe.yml`, so you won't get accidentally updated to the next major version.
-
-## ISO
-
-If build on Fedora Atomic, you can generate an offline ISO with the instructions available [here](https://blue-build.org/learn/universal-blue/#fresh-install-from-an-iso). These ISOs cannot unfortunately be distributed on GitHub for free due to large sizes, so for public projects something else has to be used for hosting.
-
 ## Verification
 
 These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](https://github.com/sigstore/cosign). You can verify the signature by downloading the `cosign.pub` file from this repo and running the following command:
@@ -41,3 +60,5 @@ These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](ht
 ```bash
 cosign verify --key cosign.pub ghcr.io/theronlindsay/zephyros
 ```
+
+See the [BlueBuild docs](https://blue-build.org/how-to/setup/) for quick setup instructions for setting up your own repository based on this template.

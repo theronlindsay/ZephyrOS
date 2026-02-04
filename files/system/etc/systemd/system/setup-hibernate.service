@@ -1,0 +1,12 @@
+[Unit]
+Description=Setup Hibernate Swap
+ConditionPathExists=!/var/swap/swapfile
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/setupHibernate.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

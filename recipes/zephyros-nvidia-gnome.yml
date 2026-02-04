@@ -1,13 +1,13 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 # image will be published to ghcr.io/<user>/<name>
-name: ZephyrOS
+name: theronlindsay/zephyros-nvidia-gnome
 # description will be included in the image's metadata
 description: This is my personal OS image.
 
 # the base image to build on top of (FROM) and the version tag to use
-base-image: ghcr.io/ublue-os/silverblue-main
-image-version: 42 # latest is also supported if you want new updates ASAP
+base-image: ghcr.io/ublue-os/bazzite-dx-nvidia-gnome
+image-version: stable # latest is also supported if you want new updates ASAP
 
 # module configuration, executed in order
 # you can include multiple instances of the same module
@@ -20,11 +20,13 @@ modules:
   - type: dnf
     repos:
       copr:
-        - atim/starship
+        - lukenukem/asus-linux
+        - sunwire/envycontrol
     install:
       packages:
-        - micro
-        - starship
+        - asusctl
+        - asusctl-rog-gui
+        - python3-envycontrol
     remove:
       packages:
         # example: removing firefox (in favor of the flatpak)
@@ -38,8 +40,25 @@ modules:
         scope: system
         # If no repo information is specified, Flathub will be used by default
         install: # system flatpaks we want all users to have and not remove
-          - org.mozilla.firefox
+          - app.zen_browser.zen
           - org.gnome.Loupe
+          - org.gtk.Gtk3theme.adw-gtk3
+          - org.gtk.Gtk3theme.adw-gtk3-dark
       - scope: user # Also add Flathub user repo, but no user packages
+  - type: gnome-extensions
+    install:
+      - ddterm
+      - GPU Profile Selector
+      - Power Off Options
+      - Dash to Panel 
+      # Add extension IDs from extensions.gnome.org
+  - type: script
+    scripts:
+    - setupHibernateService.sh
+    - apply-extension-settings.sh
+    - install-helium.sh
+  
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
+
+  
