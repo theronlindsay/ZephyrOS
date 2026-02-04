@@ -1,0 +1,37 @@
+# Install Helium launcher
+install-helium:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    mkdir ~/AppImages
+    # Get latest Helium release for x86_64
+    LATEST_URL=$(curl -sL https://api.github.com/repos/imputnet/helium-linux/releases/latest \
+    | grep -o "https://.*x86_64.*\.AppImage" \
+    | head -n 1)
+    if [ -z "$LATEST_URL" ]; then
+        echo "Failed to find AppImage download URL"
+    exit 1
+    fi
+    echo "Downloading Helium from: $LATEST_URL"
+    # Download the AppImage
+    curl -L "$LATEST_URL" -o ~/AppImages/helium.AppImage
+    chmod +x ~/AppImages/helium.AppImage
+    # Create desktop entry that points to AppImages folder
+    cat > /usr/share/applications/helium.desktop << 'EOF'
+        [Desktop Entry]
+        Name=Helium
+        Exec=~/AppImages/helium.AppImage
+        Icon=helium
+        Type=Application
+        Categories=Network;Audio;
+        Terminal=false
+        Comment=Helium Music Player
+    EOF
+
+
+# Configure hibernate
+setup-hibernate:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    sudo /etc/systemd/system/usr/bin/setupHibernate.sh
+    echo "Hibernate configured!"
+
