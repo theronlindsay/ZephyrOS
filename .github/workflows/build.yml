@@ -27,7 +27,7 @@ jobs:
       matrix:
         recipe:
           # !! Add your recipes here
-          - zephyros-nvidia-gnome.yaml
+          - zephyros-nvidia-gnome.yml
     steps:
       # the build is fully handled by the reusable github action
       - name: Build Custom Image
