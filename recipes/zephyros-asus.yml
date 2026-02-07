@@ -8,7 +8,7 @@ description: For Asus laptops with AMD/Intel GPUs, opinionated, and more beginne
 
 # the base image to build on top of (FROM) and the version tag to use
 base-image: ghcr.io/theronlindsay/zephyros-laptop
-image-version: stable # latest is also supported if you want new updates ASAP
+image-version: latest # latest is also supported if you want new updates ASAP
 
 # module configuration, executed in order
 # you can include multiple instances of the same module
