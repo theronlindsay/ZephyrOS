@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download - ZephyrOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        zephyr: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            300: '#5eead4',
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                            950: '#042f2e',
+                        },
+                        darkbg: '#0f172a',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        .glow-bg {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, rgba(0,0,0,0) 70%);
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #14b8a6;
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.3);
+        }
+
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+
+        .step-indicator.active {
+            background-color: #14b8a6;
+            color: white;
+        }
+
+        .step-indicator.completed {
+            background-color: #0d9488;
+            color: white;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <nav class="fixed w-full z-50 top-0 start-0 border-b border-white/5 glass-panel">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="index.html" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src="zephyros.png" class="h-10 w-10 object-contain" alt="ZephyrOS Logo">
+                <span class="self-center text-2xl font-semibold whitespace-nowrap text-white tracking-tight">ZephyrOS</span>
+            </a>
+            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <a href="https://github.com/theronlindsay/ZephyrOS" target="_blank" class="text-white bg-zephyr-600 hover:bg-zephyr-500 focus:ring-4 focus:outline-none focus:ring-zephyr-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all shadow-[0_0_15px_rgba(13,148,136,0.5)] hover:shadow-[0_0_25px_rgba(20,184,166,0.6)]">
+                    GitHub
+                </a>
+            </div>
+            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-700 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
+                    <li>
+                        <a href="index.html" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-zephyr-400 md:p-0 transition-colors">Home</a>
+                    </li>
+                    <li>
+                        <a href="index.html#features" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-zephyr-400 md:p-0 transition-colors">Features</a>
+                    </li>
+                    <li>
+                        <a href="download.html" class="block py-2 px-3 text-white bg-zephyr-600 rounded md:bg-transparent md:text-zephyr-400 md:p-0" aria-current="page">Download</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/theronlindsay/ZephyrOS" class="block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:hover:text-zephyr-400 md:p-0 transition-colors">GitHub</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative z-10 pt-32 pb-24 lg:pt-40 lg:pb-32 flex-grow">
+        <div class="glow-bg"></div>
+        <div class="px-4 mx-auto max-w-3xl">
+            
+            <div class="text-center mb-12">
+                <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl">
+                    Download <span class="text-transparent bg-clip-text bg-gradient-to-r from-zephyr-300 to-blue-500">ZephyrOS</span>
+                </h1>
+                <p class="text-lg text-gray-400">
+                    Answer a few questions to find the right ISO for your system.
+                </p>
+            </div>
+
+            <!-- Progress Steps -->
+            <div class="flex justify-center items-center mb-12 space-x-4">
+                <div class="flex items-center">
+                    <div id="step1-indicator" class="step-indicator active w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-700 text-gray-400">1</div>
+                    <span class="ml-2 text-sm text-gray-400 hidden sm:inline">Graphics</span>
+                </div>
+                <div class="w-8 h-px bg-gray-700"></div>
+                <div class="flex items-center">
+                    <div id="step2-indicator" class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-700 text-gray-400">2</div>
+                    <span class="ml-2 text-sm text-gray-400 hidden sm:inline">Laptop</span>
+                </div>
+                <div class="w-8 h-px bg-gray-700"></div>
+                <div class="flex items-center">
+                    <div id="step3-indicator" class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-700 text-gray-400">3</div>
+                    <span class="ml-2 text-sm text-gray-400 hidden sm:inline">Console</span>
+                </div>
+                <div class="w-8 h-px bg-gray-700"></div>
+                <div class="flex items-center">
+                    <div id="step4-indicator" class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-700 text-gray-400">4</div>
+                    <span class="ml-2 text-sm text-gray-400 hidden sm:inline">Brand</span>
+                </div>
+            </div>
+
+            <!-- Selection Form -->
+            <div class="glass-panel rounded-2xl p-8 space-y-8">
+                
+                <!-- Step 1: Graphics Card -->
+                <div id="step1" class="space-y-3">
+                    <label class="block text-white font-semibold text-lg">
+                        <span class="flex items-center">
+                            <svg class="w-5 h-5 text-zephyr-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+                            What type of graphics card do you have?
+                        </span>
+                    </label>
+                    <select id="graphics-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
+                        <option value="">Select your graphics card...</option>
+                        <option value="amd-intel">AMD or Intel (integrated/discrete)</option>
+                        <option value="nvidia">NVIDIA</option>
+                    </select>
+                    <p class="text-sm text-gray-500">If you're unsure, AMD and Intel GPUs are common in most laptops without dedicated graphics.</p>
+                </div>
+
+                <!-- Step 2: Laptop with Discrete GPU -->
+                <div id="step2" class="space-y-3 hidden">
+                    <label class="block text-white font-semibold text-lg">
+                        <span class="flex items-center">
+                            <svg class="w-5 h-5 text-zephyr-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            Are you using a laptop with hybrid graphics?
+                        </span>
+                    </label>
+                    <select id="laptop-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
+                        <option value="">Select an option...</option>
+                        <option value="yes">Yes, laptop with Intel/AMD + NVIDIA</option>
+                        <option value="no">No, desktop or single GPU</option>
+                    </select>
+                    <p class="text-sm text-gray-500">Hybrid graphics means your laptop has both integrated (Intel/AMD) and discrete (NVIDIA) GPUs.</p>
+                </div>
+
+                <!-- Step 3: Console Mode -->
+                <div id="step3" class="space-y-3 hidden">
+                    <label class="block text-white font-semibold text-lg">
+                        <span class="flex items-center">
+                            <svg class="w-5 h-5 text-zephyr-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Would you like a console-style experience?
+                        </span>
+                    </label>
+                    <select id="console-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
+                        <option value="">Select an option...</option>
+                        <option value="yes">Yes, boot into Steam Big Picture mode</option>
+                        <option value="no">No, standard desktop experience</option>
+                    </select>
+                    <p class="text-sm text-gray-500">Console mode boots directly into Steam Big Picture for a controller-friendly, living room gaming experience.</p>
+                </div>
+
+                <!-- Step 4: ASUS Laptop -->
+                <div id="step4" class="space-y-3 hidden">
+                    <label class="block text-white font-semibold text-lg">
+                        <span class="flex items-center">
+                            <svg class="w-5 h-5 text-zephyr-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                            Is your laptop an ASUS (ROG/TUF) gaming laptop?
+                        </span>
+                    </label>
+                    <select id="asus-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
+                        <option value="">Select an option...</option>
+                        <option value="yes">Yes, ASUS ROG/TUF laptop</option>
+                        <option value="no">No, different brand or desktop</option>
+                    </select>
+                    <p class="text-sm text-gray-500">ASUS ROG and TUF laptops have special features like RGB control and fan profiles.</p>
+                </div>
+
+            </div>
+
+            <!-- Result Section -->
+            <div id="result" class="hidden mt-8 fade-in">
+                <div class="glass-panel rounded-2xl p-8 border border-zephyr-500/30">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-zephyr-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-zephyr-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Recommended ISO</h2>
+                        <p class="text-gray-400 mb-6">Based on your selections, we recommend:</p>
+                        
+                        <div class="bg-gray-800/50 rounded-xl p-6 mb-6">
+                            <h3 id="iso-name" class="text-xl font-bold text-zephyr-400 mb-2">ZephyrOS</h3>
+                            <p id="iso-description" class="text-gray-400 text-sm mb-4">Standard edition for AMD/Intel graphics</p>
+                            <code id="iso-filename" class="block bg-gray-900 rounded-lg px-4 py-2 text-sm text-gray-300 font-mono">zephyros-stable.iso</code>
+                        </div>
+
+                        <a id="download-link" href="#" class="inline-flex items-center justify-center py-3 px-8 text-base font-medium text-center text-white rounded-lg bg-zephyr-600 hover:bg-zephyr-500 focus:ring-4 focus:ring-zephyr-900 transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(13,148,136,0.4)]">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Download ISO
+                        </a>
+
+                        <button onclick="resetSelection()" class="block mx-auto mt-4 text-sm text-gray-500 hover:text-zephyr-400 transition-colors">
+                            ← Start over
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="bg-black/40 border-t border-gray-800 py-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-600">
+            &copy; 2024 ZephyrOS Project.
+        </div>
+    </footer>
+
+    <script>
+        const graphicsSelect = document.getElementById('graphics-select');
+        const laptopSelect = document.getElementById('laptop-select');
+        const consoleSelect = document.getElementById('console-select');
+        const asusSelect = document.getElementById('asus-select');
+        
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step3 = document.getElementById('step3');
+        const step4 = document.getElementById('step4');
+        const result = document.getElementById('result');
+
+        const step1Indicator = document.getElementById('step1-indicator');
+        const step2Indicator = document.getElementById('step2-indicator');
+        const step3Indicator = document.getElementById('step3-indicator');
+        const step4Indicator = document.getElementById('step4-indicator');
+
+        // ISO configurations
+        const isoConfigs = {
+            'zephyros': {
+                name: 'ZephyrOS',
+                description: 'Standard edition for AMD/Intel graphics',
+                filename: 'zephyros-stable.iso',
+                link: '#'
+            },
+            'zephyros-console': {
+                name: 'ZephyrOS Console',
+                description: 'Console edition - boots into Steam Big Picture mode',
+                filename: 'zephyros-console-stable.iso',
+                link: '#'
+            },
+            'zephyros-asus': {
+                name: 'ZephyrOS ASUS',
+                description: 'Optimized for ASUS ROG/TUF laptops with AMD/Intel graphics',
+                filename: 'zephyros-asus-stable.iso',
+                link: '#'
+            },
+            'zephyros-nvidia': {
+                name: 'ZephyrOS NVIDIA',
+                description: 'For desktops and single-GPU systems with NVIDIA graphics',
+                filename: 'zephyros-nvidia-stable.iso',
+                link: '#'
+            },
+            'zephyros-nvidia-console': {
+                name: 'ZephyrOS NVIDIA Console',
+                description: 'Console edition with NVIDIA - boots into Steam Big Picture mode',
+                filename: 'zephyros-nvidia-console-stable.iso',
+                link: '#'
+            },
+            'zephyros-nvidia-hybrid': {
+                name: 'ZephyrOS NVIDIA Hybrid',
+                description: 'For laptops with Intel/AMD + NVIDIA hybrid graphics',
+                filename: 'zephyros-nvidia-hybrid-stable.iso',
+                link: '#'
+            },
+            'zephyros-nvidia-asus': {
+                name: 'ZephyrOS NVIDIA ASUS',
+                description: 'For ASUS ROG/TUF laptops with NVIDIA graphics - full hardware support',
+                filename: 'zephyros-nvidia-asus-stable.iso',
+                link: '#'
+            }
+        };
+
+        function updateStepIndicators(currentStep) {
+            const indicators = [step1Indicator, step2Indicator, step3Indicator, step4Indicator];
+            indicators.forEach((indicator, index) => {
+                indicator.classList.remove('active', 'completed');
+                if (index + 1 < currentStep) {
+                    indicator.classList.add('completed');
+                } else if (index + 1 === currentStep) {
+                    indicator.classList.add('active');
+                }
+            });
+        }
+
+        function showResult(isoKey) {
+            const config = isoConfigs[isoKey];
+            document.getElementById('iso-name').textContent = config.name;
+            document.getElementById('iso-description').textContent = config.description;
+            document.getElementById('iso-filename').textContent = config.filename;
+            document.getElementById('download-link').href = config.link;
+            
+            result.classList.remove('hidden');
+            result.classList.add('fade-in');
+            
+            // Mark all steps as completed
+            [step1Indicator, step2Indicator, step3Indicator, step4Indicator].forEach(ind => {
+                ind.classList.remove('active');
+                ind.classList.add('completed');
+            });
+        }
+
+        function determineISO() {
+            const graphics = graphicsSelect.value;
+            const laptop = laptopSelect.value;
+            const consoleMode = consoleSelect.value;
+            const asus = asusSelect.value;
+
+            if (graphics === 'amd-intel') {
+                if (consoleMode === 'yes') {
+                    return 'zephyros-console';
+                } else if (asus === 'yes') {
+                    return 'zephyros-asus';
+                } else {
+                    return 'zephyros';
+                }
+            } else if (graphics === 'nvidia') {
+                if (laptop === 'yes') {
+                    // Hybrid laptop path - no console option, go to ASUS
+                    if (asus === 'yes') {
+                        return 'zephyros-nvidia-asus';
+                    } else {
+                        return 'zephyros-nvidia-hybrid';
+                    }
+                } else {
+                    // Desktop/single GPU path - has console option
+                    if (consoleMode === 'yes') {
+                        return 'zephyros-nvidia-console';
+                    } else if (asus === 'yes') {
+                        return 'zephyros-nvidia-asus';
+                    } else {
+                        return 'zephyros-nvidia';
+                    }
+                }
+            }
+            return null;
+        }
+
+        graphicsSelect.addEventListener('change', function() {
+            result.classList.add('hidden');
+            
+            if (this.value === 'nvidia') {
+                // Show laptop question for NVIDIA
+                step2.classList.remove('hidden');
+                step2.classList.add('fade-in');
+                step3.classList.add('hidden');
+                step4.classList.add('hidden');
+                laptopSelect.value = '';
+                consoleSelect.value = '';
+                asusSelect.value = '';
+                updateStepIndicators(2);
+            } else if (this.value === 'amd-intel') {
+                // Skip laptop question, go to console question
+                step2.classList.add('hidden');
+                step3.classList.remove('hidden');
+                step3.classList.add('fade-in');
+                step4.classList.add('hidden');
+                laptopSelect.value = 'no';
+                consoleSelect.value = '';
+                asusSelect.value = '';
+                updateStepIndicators(3);
+            } else {
+                step2.classList.add('hidden');
+                step3.classList.add('hidden');
+                step4.classList.add('hidden');
+                updateStepIndicators(1);
+            }
+        });
+
+        laptopSelect.addEventListener('change', function() {
+            result.classList.add('hidden');
+            
+            if (this.value === 'yes') {
+                // Hybrid laptop - skip console, go to ASUS
+                step3.classList.add('hidden');
+                step4.classList.remove('hidden');
+                step4.classList.add('fade-in');
+                consoleSelect.value = 'no';
+                asusSelect.value = '';
+                updateStepIndicators(4);
+            } else if (this.value === 'no') {
+                // Desktop/single GPU - show console question
+                step3.classList.remove('hidden');
+                step3.classList.add('fade-in');
+                step4.classList.add('hidden');
+                consoleSelect.value = '';
+                asusSelect.value = '';
+                updateStepIndicators(3);
+            }
+        });
+
+        consoleSelect.addEventListener('change', function() {
+            result.classList.add('hidden');
+            
+            if (this.value === 'yes') {
+                // Console mode selected - show result immediately
+                const isoKey = determineISO();
+                if (isoKey) {
+                    showResult(isoKey);
+                }
+            } else if (this.value === 'no') {
+                // Standard desktop - show ASUS question
+                step4.classList.remove('hidden');
+                step4.classList.add('fade-in');
+                asusSelect.value = '';
+                updateStepIndicators(4);
+            }
+        });
+
+        asusSelect.addEventListener('change', function() {
+            if (this.value) {
+                const isoKey = determineISO();
+                if (isoKey) {
+                    showResult(isoKey);
+                }
+            }
+        });
+
+        function resetSelection() {
+            graphicsSelect.value = '';
+            laptopSelect.value = '';
+            consoleSelect.value = '';
+            asusSelect.value = '';
+            step2.classList.add('hidden');
+            step3.classList.add('hidden');
+            step4.classList.add('hidden');
+            result.classList.add('hidden');
+            updateStepIndicators(1);
+        }
+    </script>
+
+</body>
+</html>

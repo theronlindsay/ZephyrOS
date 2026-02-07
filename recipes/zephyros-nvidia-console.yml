@@ -21,12 +21,17 @@ modules:
     files: #custom justfile
       - source: justfile
         destination: /usr/share/ublue-os/just/60-custom.just
-  - type: rpm-ostree
+  - type: dnf
+    install:
+      packages:
+        - unityhub
+        - code
     remove:
-      # example: removing firefox (in favor of the flatpak)
-      # "firefox" is the main package, "firefox-langpacks" is a dependency
-      - firefox
-      - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
+      packages:
+        # example: removing firefox (in favor of the flatpak)
+        # "firefox" is the main package, "firefox-langpacks" is a dependency
+        - firefox
+        - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
   - type: default-flatpaks
     configurations:
       - notify: true # Send notification after install/uninstall is finished (true/false)

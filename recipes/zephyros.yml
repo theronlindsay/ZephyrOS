@@ -20,12 +20,16 @@ modules:
     files: #custom justfile
       - source: justfile
         destination: /usr/share/ublue-os/just/60-custom.just
-  - type: rpm-ostree
+  - type: dnf
+    install:
+      packages:
+        - unityhub
     remove:
-      # example: removing firefox (in favor of the flatpak)
-      # "firefox" is the main package, "firefox-langpacks" is a dependency
-      - firefox
-      - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
+      packages:
+        # example: removing firefox (in favor of the flatpak)
+        # "firefox" is the main package, "firefox-langpacks" is a dependency
+        - firefox
+        - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
   - type: default-flatpaks
     configurations:
       - notify: true # Send notification after install/uninstall is finished (true/false)
@@ -37,6 +41,7 @@ modules:
           - org.gtk.Gtk3theme.adw-gtk3
           - org.gtk.Gtk3theme.adw-gtk3-dark
           - it.mijorus.gearlever
+          - org.godotengine.godot
       - scope: system
         repo-url: https://repo.zephyros.buzz
         repo-name: zephyros-buzz
