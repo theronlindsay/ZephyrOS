@@ -73,6 +73,7 @@ modules:
     scripts:
     - apply-extension-settings.sh
     - install-helium.sh
+    - enable-appimage-integration.sh
   
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully

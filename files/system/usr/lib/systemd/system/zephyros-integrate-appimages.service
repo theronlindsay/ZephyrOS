@@ -1,0 +1,16 @@
+[Unit]
+Description=Integrate AppImages with GearLever on first boot
+After=network-online.target graphical.target
+Wants=network-online.target
+ConditionPathExists=/usr/libexec/helium/helium.AppImage
+ConditionPathExists=!/var/lib/zephyros/.appimages-integrated
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/zephyros-integrate-appimages.sh
+ExecStartPost=/usr/bin/mkdir -p /var/lib/zephyros
+ExecStartPost=/usr/bin/touch /var/lib/zephyros/.appimages-integrated
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

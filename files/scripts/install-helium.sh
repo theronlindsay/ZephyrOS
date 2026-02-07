@@ -18,5 +18,5 @@ mkdir -p /usr/libexec/helium
 curl -L "$LATEST_URL" -o /usr/libexec/helium/helium.AppImage
 chmod +x /usr/libexec/helium/helium.AppImage
 
-flatpak run it.mijorus.gearlever --integrate /usr/libexec/helium/helium.AppImage -y
+# Integration happens at first boot via systemd service (can't run flatpak during build)
 
