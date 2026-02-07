@@ -29,6 +29,6 @@ install-helium:
 setup-hibernate:
     #!/usr/bin/env bash
     set -euo pipefail
-    sudo /usr/local/sbin/setupHibernate.sh
+    sudo /usr/bin/setupHibernate.sh
     echo "Hibernate configured!"
 
