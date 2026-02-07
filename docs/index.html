@@ -92,7 +92,7 @@
                 <a href="download.html" class="text-white bg-zephyr-600 hover:bg-zephyr-500 focus:ring-4 focus:outline-none focus:ring-zephyr-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all shadow-[0_0_15px_rgba(13,148,136,0.5)] hover:shadow-[0_0_25px_rgba(20,184,166,0.6)]">
                     Download
                 </a>
-                <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-400 rounded-lg md:hidden hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+                <button id="navbar-toggle" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-400 rounded-lg md:hidden hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
                     <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
@@ -136,7 +136,7 @@
                 Experience a Linux distribution designed for speed, redundancy, developer productivity, and gaming. Built for developers, yet simple enough for anyone.
             </p>
             <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-                <a href="https://github.com/theronlindsay/ZephyrOS" class="inline-flex justify-center items-center py-3 px-6 text-base font-medium text-center text-white rounded-lg bg-zephyr-600 hover:bg-zephyr-500 focus:ring-4 focus:ring-zephyr-900 transition-all transform hover:scale-105">
+                <a href="download.html" class="inline-flex justify-center items-center py-3 px-6 text-base font-medium text-center text-white rounded-lg bg-zephyr-600 hover:bg-zephyr-500 focus:ring-4 focus:ring-zephyr-900 transition-all transform hover:scale-105">
                     Get Started
                     <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
@@ -444,6 +444,18 @@
             // Reset on mouse leave from document
             document.addEventListener('mouseleave', () => {
                 heroLogo.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+            });
+        }
+
+        // Mobile navigation toggle
+        const navbarToggle = document.getElementById('navbar-toggle');
+        const navbarSticky = document.getElementById('navbar-sticky');
+        
+        if (navbarToggle && navbarSticky) {
+            navbarToggle.addEventListener('click', function() {
+                navbarSticky.classList.toggle('hidden');
+                const isExpanded = !navbarSticky.classList.contains('hidden');
+                navbarToggle.setAttribute('aria-expanded', isExpanded);
             });
         }
     </script>

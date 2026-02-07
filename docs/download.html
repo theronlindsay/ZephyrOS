@@ -112,6 +112,12 @@
                 <a href="https://github.com/theronlindsay/ZephyrOS" target="_blank" class="text-white bg-zephyr-600 hover:bg-zephyr-500 focus:ring-4 focus:outline-none focus:ring-zephyr-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all shadow-[0_0_15px_rgba(13,148,136,0.5)] hover:shadow-[0_0_25px_rgba(20,184,166,0.6)]">
                     GitHub
                 </a>
+                <button id="navbar-toggle" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-400 rounded-lg md:hidden hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                    </svg>
+                </button>
             </div>
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                 <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-700 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
@@ -492,6 +498,18 @@
             step4.classList.add('hidden');
             result.classList.add('hidden');
             updateStepIndicators(1);
+        }
+
+        // Mobile navigation toggle
+        const navbarToggle = document.getElementById('navbar-toggle');
+        const navbarSticky = document.getElementById('navbar-sticky');
+        
+        if (navbarToggle && navbarSticky) {
+            navbarToggle.addEventListener('click', function() {
+                navbarSticky.classList.toggle('hidden');
+                const isExpanded = !navbarSticky.classList.contains('hidden');
+                navbarToggle.setAttribute('aria-expanded', isExpanded);
+            });
         }
     </script>
 

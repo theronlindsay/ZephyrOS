@@ -42,6 +42,7 @@ modules:
           - org.gtk.Gtk3theme.adw-gtk3
           - org.gtk.Gtk3theme.adw-gtk3-dark
           - it.mijorus.gearlever
+          - org.godotengine.godot
       - scope: system
         repo-url: https://repo.zephyros.buzz
         repo-name: zephyros-buzz
