@@ -15,27 +15,23 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
   cancel-in-progress: true
 jobs:
-  bluebuild:
-    name: Build Custom Image
+  # Stage 1: Base images (no dependencies on other ZephyrOS images)
+  bluebuild-base:
+    name: Build Base Images
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
       id-token: write
     strategy:
-      fail-fast: false # stop GH from cancelling all matrix builds if one fails
+      fail-fast: false
       matrix:
         recipe:
-          # !! Add your recipes here
           - zephyros.yml
           - zephyros-nvidia.yml
           - zephyros-console.yml
           - zephyros-nvidia-console.yml
-          - zephyros-nvidia-hybrid.yml
-          - zephyros-asus.yml
-          - zephyros-nvidia-asus.yml
     steps:
-      # the build is fully handled by the reusable github action
       - name: Build Custom Image
         uses: blue-build/github-action@v1.10
         with:
@@ -43,6 +39,54 @@ jobs:
           cosign_private_key: ${{ secrets.SIGNING_SECRET }}
           registry_token: ${{ github.token }}
           pr_event_number: ${{ github.event.number }}
+          maximize_build_space: true
 
-          # enabled by default, disable if your image is small and you want faster builds
+  # Stage 2: Laptop images (depend on base images)
+  bluebuild-laptop:
+    name: Build Laptop Images
+    needs: bluebuild-base
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        recipe:
+          - zephyros-laptop.yml
+          - zephyros-nvidia-laptop.yml
+    steps:
+      - name: Build Custom Image
+        uses: blue-build/github-action@v1.10
+        with:
+          recipe: ${{ matrix.recipe }}
+          cosign_private_key: ${{ secrets.SIGNING_SECRET }}
+          registry_token: ${{ github.token }}
+          pr_event_number: ${{ github.event.number }}
+          maximize_build_space: true
+
+  # Stage 3: ASUS images (depend on laptop images)
+  bluebuild-asus:
+    name: Build ASUS Images
+    needs: bluebuild-laptop
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        recipe:
+          - zephyros-asus.yml
+          - zephyros-nvidia-asus.yml
+    steps:
+      - name: Build Custom Image
+        uses: blue-build/github-action@v1.10
+        with:
+          recipe: ${{ matrix.recipe }}
+          cosign_private_key: ${{ secrets.SIGNING_SECRET }}
+          registry_token: ${{ github.token }}
+          pr_event_number: ${{ github.event.number }}
           maximize_build_space: true
