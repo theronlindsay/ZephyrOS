@@ -162,7 +162,7 @@
                 <div class="w-8 h-px bg-gray-700"></div>
                 <div class="flex items-center">
                     <div id="step2-indicator" class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-700 text-gray-400">2</div>
-                    <span class="ml-2 text-sm text-gray-400 hidden sm:inline">Laptop</span>
+                    <span class="ml-2 text-sm text-gray-400 hidden sm:inline">Device</span>
                 </div>
                 <div class="w-8 h-px bg-gray-700"></div>
                 <div class="flex items-center">
@@ -195,20 +195,22 @@
                     <p class="text-sm text-gray-500">If you're unsure, AMD and Intel GPUs are common in most laptops without dedicated graphics.</p>
                 </div>
 
-                <!-- Step 2: Laptop or Desktop -->
+                <!-- Step 2: Device Type -->
                 <div id="step2" class="space-y-3 hidden">
                     <label class="block text-white font-semibold text-lg">
                         <span class="flex items-center">
                             <svg class="w-5 h-5 text-zephyr-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            Are you using a laptop?
+                            What type of device are you using?
                         </span>
                     </label>
-                    <select id="laptop-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
-                        <option value="">Select an option...</option>
-                        <option value="yes">Yes, I'm using a laptop</option>
-                        <option value="no">No, desktop or HTPC</option>
+                    <select id="device-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
+                        <option value="">Select your device...</option>
+                        <option value="desktop">Desktop PC</option>
+                        <option value="laptop">Laptop</option>
+                        <option value="handheld">Handheld PC (Steam Deck, ROG Ally, etc.)</option>
+                        <option value="htpc">HTPC / Living Room PC</option>
                     </select>
-                    <p class="text-sm text-gray-500">Laptop images include optimized sleep/hibernate settings and GPU switching (NVIDIA).</p>
+                    <p class="text-sm text-gray-500">Laptop images include optimized sleep/hibernate and battery settings. Handheld/HTPC images boot into Steam Big Picture mode.</p>
                 </div>
 
                 <!-- Step 3: Console Mode -->
@@ -224,7 +226,7 @@
                         <option value="yes">Yes, boot into Steam Big Picture mode</option>
                         <option value="no">No, standard desktop experience</option>
                     </select>
-                    <p class="text-sm text-gray-500">Console mode boots directly into Steam Big Picture for a controller-friendly, living room gaming experience.</p>
+                    <p class="text-sm text-gray-500">Console mode boots directly into Steam Big Picture for a controller-friendly experience. Great for handheld PCs and living room gaming setups.</p>
                 </div>
 
                 <!-- Step 4: ASUS Laptop -->
@@ -284,7 +286,7 @@
 
     <script>
         const graphicsSelect = document.getElementById('graphics-select');
-        const laptopSelect = document.getElementById('laptop-select');
+        const deviceSelect = document.getElementById('device-select');
         const consoleSelect = document.getElementById('console-select');
         const asusSelect = document.getElementById('asus-select');
         
@@ -382,12 +384,16 @@
 
         function determineISO() {
             const graphics = graphicsSelect.value;
-            const laptop = laptopSelect.value;
+            const device = deviceSelect.value;
             const consoleMode = consoleSelect.value;
             const asus = asusSelect.value;
 
+            // Handheld and HTPC always get console mode
+            const isConsoleDevice = device === 'handheld' || device === 'htpc';
+            const wantsConsole = isConsoleDevice || consoleMode === 'yes';
+
             if (graphics === 'amd-intel') {
-                if (laptop === 'yes') {
+                if (device === 'laptop') {
                     // AMD/Intel laptop path
                     if (asus === 'yes') {
                         return 'zephyros-asus';
@@ -395,15 +401,15 @@
                         return 'zephyros-laptop';
                     }
                 } else {
-                    // AMD/Intel desktop path - has console option
-                    if (consoleMode === 'yes') {
+                    // Desktop/HTPC/Handheld path
+                    if (wantsConsole) {
                         return 'zephyros-console';
                     } else {
                         return 'zephyros';
                     }
                 }
             } else if (graphics === 'nvidia') {
-                if (laptop === 'yes') {
+                if (device === 'laptop') {
                     // NVIDIA laptop path
                     if (asus === 'yes') {
                         return 'zephyros-nvidia-asus';
@@ -411,8 +417,8 @@
                         return 'zephyros-nvidia-laptop';
                     }
                 } else {
-                    // NVIDIA desktop path - has console option
-                    if (consoleMode === 'yes') {
+                    // Desktop/HTPC/Handheld path
+                    if (wantsConsole) {
                         return 'zephyros-nvidia-console';
                     } else {
                         return 'zephyros-nvidia';
@@ -426,12 +432,12 @@
             result.classList.add('hidden');
             
             if (this.value) {
-                // Show laptop question for both AMD/Intel and NVIDIA
+                // Show device question
                 step2.classList.remove('hidden');
                 step2.classList.add('fade-in');
                 step3.classList.add('hidden');
                 step4.classList.add('hidden');
-                laptopSelect.value = '';
+                deviceSelect.value = '';
                 consoleSelect.value = '';
                 asusSelect.value = '';
                 updateStepIndicators(2);
@@ -443,19 +449,29 @@
             }
         });
 
-        laptopSelect.addEventListener('change', function() {
+        deviceSelect.addEventListener('change', function() {
             result.classList.add('hidden');
             
-            if (this.value === 'yes') {
-                // Hybrid laptop - skip console, go to ASUS
+            if (this.value === 'laptop') {
+                // Laptop - skip console, go to ASUS question
                 step3.classList.add('hidden');
                 step4.classList.remove('hidden');
                 step4.classList.add('fade-in');
                 consoleSelect.value = 'no';
                 asusSelect.value = '';
                 updateStepIndicators(4);
-            } else if (this.value === 'no') {
-                // Desktop/single GPU - show console question
+            } else if (this.value === 'handheld' || this.value === 'htpc') {
+                // Handheld/HTPC - automatically select console mode, show result
+                step3.classList.add('hidden');
+                step4.classList.add('hidden');
+                consoleSelect.value = 'yes';
+                asusSelect.value = 'no';
+                const isoKey = determineISO();
+                if (isoKey) {
+                    showResult(isoKey);
+                }
+            } else if (this.value === 'desktop') {
+                // Desktop - show console question
                 step3.classList.remove('hidden');
                 step3.classList.add('fade-in');
                 step4.classList.add('hidden');
@@ -496,7 +512,7 @@
 
         function resetSelection() {
             graphicsSelect.value = '';
-            laptopSelect.value = '';
+            deviceSelect.value = '';
             consoleSelect.value = '';
             asusSelect.value = '';
             step2.classList.add('hidden');

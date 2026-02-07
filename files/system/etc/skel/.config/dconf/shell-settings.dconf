@@ -1,6 +1,6 @@
 [/]
 disabled-extensions=['background-logo@fedorahosted.org', 'hotedge@jonathan.jdoda.ca', 'burn-my-windows@schneegans.github.com]
-enabled-extensions=['gsconnect@andyholmes.github.io', 'restartto@tiagoporsch.github.io', 'caffeine@patapon.info', 'add-to-steam@pupper.space', 'compiz-windows-effect@hermes83.github.com', 'dash-to-panel@jderose9.github.com', 'GPU_profile_selector@lorenzo9904.gmail.com', 'compiz-alike-magic-lamp-effect@hermes83.github.com', 'logomenu@aryan_k', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'appindicatorsupport@rgcjonas.gmail.com', 'block-caribou-36@lxylxy123456.ercli.dev', 'blur-my-shell@aunetx', 'desktop-cube@schneegans.github.com', 'ddterm@amezin.github.com', 'power-off-options@axelitama.github.io']
+enabled-extensions=['vicinae@dagimg-dot', 'gsconnect@andyholmes.github.io', 'restartto@tiagoporsch.github.io', 'caffeine@patapon.info', 'add-to-steam@pupper.space', 'compiz-windows-effect@hermes83.github.com', 'dash-to-panel@jderose9.github.com', 'GPU_profile_selector@lorenzo9904.gmail.com', 'compiz-alike-magic-lamp-effect@hermes83.github.com', 'logomenu@aryan_k', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'appindicatorsupport@rgcjonas.gmail.com', 'block-caribou-36@lxylxy123456.ercli.dev', 'blur-my-shell@aunetx', 'desktop-cube@schneegans.github.com', 'ddterm@amezin.github.com', 'power-off-options@axelitama.github.io']
 favorite-apps=['helium.desktop', 'org.gnome.Nautilus.desktop', 'io.github.kolunmi.Bazaar.desktop', 'steam.desktop', 'code.desktop']
 last-selected-power-profile='power-saver'
 
