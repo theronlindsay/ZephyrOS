@@ -44,9 +44,12 @@ modules:
           - org.gtk.Gtk3theme.adw-gtk3-dark
           - it.mijorus.gearlever
           - org.godotengine.Godot
-      - scope: system
-        repo-url: https://repo.zephyros.buzz
-        repo-name: zephyros-buzz
+      - notify: true
+        scope: system
+        repo: 
+          url: https://repo.zephyros.buzz
+          name: zephyros
+          title: zephyros
         install:
           - buzz.zephyros.hello
       - scope: user # Also add Flathub user repo, but no user packages
