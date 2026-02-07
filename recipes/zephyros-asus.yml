@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+# image will be published to ghcr.io/<user>/<name>
+name: zephyros-asus
+# description will be included in the image's metadata
+description: For Asus laptops with AMD/Intel GPUs, opinionated, and more beginner friendly version of bazzite-dx
+
+
+# the base image to build on top of (FROM) and the version tag to use
+base-image: ghcr.io/theronlindsay/zephyros
+image-version: stable # latest is also supported if you want new updates ASAP
+
+# module configuration, executed in order
+# you can include multiple instances of the same module
+modules:
+  - type: dnf
+    repos:
+      copr:
+        - lukenukem/asus-linux
+    install:
+      packages:
+        - asusctl
+        - asusctl-rog-gui
+
+  - type: signing # this sets up the proper policy & signing files for signed images to work fully
+
+  

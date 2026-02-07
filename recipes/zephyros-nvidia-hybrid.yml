@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+# image will be published to ghcr.io/<user>/<name>
+name: zephyros-nvidia-hybrid
+# description will be included in the image's metadata
+description: For Hybrid laptops with Nvidia DGPUs, opinionated, and more beginner friendly version of bazzite-dx
+
+# the base image to build on top of (FROM) and the version tag to use
+base-image: ghcr.io/theronlindsay/zephyros-nvidia
+image-version: stable # latest is also supported if you want new updates ASAP
+
+# module configuration, executed in order
+# you can include multiple instances of the same module
+modules:
+  - type: dnf
+    repos:
+      copr:
+        - sunwire/envycontrol
+    install:
+      packages:
+        - python3-envycontrol
+  - type: gnome-extensions
+    install:
+      - GPU Profile Selector
+      # Add extension IDs from extensions.gnome.org
+  
+
+  - type: signing # this sets up the proper policy & signing files for signed images to work fully
+
+  

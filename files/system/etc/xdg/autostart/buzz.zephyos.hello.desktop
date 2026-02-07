@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=ZephyrOS Hello
+Exec=flatpak run buzz.zephyos.hello
+X-GNOME-Autostart-enabled=true
+NoDisplay=true

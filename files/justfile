@@ -21,25 +21,14 @@ install-helium:
     fi
     echo "Downloading Helium from: $LATEST_URL"
     # Download the AppImage
-    curl -L "$LATEST_URL" -o ~/AppImages/helium.AppImage
-    chmod +x ~/AppImages/helium.AppImage
-    # Create desktop entry that points to AppImages folder
-    cat > /usr/share/applications/helium.desktop << 'EOF'
-        [Desktop Entry]
-        Name=Helium
-        Exec=~/AppImages/helium.AppImage
-        Icon=helium
-        Type=Application
-        Categories=Network;Audio;
-        Terminal=false
-        Comment=Helium Music Player
-    EOF
+    curl -L "$LATEST_URL" -o ~/helium.AppImage
+    flatpak run it.mijorus.gearlever --integrate ~/helium.AppImage -y
 
 
 # Configure hibernate
 setup-hibernate:
     #!/usr/bin/env bash
     set -euo pipefail
-    sudo /etc/systemd/system/usr/bin/setupHibernate.sh
+    sudo /usr/local/sbin/setupHibernate.sh
     echo "Hibernate configured!"
 

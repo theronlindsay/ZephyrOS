@@ -5,7 +5,7 @@
 # builds actually ran successfully without any errors!
 set -oue pipefail
 
-# Your code goes here.
+
 echo 'Setting up Hibernation'
 echo 'Creating btrfs subvolume....'
 

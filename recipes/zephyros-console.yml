@@ -1,13 +1,14 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 # image will be published to ghcr.io/<user>/<name>
-name: zephyros-nvidia-gnome
+name: zephyros-console
 # description will be included in the image's metadata
-description: This is my personal OS image.
+description: AMD/Intel GPUs with Steam Big Picture, opinionated, and more beginner friendly version of bazzite-dx
 
 # the base image to build on top of (FROM) and the version tag to use
-base-image: ghcr.io/ublue-os/bazzite-dx-nvidia-gnome
+base-image: ghcr.io/ublue-os/bazzite-deck-gnome
 image-version: stable # latest is also supported if you want new updates ASAP
+
 
 # module configuration, executed in order
 # you can include multiple instances of the same module
@@ -20,23 +21,12 @@ modules:
     files: #custom justfile
       - source: justfile
         destination: /usr/share/ublue-os/just/60-custom.just
-  - type: dnf
-    repos:
-      copr:
-        - lukenukem/asus-linux
-        - sunwire/envycontrol
-    install:
-      packages:
-        - asusctl
-        - asusctl-rog-gui
-        - python3-envycontrol
+  - type: rpm-ostree
     remove:
-      packages:
-        # example: removing firefox (in favor of the flatpak)
-        # "firefox" is the main package, "firefox-langpacks" is a dependency
-        - firefox
-        - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
-
+      # example: removing firefox (in favor of the flatpak)
+      # "firefox" is the main package, "firefox-langpacks" is a dependency
+      - firefox
+      - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
   - type: default-flatpaks
     configurations:
       - notify: true # Send notification after install/uninstall is finished (true/false)
@@ -47,21 +37,22 @@ modules:
           - org.gnome.Loupe
           - org.gtk.Gtk3theme.adw-gtk3
           - org.gtk.Gtk3theme.adw-gtk3-dark
+          - it.mijorus.gearlever
+      - scope: system
+        repo-url: https://repo.zephyros.buzz
+        repo-name: zephyros-buzz
+        install:
+          - buzz.zephyros.hello
       - scope: user # Also add Flathub user repo, but no user packages
   - type: gnome-extensions
     install:
       - ddterm
-      - GPU Profile Selector
-      - Power Off Options
       - Dash to Panel 
       # Add extension IDs from extensions.gnome.org
   - type: script
     scripts:
-    - setupHibernateService.sh
     - apply-extension-settings.sh
     - install-helium.sh
   
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
-
-  
