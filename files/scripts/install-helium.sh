@@ -13,9 +13,10 @@ fi
 
 echo "Downloading Helium from: $LATEST_URL"
 
-# Download the AppImage
+# Create directory and download the AppImage
+mkdir -p /usr/libexec/helium
 curl -L "$LATEST_URL" -o /usr/libexec/helium/helium.AppImage
 chmod +x /usr/libexec/helium/helium.AppImage
 
-flatpak run it.mijorus.gearlever --integrate /usr/libexec/helium.AppImage -y
+flatpak run it.mijorus.gearlever --integrate /usr/libexec/helium/helium.AppImage -y
 

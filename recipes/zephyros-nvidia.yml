@@ -13,6 +13,18 @@ image-version: stable # latest is also supported if you want new updates ASAP
 # module configuration, executed in order
 # you can include multiple instances of the same module
 modules:
+  - type: os-release
+    properties:
+      ID: zephyros
+      NAME: ZephyrOS
+      PRETTY_NAME: ZephyrOS
+      DEFAULT_HOSTNAME: Zephyr
+      HOME_URL: https://zephyros.buzz
+      DOCUMENTATION_URL:  https://github.com/theronlindsay/ZephyrOS
+      SUPPORT_URL: https://github.com/theronlindsay/ZephyrOS
+      BUG_REPORT_URL: https://github.com/theronlindsay/ZephyrOS
+      VARIENT_ID: zephyros-nvidia
+      BOOTLOADER_NAME: ZephyrOS Stable
   - type: files
     files:
       - source: system
