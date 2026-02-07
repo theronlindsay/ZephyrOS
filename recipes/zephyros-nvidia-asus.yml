@@ -7,7 +7,7 @@ description: For Asus laptops with Nvidia dGPUs, opinionated, and more beginner 
 
 
 # the base image to build on top of (FROM) and the version tag to use
-base-image: ghcr.io/theronlindsay/zephyros-nvidia-hybrid
+base-image: ghcr.io/theronlindsay/zephyros-nvidia-laptop
 image-version: stable # latest is also supported if you want new updates ASAP
 
 # module configuration, executed in order

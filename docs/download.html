@@ -193,20 +193,20 @@
                     <p class="text-sm text-gray-500">If you're unsure, AMD and Intel GPUs are common in most laptops without dedicated graphics.</p>
                 </div>
 
-                <!-- Step 2: Laptop with Discrete GPU -->
+                <!-- Step 2: Laptop or Desktop -->
                 <div id="step2" class="space-y-3 hidden">
                     <label class="block text-white font-semibold text-lg">
                         <span class="flex items-center">
                             <svg class="w-5 h-5 text-zephyr-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            Are you using a laptop with hybrid graphics?
+                            Are you using a laptop?
                         </span>
                     </label>
                     <select id="laptop-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
                         <option value="">Select an option...</option>
-                        <option value="yes">Yes, laptop with Intel/AMD + NVIDIA</option>
-                        <option value="no">No, desktop or single GPU</option>
+                        <option value="yes">Yes, I'm using a laptop</option>
+                        <option value="no">No, desktop or HTPC</option>
                     </select>
-                    <p class="text-sm text-gray-500">Hybrid graphics means your laptop has both integrated (Intel/AMD) and discrete (NVIDIA) GPUs.</p>
+                    <p class="text-sm text-gray-500">Laptop images include optimized sleep/hibernate settings and GPU switching (NVIDIA).</p>
                 </div>
 
                 <!-- Step 3: Console Mode -->
@@ -301,8 +301,14 @@
         const isoConfigs = {
             'zephyros': {
                 name: 'ZephyrOS',
-                description: 'Standard edition for AMD/Intel graphics',
+                description: 'Standard edition for AMD/Intel desktops',
                 filename: 'zephyros-stable.iso',
+                link: '#'
+            },
+            'zephyros-laptop': {
+                name: 'ZephyrOS Laptop',
+                description: 'For AMD/Intel laptops with optimized sleep/hibernate',
+                filename: 'zephyros-laptop-stable.iso',
                 link: '#'
             },
             'zephyros-console': {
@@ -319,20 +325,20 @@
             },
             'zephyros-nvidia': {
                 name: 'ZephyrOS NVIDIA',
-                description: 'For desktops and single-GPU systems with NVIDIA graphics',
+                description: 'For desktops with NVIDIA graphics',
                 filename: 'zephyros-nvidia-stable.iso',
+                link: '#'
+            },
+            'zephyros-nvidia-laptop': {
+                name: 'ZephyrOS NVIDIA Laptop',
+                description: 'For NVIDIA laptops with GPU switching and sleep fixes',
+                filename: 'zephyros-nvidia-laptop-stable.iso',
                 link: '#'
             },
             'zephyros-nvidia-console': {
                 name: 'ZephyrOS NVIDIA Console',
                 description: 'Console edition with NVIDIA - boots into Steam Big Picture mode',
                 filename: 'zephyros-nvidia-console-stable.iso',
-                link: '#'
-            },
-            'zephyros-nvidia-hybrid': {
-                name: 'ZephyrOS NVIDIA Hybrid',
-                description: 'For laptops with Intel/AMD + NVIDIA hybrid graphics',
-                filename: 'zephyros-nvidia-hybrid-stable.iso',
                 link: '#'
             },
             'zephyros-nvidia-asus': {
@@ -379,27 +385,33 @@
             const asus = asusSelect.value;
 
             if (graphics === 'amd-intel') {
-                if (consoleMode === 'yes') {
-                    return 'zephyros-console';
-                } else if (asus === 'yes') {
-                    return 'zephyros-asus';
+                if (laptop === 'yes') {
+                    // AMD/Intel laptop path
+                    if (asus === 'yes') {
+                        return 'zephyros-asus';
+                    } else {
+                        return 'zephyros-laptop';
+                    }
                 } else {
-                    return 'zephyros';
+                    // AMD/Intel desktop path - has console option
+                    if (consoleMode === 'yes') {
+                        return 'zephyros-console';
+                    } else {
+                        return 'zephyros';
+                    }
                 }
             } else if (graphics === 'nvidia') {
                 if (laptop === 'yes') {
-                    // Hybrid laptop path - no console option, go to ASUS
+                    // NVIDIA laptop path
                     if (asus === 'yes') {
                         return 'zephyros-nvidia-asus';
                     } else {
-                        return 'zephyros-nvidia-hybrid';
+                        return 'zephyros-nvidia-laptop';
                     }
                 } else {
-                    // Desktop/single GPU path - has console option
+                    // NVIDIA desktop path - has console option
                     if (consoleMode === 'yes') {
                         return 'zephyros-nvidia-console';
-                    } else if (asus === 'yes') {
-                        return 'zephyros-nvidia-asus';
                     } else {
                         return 'zephyros-nvidia';
                     }
@@ -411,8 +423,8 @@
         graphicsSelect.addEventListener('change', function() {
             result.classList.add('hidden');
             
-            if (this.value === 'nvidia') {
-                // Show laptop question for NVIDIA
+            if (this.value) {
+                // Show laptop question for both AMD/Intel and NVIDIA
                 step2.classList.remove('hidden');
                 step2.classList.add('fade-in');
                 step3.classList.add('hidden');
@@ -421,16 +433,6 @@
                 consoleSelect.value = '';
                 asusSelect.value = '';
                 updateStepIndicators(2);
-            } else if (this.value === 'amd-intel') {
-                // Skip laptop question, go to console question
-                step2.classList.add('hidden');
-                step3.classList.remove('hidden');
-                step3.classList.add('fade-in');
-                step4.classList.add('hidden');
-                laptopSelect.value = 'no';
-                consoleSelect.value = '';
-                asusSelect.value = '';
-                updateStepIndicators(3);
             } else {
                 step2.classList.add('hidden');
                 step3.classList.add('hidden');
@@ -471,11 +473,13 @@
                     showResult(isoKey);
                 }
             } else if (this.value === 'no') {
-                // Standard desktop - show ASUS question
-                step4.classList.remove('hidden');
-                step4.classList.add('fade-in');
-                asusSelect.value = '';
-                updateStepIndicators(4);
+                // Standard desktop - skip ASUS (only for laptops), show result
+                step4.classList.add('hidden');
+                asusSelect.value = 'no';
+                const isoKey = determineISO();
+                if (isoKey) {
+                    showResult(isoKey);
+                }
             }
         });
 

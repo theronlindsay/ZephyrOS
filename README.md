@@ -36,10 +36,11 @@ Choose the right ISO for your hardware:
 
 | Edition | Graphics | Best For | Download |
 |---------|----------|----------|----------|
-| **ZephyrOS** | AMD/Intel | Standard desktops & laptops | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
-| **ZephyrOS NVIDIA** | NVIDIA | Desktops with NVIDIA GPUs | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
-| **ZephyrOS NVIDIA Hybrid** | Intel/AMD + NVIDIA | Laptops with hybrid graphics | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
+| **ZephyrOS** | AMD/Intel | Desktops | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
+| **ZephyrOS Laptop** | AMD/Intel | Laptops (sleep/hibernate fixes) | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
 | **ZephyrOS ASUS** | AMD/Intel | ASUS ROG/TUF laptops | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
+| **ZephyrOS NVIDIA** | NVIDIA | Desktops with NVIDIA GPUs | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
+| **ZephyrOS NVIDIA Laptop** | NVIDIA | NVIDIA laptops (GPU switching + sleep fixes) | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
 | **ZephyrOS NVIDIA ASUS** | NVIDIA | ASUS ROG/TUF gaming laptops | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
 | **ZephyrOS Console** | AMD/Intel | Steam Big Picture mode | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
 | **ZephyrOS NVIDIA Console** | NVIDIA | Steam Big Picture + NVIDIA | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
@@ -120,25 +121,18 @@ systemctl reboot
 <details>
 <summary>📋 <strong>Quick Copy Commands</strong> (click to expand)</summary>
 
-**ZephyrOS (AMD/Intel)**
+**ZephyrOS (AMD/Intel Desktop)**
 ```bash
 sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/theronlindsay/zephyros:latest
 # reboot, then:
 sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/theronlindsay/zephyros:latest
 ```
 
-**ZephyrOS NVIDIA**
+**ZephyrOS Laptop (AMD/Intel)**
 ```bash
-sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/theronlindsay/zephyros-nvidia:latest
+sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/theronlindsay/zephyros-laptop:latest
 # reboot, then:
-sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/theronlindsay/zephyros-nvidia:latest
-```
-
-**ZephyrOS NVIDIA Hybrid**
-```bash
-sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/theronlindsay/zephyros-nvidia-hybrid:latest
-# reboot, then:
-sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/theronlindsay/zephyros-nvidia-hybrid:latest
+sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/theronlindsay/zephyros-laptop:latest
 ```
 
 **ZephyrOS ASUS**
@@ -146,6 +140,20 @@ sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/theronlindsay/zephyr
 sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/theronlindsay/zephyros-asus:latest
 # reboot, then:
 sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/theronlindsay/zephyros-asus:latest
+```
+
+**ZephyrOS NVIDIA (Desktop)**
+```bash
+sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/theronlindsay/zephyros-nvidia:latest
+# reboot, then:
+sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/theronlindsay/zephyros-nvidia:latest
+```
+
+**ZephyrOS NVIDIA Laptop**
+```bash
+sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/theronlindsay/zephyros-nvidia-laptop:latest
+# reboot, then:
+sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/theronlindsay/zephyros-nvidia-laptop:latest
 ```
 
 **ZephyrOS NVIDIA ASUS**
