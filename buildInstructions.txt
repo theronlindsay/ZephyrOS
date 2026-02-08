@@ -1,5 +1,0 @@
-sudo bluebuild generate-iso --iso-name ZephyrOS.iso image ghcr.io/theronlindsay/ZephyrOS
-
-sudo bluebuild generate-iso --iso-name ZephyrOS-nvidia-gnome.iso recipe recipes/recipe.yml
-
-bash <(curl -s https://raw.githubusercontent.com/blue-build/cli/main/install.sh)

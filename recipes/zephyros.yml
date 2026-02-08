@@ -9,8 +9,8 @@ description: AMD/Intel GPUs, opinionated, and more beginner friendly version of 
 base-image: ghcr.io/ublue-os/bazzite-dx-gnome
 image-version: stable # latest is also supported if you want new updates ASAP
 
-# module configuration, executed in order
-# you can include multiple instances of the same module
+ # module configuration, executed in order
+ # you can include multiple instances of the same module
 modules:
   - type: os-release
     properties:
@@ -19,10 +19,10 @@ modules:
       PRETTY_NAME: ZephyrOS
       DEFAULT_HOSTNAME: Zephyr
       HOME_URL: https://zephyros.buzz
-      DOCUMENTATION_URL:  https://github.com/theronlindsay/ZephyrOS
+      DOCUMENTATION_URL: https://github.com/theronlindsay/ZephyrOS
       SUPPORT_URL: https://github.com/theronlindsay/ZephyrOS
       BUG_REPORT_URL: https://github.com/theronlindsay/ZephyrOS
-      VARIENT_ID: zephyros
+      VARIANT_ID: zephyros
       BOOTLOADER_NAME: ZephyrOS Stable
   - type: files
     files:
@@ -32,6 +32,10 @@ modules:
     files: #custom justfile
       - source: justfile
         destination: /usr/share/ublue-os/just/60-custom.just
+  - type: script
+    scripts:
+      - select-fastest-mirror.sh
+      - generate-machine-id.sh
   - type: dnf
     repos:
       copr:
@@ -70,15 +74,14 @@ modules:
   - type: gnome-extensions
     install:
       - ddterm
-      - Dash to Panel 
+      - Dash to Panel
       - Power Off Options
       - Vicinae
       # Add extension IDs from extensions.gnome.org
   - type: script
     scripts:
-    - apply-extension-settings.sh
-    - install-helium.sh
-    - enable-appimage-integration.sh
+      - apply-extension-settings.sh
+      - install-helium.sh
+      - enable-appimage-integration.sh
   
-
   - type: signing # this sets up the proper policy & signing files for signed images to work fully

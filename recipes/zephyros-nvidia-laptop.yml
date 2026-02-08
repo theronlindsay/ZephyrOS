@@ -14,11 +14,15 @@ image-version: latest # latest is also supported if you want new updates ASAP
 modules:
   - type: os-release
     properties:
-      VARIENT_ID: zephyros-nvida-laptop
+      VARIANT_ID: zephyros-nvida-laptop
   - type: files
     files:
       - source: system-laptop
         destination: / # laptop-specific sleep/hibernate configs
+  - type: script
+    scripts:
+      - select-fastest-mirror.sh
+      - generate-machine-id.sh
   - type: dnf
     repos:
       copr:
@@ -30,6 +34,11 @@ modules:
     install:
       - GPU Profile Selector
       # Add extension IDs from extensions.gnome.org
+  - type: script
+    scripts:
+      - apply-extension-settings.sh
+      - install-helium.sh
+      - enable-appimage-integration.sh
   
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully

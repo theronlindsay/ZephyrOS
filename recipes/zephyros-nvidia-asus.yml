@@ -15,7 +15,7 @@ image-version: latest # latest is also supported if you want new updates ASAP
 modules:
   - type: os-release
     properties:
-      VARIENT_ID: zephyros-nvidia-asus
+      VARIANT_ID: zephyros-nvidia-asus
   - type: dnf
     repos:
       copr:

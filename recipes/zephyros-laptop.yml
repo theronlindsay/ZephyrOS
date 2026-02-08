@@ -14,11 +14,14 @@ image-version: latest # latest is also supported if you want new updates ASAP
 modules:
   - type: os-release
     properties:
-      VARIENT_ID: zephyros-laptop
+      VARIANT_ID: zephyros-laptop
   - type: files
     files:
       - source: system-laptop
         destination: / # laptop-specific sleep/hibernate configs
+  - type: script
+    scripts:
+      - select-fastest-mirror.sh
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
 

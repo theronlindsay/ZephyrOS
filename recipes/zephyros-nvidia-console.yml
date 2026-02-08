@@ -23,7 +23,7 @@ modules:
       DOCUMENTATION_URL:  https://github.com/theronlindsay/ZephyrOS
       SUPPORT_URL: https://github.com/theronlindsay/ZephyrOS
       BUG_REPORT_URL: https://github.com/theronlindsay/ZephyrOS
-      VARIENT_ID: zephyros-nvidia-console
+      VARIANT_ID: zephyros-nvidia-console
       BOOTLOADER_NAME: ZephyrOS Stable
   - type: files
     files:
@@ -33,6 +33,10 @@ modules:
     files: #custom justfile
       - source: justfile
         destination: /usr/share/ublue-os/just/60-custom.just
+  - type: script
+    scripts:
+      - select-fastest-mirror.sh
+      - generate-machine-id.sh
   - type: dnf
     repos:
       copr:
