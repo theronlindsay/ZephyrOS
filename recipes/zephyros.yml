@@ -24,6 +24,7 @@ modules:
       BUG_REPORT_URL: https://github.com/theronlindsay/ZephyrOS
       VARIANT_ID: zephyros
       BOOTLOADER_NAME: ZephyrOS Stable
+      IMAGE_ID: zephyros
   - type: files
     files:
       - source: system
@@ -44,6 +45,11 @@ modules:
       packages:
         - unityhub
         - vicinae
+        - gcc
+        - gcc-c++
+        - meson
+        - ninja-build
+        - pkgconf-pkg-config
     remove:
       packages:
         # example: removing firefox (in favor of the flatpak)

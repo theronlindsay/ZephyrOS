@@ -15,6 +15,7 @@ modules:
   - type: os-release
     properties:
       VARIANT_ID: zephyros-laptop
+      IMAGE_ID: zephyros-laptop
   - type: files
     files:
       - source: system-laptop

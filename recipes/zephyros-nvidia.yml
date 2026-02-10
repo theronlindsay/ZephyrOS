@@ -25,6 +25,7 @@ modules:
       BUG_REPORT_URL: https://github.com/theronlindsay/ZephyrOS
       VARIENT_ID: zephyros-nvidia
       BOOTLOADER_NAME: ZephyrOS Stable
+      IMAGE_ID: zephyros-nvidia
   - type: files
     files:
       - source: system

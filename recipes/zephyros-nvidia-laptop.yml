@@ -14,7 +14,8 @@ image-version: latest # latest is also supported if you want new updates ASAP
 modules:
   - type: os-release
     properties:
-      VARIANT_ID: zephyros-nvida-laptop
+      VARIANT_ID: zephyros-nvidia-laptop
+      IMAGE_ID: zephyros-nvidia-laptop
   - type: files
     files:
       - source: system-laptop
