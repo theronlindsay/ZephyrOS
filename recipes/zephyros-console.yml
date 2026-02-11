@@ -38,6 +38,7 @@ modules:
     scripts:
       - select-fastest-mirror.sh
       - generate-machine-id.sh
+      - generate-image-info-zephyros-console.sh
   - type: dnf
     repos:
       copr:

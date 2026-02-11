@@ -26,6 +26,10 @@ modules:
         - asusctl
         - asusctl-rog-gui
 
+  - type: script
+    scripts:
+      - generate-image-info-zephyros-asus.sh
+
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
 
   

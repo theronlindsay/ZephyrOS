@@ -24,6 +24,7 @@ modules:
     scripts:
       - select-fastest-mirror.sh
       - generate-machine-id.sh
+      - generate-image-info-zephyros-nvidia-laptop.sh
   - type: dnf
     repos:
       copr:
