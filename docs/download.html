@@ -142,9 +142,9 @@
 
     <section class="relative z-10 pt-32 pb-24 lg:pt-40 lg:pb-32 flex-grow">
         <div class="glow-bg"></div>
-        <div class="px-4 mx-auto max-w-3xl">
+        <div class="container mx-auto px-4">
             
-            <div class="text-center mb-12">
+            <div class="text-center mb-12 max-w-3xl mx-auto">
                 <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl">
                     Download <span class="text-transparent bg-clip-text bg-gradient-to-r from-zephyr-300 to-blue-500">ZephyrOS</span>
                 </h1>
@@ -153,186 +153,189 @@
                 </p>
             </div>
 
-            <!-- Progress Steps -->
-            <div class="flex justify-center items-center mb-12 space-x-4">
-                <div class="flex items-center">
-                    <div id="step1-indicator" class="step-indicator active w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-700 text-gray-400">1</div>
-                    <span class="ml-2 text-sm text-gray-400 hidden sm:inline">Graphics</span>
-                </div>
-                <div class="w-8 h-px bg-gray-700"></div>
-                <div class="flex items-center">
-                    <div id="step2-indicator" class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-700 text-gray-400">2</div>
-                    <span class="ml-2 text-sm text-gray-400 hidden sm:inline">Device</span>
-                </div>
-                <div class="w-8 h-px bg-gray-700"></div>
-                <div class="flex items-center">
-                    <div id="step3-indicator" class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-700 text-gray-400">3</div>
-                    <span class="ml-2 text-sm text-gray-400 hidden sm:inline">Console</span>
-                </div>
-                <div class="w-8 h-px bg-gray-700"></div>
-                <div class="flex items-center">
-                    <div id="step4-indicator" class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-700 text-gray-400">4</div>
-                    <span class="ml-2 text-sm text-gray-400 hidden sm:inline">Brand</span>
-                </div>
-            </div>
-
-            <!-- Selection Form -->
-            <div class="glass-panel rounded-2xl p-8 space-y-8">
+            <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 justify-center items-start">
                 
-                <!-- Step 1: Graphics Card -->
-                <div id="step1" class="space-y-3">
-                    <label class="block text-white font-semibold text-lg">
-                        <span class="flex items-center">
-                            <svg class="w-5 h-5 text-zephyr-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
-                            What type of graphics card do you have?
-                        </span>
-                    </label>
-                    <select id="graphics-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
-                        <option value="">Select your graphics card...</option>
-                        <option value="amd-intel">AMD or Intel (integrated/discrete)</option>
-                        <option value="nvidia">NVIDIA</option>
-                    </select>
-                    <p class="text-sm text-gray-500">If you're unsure, AMD and Intel GPUs are common in most laptops without dedicated graphics.</p>
-                </div>
-
-                <!-- Step 2: Device Type -->
-                <div id="step2" class="space-y-3 hidden">
-                    <label class="block text-white font-semibold text-lg">
-                        <span class="flex items-center">
-                            <svg class="w-5 h-5 text-zephyr-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            What type of device are you using?
-                        </span>
-                    </label>
-                    <select id="device-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
-                        <option value="">Select your device...</option>
-                        <option value="desktop">Desktop PC</option>
-                        <option value="laptop">Laptop</option>
-                        <option value="handheld">Handheld PC (Steam Deck, ROG Ally, etc.)</option>
-                        <option value="htpc">HTPC / Living Room PC</option>
-                    </select>
-                    <p class="text-sm text-gray-500">Laptop images include optimized sleep/hibernate and battery settings. Handheld/HTPC images boot into Steam Big Picture mode.</p>
-                </div>
-
-                <!-- Step 3: Console Mode -->
-                <div id="step3" class="space-y-3 hidden">
-                    <label class="block text-white font-semibold text-lg">
-                        <span class="flex items-center">
-                            <svg class="w-5 h-5 text-zephyr-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Would you like a console-style experience?
-                        </span>
-                    </label>
-                    <select id="console-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
-                        <option value="">Select an option...</option>
-                        <option value="yes">Yes, boot into Steam Big Picture mode</option>
-                        <option value="no">No, standard desktop experience</option>
-                    </select>
-                    <p class="text-sm text-gray-500">Console mode boots directly into Steam Big Picture for a controller-friendly experience. Great for handheld PCs and living room gaming setups.</p>
-                </div>
-
-                <!-- Step 4: ASUS Laptop -->
-                <div id="step4" class="space-y-3 hidden">
-                    <label class="block text-white font-semibold text-lg">
-                        <span class="flex items-center">
-                            <svg class="w-5 h-5 text-zephyr-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                            Is your laptop an ASUS (ROG/TUF) gaming laptop?
-                        </span>
-                    </label>
-                    <select id="asus-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
-                        <option value="">Select an option...</option>
-                        <option value="yes">Yes, ASUS ROG/TUF laptop</option>
-                        <option value="no">No, different brand or desktop</option>
-                    </select>
-                    <p class="text-sm text-gray-500">ASUS ROG and TUF laptops have special features like RGB control and fan profiles.</p>
-                </div>
-
-            </div>
-
-            <!-- Result Section -->
-            <div id="result" class="hidden mt-8 fade-in">
-                <div class="glass-panel rounded-2xl p-8 border border-zephyr-500/30">
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-zephyr-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-8 h-8 text-zephyr-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <!-- Left Column: Form -->
+                <div class="w-full max-w-3xl mx-auto lg:mx-0">
+                    <!-- Progress Steps -->
+                    <div class="flex justify-center items-center mb-12 space-x-4">
+                        <div class="flex items-center">
+                            <div id="step1-indicator" class="step-indicator active w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-700 text-gray-400">1</div>
+                            <span class="ml-2 text-sm text-gray-400 hidden sm:inline">Graphics</span>
                         </div>
-                        <h2 class="text-2xl font-bold text-white mb-2">Recommended ISO</h2>
-                        <p class="text-gray-400 mb-6">Based on your selections, we recommend:</p>
+                        <div class="w-8 h-px bg-gray-700"></div>
+                        <div class="flex items-center">
+                            <div id="step2-indicator" class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-700 text-gray-400">2</div>
+                            <span class="ml-2 text-sm text-gray-400 hidden sm:inline">Device</span>
+                        </div>
+                        <div class="w-8 h-px bg-gray-700"></div>
+                        <div class="flex items-center">
+                            <div id="step3-indicator" class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-700 text-gray-400">3</div>
+                            <span class="ml-2 text-sm text-gray-400 hidden sm:inline">Console</span>
+                        </div>
+                        <div class="w-8 h-px bg-gray-700"></div>
+                        <div class="flex items-center">
+                            <div id="step4-indicator" class="step-indicator w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-gray-700 text-gray-400">4</div>
+                            <span class="ml-2 text-sm text-gray-400 hidden sm:inline">Brand</span>
+                        </div>
+                    </div>
+
+                    <!-- Selection Form -->
+                    <div class="glass-panel rounded-2xl p-8 space-y-8">
                         
-                        <div class="bg-gray-800/50 rounded-xl p-6 mb-6">
-                            <h3 id="iso-name" class="text-xl font-bold text-zephyr-400 mb-2">ZephyrOS</h3>
-                            <p id="iso-description" class="text-gray-400 text-sm mb-4">Standard edition for AMD/Intel graphics</p>
-                            <code id="iso-filename" class="block bg-gray-900 rounded-lg px-4 py-2 text-sm text-gray-300 font-mono">zephyros-stable.iso</code>
+                        <!-- Step 1: Graphics Card -->
+                        <div id="step1" class="space-y-3">
+                            <label class="block text-white font-semibold text-lg">
+                                <span class="flex items-center">
+                                    <svg class="w-5 h-5 text-zephyr-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+                                    What type of graphics card do you have?
+                                </span>
+                            </label>
+                            <select id="graphics-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
+                                <option value="">Select your graphics card...</option>
+                                <option value="amd-intel">AMD or Intel (integrated/discrete)</option>
+                                <option value="nvidia">NVIDIA</option>
+                            </select>
+                            <p class="text-sm text-gray-500">If you're unsure, AMD and Intel GPUs are common in most laptops without dedicated graphics.</p>
                         </div>
 
-                        <a id="download-link" href="#" class="inline-flex items-center justify-center py-3 px-8 text-base font-medium text-center text-white rounded-lg bg-zephyr-600 hover:bg-zephyr-500 focus:ring-4 focus:ring-zephyr-900 transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(13,148,136,0.4)]">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                            Download ISO
-                        </a>
+                        <!-- Step 2: Device Type -->
+                        <div id="step2" class="space-y-3 hidden">
+                            <label class="block text-white font-semibold text-lg">
+                                <span class="flex items-center">
+                                    <svg class="w-5 h-5 text-zephyr-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                    What type of device are you using?
+                                </span>
+                            </label>
+                            <select id="device-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
+                                <option value="">Select your device...</option>
+                                <option value="desktop">Desktop PC</option>
+                                <option value="laptop">Laptop</option>
+                                <option value="handheld">Handheld PC (Steam Deck, ROG Ally, etc.)</option>
+                                <option value="htpc">HTPC / Living Room PC</option>
+                            </select>
+                            <p class="text-sm text-gray-500">Laptop images include optimized sleep/hibernate and battery settings. Handheld/HTPC images boot into Steam Big Picture mode.</p>
+                        </div>
 
-                        <button onclick="resetSelection()" class="block mx-auto mt-4 text-sm text-gray-500 hover:text-zephyr-400 transition-colors">
-                            ← Start over
-                        </button>
+                        <!-- Step 3: Console Mode -->
+                        <div id="step3" class="space-y-3 hidden">
+                            <label class="block text-white font-semibold text-lg">
+                                <span class="flex items-center">
+                                    <svg class="w-5 h-5 text-zephyr-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    Would you like a console-style experience?
+                                </span>
+                            </label>
+                            <select id="console-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
+                                <option value="">Select an option...</option>
+                                <option value="yes">Yes, boot into Steam Big Picture mode</option>
+                                <option value="no">No, standard desktop experience</option>
+                            </select>
+                            <p class="text-sm text-gray-500">Console mode boots directly into Steam Big Picture for a controller-friendly experience. Great for handheld PCs and living room gaming setups.</p>
+                        </div>
+
+                        <!-- Step 4: ASUS Laptop -->
+                        <div id="step4" class="space-y-3 hidden">
+                            <label class="block text-white font-semibold text-lg">
+                                <span class="flex items-center">
+                                    <svg class="w-5 h-5 text-zephyr-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                    Is your laptop an ASUS (ROG/TUF) gaming laptop?
+                                </span>
+                            </label>
+                            <select id="asus-select" class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors">
+                                <option value="">Select an option...</option>
+                                <option value="yes">Yes, ASUS ROG/TUF laptop</option>
+                                <option value="no">No, different brand or desktop</option>
+                            </select>
+                            <p class="text-sm text-gray-500">ASUS ROG and TUF laptops have special features like RGB control and fan profiles.</p>
+                        </div>
+
+                    </div>
+
+                    <!-- Result Section -->
+                    <div id="result" class="hidden mt-8 fade-in">
+                        <div class="glass-panel rounded-2xl p-8 border border-zephyr-500/30">
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-zephyr-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg class="w-8 h-8 text-zephyr-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <h2 class="text-2xl font-bold text-white mb-2">Recommended ISO</h2>
+                                <p class="text-gray-400 mb-6">Based on your selections, we recommend:</p>
+                                
+                                <div class="bg-gray-800/50 rounded-xl p-6 mb-6">
+                                    <h3 id="iso-name" class="text-xl font-bold text-zephyr-400 mb-2">ZephyrOS</h3>
+                                    <p id="iso-description" class="text-gray-400 text-sm mb-4">Standard edition for AMD/Intel graphics</p>
+                                    <code id="iso-filename" class="block bg-gray-900 rounded-lg px-4 py-2 text-sm text-gray-300 font-mono">zephyros-stable.iso</code>
+                                </div>
+
+                                <a id="download-link" href="#" class="inline-flex items-center justify-center py-3 px-8 text-base font-medium text-center text-white rounded-lg bg-zephyr-600 hover:bg-zephyr-500 focus:ring-4 focus:ring-zephyr-900 transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(13,148,136,0.4)]">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                    Download ISO
+                                </a>
+
+                                <button onclick="resetSelection()" class="block mx-auto mt-4 text-sm text-gray-500 hover:text-zephyr-400 transition-colors">
+                                    ← Start over
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-                </div>
-        </section>
 
-        <!-- Flex row for download and how-to -->
-        <div class="w-full flex flex-col lg:flex-row justify-center items-start gap-0 lg:gap-16 xl:gap-24 px-4 mt-8">
-            <div class="w-full max-w-3xl mx-auto">
-                <!-- Main download section is above, nothing to repeat here -->
-            </div>
-            <aside class="w-full max-w-2xl mx-auto mt-8 lg:mt-0 lg:w-[420px] xl:w-[480px] flex-shrink-0 lg:sticky lg:top-40 lg:self-start lg:ml-8 xl:ml-16">
-                <div class="glass-panel rounded-2xl p-10 border border-zephyr-500/30 shadow-xl flex flex-col h-full">
-                    <h2 class="text-2xl font-extrabold text-zephyr-400 mb-6 flex items-center"><svg class="w-7 h-7 mr-2 text-zephyr-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>How to Flash ZephyrOS</h2>
-                    <ol class="relative border-l-2 border-zephyr-700 ml-4 space-y-14">
-                        <li class="ml-6 flex flex-col pb-4">
-                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">1</span>
-                            <span class="text-lg font-semibold">Get a USB stick</span>
-                            <span class="text-gray-300">At least <span class="text-zephyr-300 font-semibold">10GB</span> of free space. Back up any important data first.</span>
-                        </li>
-                        <li class="ml-6 flex flex-col pb-4">
-                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">2</span>
-                            <span class="text-lg font-semibold">Download the ZephyrOS ISO</span>
-                            <span class="text-gray-300">Use the download button above for your recommended version.</span>
-                        </li>
-                        <li class="ml-6 flex flex-col pb-4">
-                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">3</span>
-                            <span class="text-lg font-semibold">Download <a href=\"https://balena.io/etcher\" target=\"_blank\" class=\"text-zephyr-400 underline hover:text-zephyr-300\">balenaEtcher</a></span>
-                            <span class="text-gray-300">Available for Windows, macOS, and Linux.</span>
-                        </li>
-                        <li class="ml-6 flex flex-col pb-4">
-                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">4</span>
-                            <span class="text-lg font-semibold">Flash the ISO</span>
-                            <span class="text-gray-300">Open Etcher, select the ISO, select your USB stick, and click <b>Flash</b>.</span>
-                        </li>
-                        <li class="ml-6 flex flex-col pb-4">
-                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">5</span>
-                            <span class="text-lg font-semibold">Reboot and enter BIOS/UEFI</span>
-                            <span class="text-gray-300">Usually by pressing <span class="font-mono">F2</span>, <span class="font-mono">F10</span>, <span class="font-mono">F12</span>, <span class="font-mono">DEL</span>, or <span class="font-mono">ESC</span> right after powering on.</span>
-                        </li>
-                        <li class="ml-6 flex flex-col pb-4">
-                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">6</span>
-                            <span class="text-lg font-semibold">Change boot order</span>
-                            <span class="text-gray-300">Set your USB stick as the first boot device.</span>
-                        </li>
-                        <li class="ml-6 flex flex-col pb-4">
-                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">7</span>
-                            <span class="text-lg font-semibold">Disable Secure Boot and Fast Boot</span>
-                            <span class="text-gray-300">Usually found under <b>Boot</b> or <b>Security</b> tab in BIOS.</span>
-                        </li>
-                        <li class="ml-6 flex flex-col pb-4">
-                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">8</span>
-                            <span class="text-lg font-semibold">Save and reboot</span>
-                            <span class="text-gray-300">ZephyrOS should now boot from your USB stick!</span>
-                        </li>
-                    </ol>
-                    <div class="mt-6 text-xs text-gray-400">
-                        <b>Tips:</b> If you don't see your USB stick, try a different port or re-flash the ISO. For more help, see your PC's manual or search "how to boot from USB" for your model.
+                <!-- Right Column: Instructions -->
+                <aside class="w-full max-w-2xl mx-auto lg:mx-0 lg:w-[420px] xl:w-[480px] flex-shrink-0 lg:sticky lg:top-32">
+                    <div class="glass-panel rounded-2xl p-10 border border-zephyr-500/30 shadow-xl flex flex-col h-full">
+                        <h2 class="text-2xl font-extrabold text-zephyr-400 mb-6 flex items-center"><svg class="w-7 h-7 mr-2 text-zephyr-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>How to Flash ZephyrOS</h2>
+                        <ol class="relative border-l-2 border-zephyr-700 ml-4 space-y-14">
+                            <li class="ml-6 flex flex-col pb-4">
+                                <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">1</span>
+                                <span class="text-lg font-semibold">Get a USB stick</span>
+                                <span class="text-gray-300">At least <span class="text-zephyr-300 font-semibold">10GB</span> of free space. Back up any important data first.</span>
+                            </li>
+                            <li class="ml-6 flex flex-col pb-4">
+                                <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">2</span>
+                                <span class="text-lg font-semibold">Download the ZephyrOS ISO</span>
+                                <span class="text-gray-300">Use the download button above for your recommended version.</span>
+                            </li>
+                            <li class="ml-6 flex flex-col pb-4">
+                                <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">3</span>
+                                <span class="text-lg font-semibold">Download <a href="https://balena.io/etcher" target="_blank" class="text-zephyr-400 underline hover:text-zephyr-300">balenaEtcher</a></span>
+                                <span class="text-gray-300">Available for Windows, macOS, and Linux.</span>
+                            </li>
+                            <li class="ml-6 flex flex-col pb-4">
+                                <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">4</span>
+                                <span class="text-lg font-semibold">Flash the ISO</span>
+                                <span class="text-gray-300">Open Etcher, select the ISO, select your USB stick, and click <b>Flash</b>.</span>
+                            </li>
+                            <li class="ml-6 flex flex-col pb-4">
+                                <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">5</span>
+                                <span class="text-lg font-semibold">Reboot and enter BIOS/UEFI</span>
+                                <span class="text-gray-300">Usually by pressing <span class="font-mono">F2</span>, <span class="font-mono">F10</span>, <span class="font-mono">F12</span>, <span class="font-mono">DEL</span>, or <span class="font-mono">ESC</span> right after powering on. (Most commonly delete)</span>
+                            </li>
+                            <li class="ml-6 flex flex-col pb-4">
+                                <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">6</span>
+                                <span class="text-lg font-semibold">Change boot order</span>
+                                <span class="text-gray-300">Set your USB stick as the first boot device.</span>
+                            </li>
+                            <li class="ml-6 flex flex-col pb-4">
+                                <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">7</span>
+                                <span class="text-lg font-semibold">Disable Secure Boot and Fast Boot</span>
+                                <span class="text-gray-300">Usually found under <b>Boot</b> or <b>Security</b> tab in BIOS.</span>
+                            </li>
+                            <li class="ml-6 flex flex-col pb-4">
+                                <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">8</span>
+                                <span class="text-lg font-semibold">Save and reboot</span>
+                                <span class="text-gray-300">ZephyrOS should now boot from your USB stick!</span>
+                            </li>
+                        </ol>
+                        <div class="mt-6 text-xs text-gray-400">
+                            <b>Tips:</b> If you don't see your USB stick, try a different port or re-flash the ISO. For more help, see your PC's manual or search "how to boot from USB" for your model.
+                        </div>
                     </div>
-                </div>
-            </aside>
+                </aside>
+
+            </div>
         </div>
+    </section>
+
 
     <footer class="bg-black/40 border-t border-gray-800 py-8 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-600">
