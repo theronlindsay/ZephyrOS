@@ -66,6 +66,7 @@ modules:
           - org.gtk.Gtk3theme.adw-gtk3-dark
           - it.mijorus.gearlever
           - org.godotengine.Godot
+          - com.freerdp.FreeRDP
       - notify: true
         scope: system
         repo: 
@@ -80,11 +81,13 @@ modules:
       - ddterm
       - Dash to Panel 
       - Vicinae
+      - Notification Banner Reloaded
       # Add extension IDs from extensions.gnome.org
   - type: script
     scripts:
     - apply-extension-settings.sh
     - install-helium.sh
+    - install-winboat.sh
     - enable-appimage-integration.sh
   
 

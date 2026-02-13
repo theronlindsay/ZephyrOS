@@ -274,9 +274,65 @@
                     </div>
                 </div>
             </div>
+                </div>
+        </section>
 
+        <!-- Flex row for download and how-to -->
+        <div class="w-full flex flex-col lg:flex-row justify-center items-start gap-0 lg:gap-16 xl:gap-24 px-4 mt-8">
+            <div class="w-full max-w-3xl mx-auto">
+                <!-- Main download section is above, nothing to repeat here -->
+            </div>
+            <aside class="w-full max-w-2xl mx-auto mt-8 lg:mt-0 lg:w-[420px] xl:w-[480px] flex-shrink-0 lg:sticky lg:top-40 lg:self-start lg:ml-8 xl:ml-16">
+                <div class="glass-panel rounded-2xl p-10 border border-zephyr-500/30 shadow-xl flex flex-col h-full">
+                    <h2 class="text-2xl font-extrabold text-zephyr-400 mb-6 flex items-center"><svg class="w-7 h-7 mr-2 text-zephyr-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>How to Flash ZephyrOS</h2>
+                    <ol class="relative border-l-2 border-zephyr-700 ml-4 space-y-14">
+                        <li class="ml-6 flex flex-col pb-4">
+                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">1</span>
+                            <span class="text-lg font-semibold">Get a USB stick</span>
+                            <span class="text-gray-300">At least <span class="text-zephyr-300 font-semibold">10GB</span> of free space. Back up any important data first.</span>
+                        </li>
+                        <li class="ml-6 flex flex-col pb-4">
+                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">2</span>
+                            <span class="text-lg font-semibold">Download the ZephyrOS ISO</span>
+                            <span class="text-gray-300">Use the download button above for your recommended version.</span>
+                        </li>
+                        <li class="ml-6 flex flex-col pb-4">
+                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">3</span>
+                            <span class="text-lg font-semibold">Download <a href=\"https://balena.io/etcher\" target=\"_blank\" class=\"text-zephyr-400 underline hover:text-zephyr-300\">balenaEtcher</a></span>
+                            <span class="text-gray-300">Available for Windows, macOS, and Linux.</span>
+                        </li>
+                        <li class="ml-6 flex flex-col pb-4">
+                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">4</span>
+                            <span class="text-lg font-semibold">Flash the ISO</span>
+                            <span class="text-gray-300">Open Etcher, select the ISO, select your USB stick, and click <b>Flash</b>.</span>
+                        </li>
+                        <li class="ml-6 flex flex-col pb-4">
+                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">5</span>
+                            <span class="text-lg font-semibold">Reboot and enter BIOS/UEFI</span>
+                            <span class="text-gray-300">Usually by pressing <span class="font-mono">F2</span>, <span class="font-mono">F10</span>, <span class="font-mono">F12</span>, <span class="font-mono">DEL</span>, or <span class="font-mono">ESC</span> right after powering on.</span>
+                        </li>
+                        <li class="ml-6 flex flex-col pb-4">
+                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">6</span>
+                            <span class="text-lg font-semibold">Change boot order</span>
+                            <span class="text-gray-300">Set your USB stick as the first boot device.</span>
+                        </li>
+                        <li class="ml-6 flex flex-col pb-4">
+                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">7</span>
+                            <span class="text-lg font-semibold">Disable Secure Boot and Fast Boot</span>
+                            <span class="text-gray-300">Usually found under <b>Boot</b> or <b>Security</b> tab in BIOS.</span>
+                        </li>
+                        <li class="ml-6 flex flex-col pb-4">
+                            <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-zephyr-600 rounded-full ring-4 ring-zephyr-900 text-white font-bold">8</span>
+                            <span class="text-lg font-semibold">Save and reboot</span>
+                            <span class="text-gray-300">ZephyrOS should now boot from your USB stick!</span>
+                        </li>
+                    </ol>
+                    <div class="mt-6 text-xs text-gray-400">
+                        <b>Tips:</b> If you don't see your USB stick, try a different port or re-flash the ISO. For more help, see your PC's manual or search "how to boot from USB" for your model.
+                    </div>
+                </div>
+            </aside>
         </div>
-    </section>
 
     <footer class="bg-black/40 border-t border-gray-800 py-8 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-600">
