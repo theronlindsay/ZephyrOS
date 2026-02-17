@@ -78,7 +78,6 @@ modules:
       - scope: user # Also add Flathub user repo, but no user packages
   - type: gnome-extensions
     install:
-      - ddterm
       - Dash to Panel 
       - Vicinae
       - Notification Banner Reloaded
