@@ -45,7 +45,6 @@ modules:
         - quadratech188/vicinae
     install:
       packages:
-        - unityhub
         - vicinae
         - code
     remove:
