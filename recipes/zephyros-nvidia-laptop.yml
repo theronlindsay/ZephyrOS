@@ -25,13 +25,6 @@ modules:
       - select-fastest-mirror.sh
       - generate-machine-id.sh
       - generate-image-info-zephyros-nvidia-laptop.sh
-  - type: dnf
-    repos:
-      copr:
-        - sunwire/envycontrol
-    install:
-      packages:
-        - python3-envycontrol
   - type: gnome-extensions
     install:
       - GPU Profile Selector
