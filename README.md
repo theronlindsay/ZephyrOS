@@ -42,8 +42,6 @@ Choose the right ISO for your hardware:
 | **ZephyrOS NVIDIA**         | NVIDIA    | Desktops with NVIDIA GPUs                    | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
 | **ZephyrOS NVIDIA Laptop**  | NVIDIA    | NVIDIA laptops (GPU switching + sleep fixes) | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
 | **ZephyrOS NVIDIA ASUS**    | NVIDIA    | ASUS ROG/TUF gaming laptops                  | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
-| **ZephyrOS Console**        | AMD/Intel | Steam Big Picture mode                       | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
-| **ZephyrOS NVIDIA Console** | NVIDIA    | Steam Big Picture + NVIDIA                   | [Download](https://github.com/theronlindsay/ZephyrOS/releases) |
 
 > 💡 **Not sure which to pick?** Use our [interactive download selector](https://theronlindsay.github.io/ZephyrOS/download.html)!
 
@@ -56,14 +54,12 @@ Choose the right ISO for your hardware:
 - **Steam, Lutris, ProtonPlus** pre-installed
 - **Sunshine** for game streaming
 - **NVIDIA drivers** out of the box—no configuration needed
-- **Console editions** boot directly into Steam Big Picture
 
 ### 💻 Developer Focused
 
 - **VS Code, Git, Brew** ready to go
 - **Podman & DistroShelf** for container workflows
 - **Godot & Unity Hub** for game development
-- **ddterm** drop-down terminal
 
 ### 🔧 Hardware Support
 
@@ -99,7 +95,6 @@ Already running Bazzite, Bluefin, Aurora, or another Fedora Atomic distro? You c
 # Replace IMAGE_NAME with your choice:
 # zephyros, zephyros-nvidia, zephyros-nvidia-hybrid, 
 # zephyros-asus, zephyros-nvidia-asus,
-# zephyros-console, zephyros-nvidia-console
 
 sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/theronlindsay/IMAGE_NAME:latest
 ```
@@ -173,22 +168,6 @@ sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/theronlindsay/zephyros
 sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/theronlindsay/zephyros-nvidia-asus:latest
 ```
 
-**ZephyrOS Console**
-
-```bash
-sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/theronlindsay/zephyros-console:latest
-# reboot, then:
-sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/theronlindsay/zephyros-console:latest
-```
-
-**ZephyrOS NVIDIA Console**
-
-```bash
-sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/theronlindsay/zephyros-nvidia-console:latest
-# reboot, then:
-sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/theronlindsay/zephyros-nvidia-console:latest
-```
-
 </details>
 
 ---
@@ -237,5 +216,5 @@ This project is open source under the [Apache 2.0 License](LICENSE).
 ---
 
 <p align="center">
-  Made with ❤️ by the ZephyrOS community
+  Made with ❤️ by Theron Lindsay. <a href="https://theronlindsay.github.io/ZephyrOS/">Visit our website</a> for more info and support!
 </p>
