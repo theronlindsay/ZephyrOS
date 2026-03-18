@@ -38,6 +38,7 @@ modules:
       - select-fastest-mirror.sh
       - generate-machine-id.sh
       - generate-image-info-zephyros-nvidia.sh
+      - install-apple-color-emoji.sh
   - type: dnf
     repos:
       copr:

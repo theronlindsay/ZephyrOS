@@ -1,0 +1,68 @@
+name: Build ISOs
+
+on:
+  workflow_run:
+    workflows: ["bluebuild"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: iso-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-iso:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        image:
+          - name: zephyros
+          - name: zephyros-nvidia
+          - name: zephyros-laptop
+          - name: zephyros-nvidia-laptop
+          - name: zephyros-asus
+          - name: zephyros-nvidia-asus
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Maximize build space
+        uses: jlumbroso/free-disk-space@main
+
+      - name: Build ISO
+        uses: jasonn3/build-container-installer@main
+        with:
+          arch: x86_64
+          image_name: ${{ matrix.image.name }}
+          image_repo: ghcr.io/theronlindsay
+          image_tag: stable
+          variant: Silverblue
+          iso_name: ${{ matrix.image.name }}-stable.iso
+
+      - name: Delete old ISO from Spaces
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SPACES_SECRET_KEY }}
+          AWS_DEFAULT_REGION: ${{ vars.SPACES_REGION }}
+        run: |
+          aws s3 rm \
+            "s3://${{ vars.SPACES_BUCKET }}/isos/${{ matrix.image.name }}-stable.iso" \
+            --endpoint-url "https://${{ vars.SPACES_REGION }}.digitaloceanspaces.com" \
+            || true
+
+      - name: Upload ISO to Spaces
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SPACES_SECRET_KEY }}
+          AWS_DEFAULT_REGION: ${{ vars.SPACES_REGION }}
+        run: |
+          aws s3 cp \
+            "${{ matrix.image.name }}-stable.iso" \
+            "s3://${{ vars.SPACES_BUCKET }}/isos/${{ matrix.image.name }}-stable.iso" \
+            --endpoint-url "https://${{ vars.SPACES_REGION }}.digitaloceanspaces.com" \
+            --acl public-read

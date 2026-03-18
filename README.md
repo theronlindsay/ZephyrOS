@@ -1,6 +1,6 @@
 <p align="center">
   <img src="docs/ZephyrLogo.png" alt="ZephyrOS Logo" width="200"/>
-</p>
+</p>keep 
 
 <h1 align="center">ZephyrOS</h1>
 
@@ -195,7 +195,7 @@ bash <(curl -s https://raw.githubusercontent.com/blue-build/cli/main/install.sh)
 **Generate an ISO:**
 
 ```bash
-sudo bluebuild generate-iso --iso-name ZephyrOS.iso recipes recipes/zephyros.yml
+sudo bluebuild generate-iso --iso-name ZephyrOS.iso recipe recipes/zephyros.yml
 ```
 
 **Generate an ISO from repo:**
