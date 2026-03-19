@@ -121,7 +121,7 @@ jobs:
         run: |
           sudo bluebuild generate-iso \
             --iso-name "${{ matrix.image.name }}-stable.iso" \
-            image "ghcr.io/theronlindsay/${{ matrix.image.name }}:stable"
+            image "ghcr.io/theronlindsay/${{ matrix.image.name }}:latest"
 
       - name: Create website manifest
         run: |
