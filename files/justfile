@@ -49,11 +49,10 @@ install-winboat:
     # Download the AppImage
     curl -L "$LATEST_URL" -o ~/winboat.AppImage
     flatpak run it.mijorus.gearlever --integrate ~/winboat.AppImage -y
-
-# Create directory and download the AppImage
-mkdir -p /usr/libexec/winboat
-curl -L "$LATEST_URL" -o /usr/libexec/winboat/winboat.AppImage
-chmod +x /usr/libexec/winboat/winboat.AppImage
+    # Create directory and download the AppImage
+    mkdir -p /usr/libexec/winboat
+    curl -L "$LATEST_URL" -o /usr/libexec/winboat/winboat.AppImage
+    chmod +x /usr/libexec/winboat/winboat.AppImage
 
 
 # Configure hibernate

@@ -111,4 +111,17 @@ trans-use-dynamic-opacity=true
 window-preview-title-position='TOP'
 
 [org/gnome/desktop/background]
-picture-uri='file:///usr/share/backgrounds/ublue.png'
+color-shading-type='solid'
+picture-options='zoom'
+picture-uri='file:///usr/share/backgrounds/gnome/adwaita-l.jxl'
+picture-uri-dark='file:///usr/share/backgrounds/gnome/adwaita-d.jxl'
+primary-color='#3071AE'
+secondary-color='#000000'
+
+[org/gnome/desktop/interface]
+accent-color='teal'
+color-scheme='prefer-dark'
+enable-animations=true
+gtk-theme='adw-gtk3-dark'
+icon-theme='Papirus-Dark'
+show-battery-percentage=true
