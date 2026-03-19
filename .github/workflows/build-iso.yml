@@ -14,7 +14,7 @@ concurrency:
 jobs:
   build-iso:
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       max-parallel: 1
