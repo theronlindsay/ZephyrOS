@@ -720,46 +720,48 @@
             const step3Indicator = document.getElementById("step3-indicator");
 
             // ISO configurations
+            const baseUrl =
+                "https://zephyrosisos.sfo3.cdn.digitaloceanspaces.com/isos/";
             const isoConfigs = {
                 zephyros: {
                     name: "ZephyrOS",
                     description: "Standard edition for AMD/Intel desktops",
                     filename: "zephyros-stable.iso",
-                    link: "#",
+                    link: baseUrl + "zephyros-stable.iso",
                 },
                 "zephyros-laptop": {
                     name: "ZephyrOS Laptop",
                     description:
                         "For AMD/Intel laptops with optimized sleep/hibernate",
                     filename: "zephyros-laptop-stable.iso",
-                    link: "#",
+                    link: baseUrl + "zephyros-laptop-stable.iso",
                 },
                 "zephyros-asus": {
                     name: "ZephyrOS ASUS",
                     description:
                         "Optimized for ASUS ROG/TUF laptops with AMD/Intel graphics",
                     filename: "zephyros-asus-stable.iso",
-                    link: "#",
+                    link: baseUrl + "zephyros-asus-stable.iso",
                 },
                 "zephyros-nvidia": {
                     name: "ZephyrOS NVIDIA",
                     description: "For desktops with NVIDIA graphics",
                     filename: "zephyros-nvidia-stable.iso",
-                    link: "#",
+                    link: baseUrl + "zephyros-nvidia-stable.iso",
                 },
                 "zephyros-nvidia-laptop": {
                     name: "ZephyrOS NVIDIA Laptop",
                     description:
                         "For NVIDIA laptops with GPU switching and sleep fixes",
                     filename: "zephyros-nvidia-laptop-stable.iso",
-                    link: "#",
+                    link: baseUrl + "zephyros-nvidia-laptop-stable.iso",
                 },
                 "zephyros-nvidia-asus": {
                     name: "ZephyrOS NVIDIA ASUS",
                     description:
                         "For ASUS ROG/TUF laptops with NVIDIA graphics - full hardware support",
                     filename: "zephyros-nvidia-asus-stable.iso",
-                    link: "#",
+                    link: baseUrl + "zephyros-nvidia-asus-stable.iso",
                 },
             };
 
