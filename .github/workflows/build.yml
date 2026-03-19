@@ -88,3 +88,102 @@ jobs:
           registry_token: ${{ github.token }}
           pr_event_number: ${{ github.event.number }}
           maximize_build_space: true
+
+  # Stage 4: ISO generation (depends on all images being built/pushed)
+  build-iso:
+    name: Build ISOs
+    needs: bluebuild-asus
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        image:
+          - name: zephyros
+          - name: zephyros-nvidia
+          - name: zephyros-laptop
+          - name: zephyros-nvidia-laptop
+          - name: zephyros-asus
+          - name: zephyros-nvidia-asus
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Maximize build space
+        uses: jlumbroso/free-disk-space@main
+
+      - name: Install BlueBuild CLI
+        run: |
+          sudo curl -fsSL https://raw.githubusercontent.com/blue-build/cli/main/install.sh | sudo bash
+
+      - name: Generate ISO from published image
+        run: |
+          sudo bluebuild generate-iso \
+            --iso-name "${{ matrix.image.name }}-stable.iso" \
+            image "ghcr.io/theronlindsay/${{ matrix.image.name }}:stable"
+
+      - name: Create website manifest
+        run: |
+          ISO="${{ matrix.image.name }}-stable.iso"
+          CHECKSUM="${ISO}-CHECKSUM"
+          SIZE_BYTES="$(stat -c '%s' "${ISO}")"
+          SHA256="$(cut -d' ' -f1 "${CHECKSUM}")"
+          DATE_UTC="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          cat > "${{ matrix.image.name }}-stable.json" <<EOF
+          {
+            "name": "${{ matrix.image.name }}",
+            "channel": "stable",
+            "iso": "${ISO}",
+            "sha256": "${SHA256}",
+            "sizeBytes": ${SIZE_BYTES},
+            "updatedAt": "${DATE_UTC}"
+          }
+          EOF
+
+      - name: Delete old ISO/checksum/manifest from Spaces
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SPACES_SECRET_KEY }}
+          AWS_DEFAULT_REGION: ${{ vars.SPACES_REGION }}
+        run: |
+          ENDPOINT="https://${{ vars.SPACES_REGION }}.digitaloceanspaces.com"
+          aws s3 rm \
+            "s3://${{ vars.SPACES_BUCKET }}/isos/${{ matrix.image.name }}-stable.iso" \
+            --endpoint-url "${ENDPOINT}" \
+            || true
+          aws s3 rm \
+            "s3://${{ vars.SPACES_BUCKET }}/isos/${{ matrix.image.name }}-stable.iso-CHECKSUM" \
+            --endpoint-url "${ENDPOINT}" \
+            || true
+          aws s3 rm \
+            "s3://${{ vars.SPACES_BUCKET }}/isos/${{ matrix.image.name }}-stable.json" \
+            --endpoint-url "${ENDPOINT}" \
+            || true
+
+      - name: Upload ISO + checksum + manifest to Spaces
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.SPACES_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SPACES_SECRET_KEY }}
+          AWS_DEFAULT_REGION: ${{ vars.SPACES_REGION }}
+        run: |
+          ENDPOINT="https://${{ vars.SPACES_REGION }}.digitaloceanspaces.com"
+          aws s3 cp \
+            "${{ matrix.image.name }}-stable.iso" \
+            "s3://${{ vars.SPACES_BUCKET }}/isos/${{ matrix.image.name }}-stable.iso" \
+            --endpoint-url "${ENDPOINT}" \
+            --acl public-read
+
+          aws s3 cp \
+            "${{ matrix.image.name }}-stable.iso-CHECKSUM" \
+            "s3://${{ vars.SPACES_BUCKET }}/isos/${{ matrix.image.name }}-stable.iso-CHECKSUM" \
+            --endpoint-url "${ENDPOINT}" \
+            --content-type "text/plain; charset=utf-8" \
+            --acl public-read
+
+          aws s3 cp \
+            "${{ matrix.image.name }}-stable.json" \
+            "s3://${{ vars.SPACES_BUCKET }}/isos/${{ matrix.image.name }}-stable.json" \
+            --endpoint-url "${ENDPOINT}" \
+            --content-type "application/json; charset=utf-8" \
+            --acl public-read

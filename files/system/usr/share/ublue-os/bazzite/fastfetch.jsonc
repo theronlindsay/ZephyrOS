@@ -34,14 +34,14 @@
     },
     "break",
     {
-      "type": "command",
-      "key": " 󱋩",
-      "text": "/usr/libexec/bazzite-fetch-image",
-    },
-    {
       "type": "os",
       "key": " 󰣛",
       "format": "{pretty-name}",
+    },
+    {
+      "type": "command",
+      "key": " 󱋩",
+      "text": "/usr/libexec/bazzite-fetch-image",
     },
     {
       "type": "kernel",

@@ -67,6 +67,12 @@ indicator-position-max=2
 last-version=29
 preset='R'
 
+[notification-banner-reloaded]
+anchor-horizontal=1
+anchor-vertical=1
+animation-direction=3
+
+
 [dash-to-panel]
 animate-appicon-hover-animation-extent={'RIPPLE': 4, 'PLANK': 4, 'SIMPLE': 1}
 appicon-margin=0
