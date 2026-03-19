@@ -1,0 +1,10 @@
+{
+  "uuid": "asusmux@theronlindsay.dev",
+  "name": "ASUS GPU Switcher",
+  "description": "A quick settings menu to switch between ASUS Laptop GPU modes. Requires asusctl and asus-armoury driver!",
+  "shell-version": [
+    "49"
+  ],
+  "url": "https://github.com/theronlindsay/AsusMuxGNOME"
+}
+

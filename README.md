@@ -1,6 +1,6 @@
 <p align="center">
   <img src="docs/ZephyrLogo.png" alt="ZephyrOS Logo" width="200"/>
-</p>keep 
+</p>
 
 <h1 align="center">ZephyrOS</h1>
 
@@ -216,5 +216,5 @@ This project is open source under the [Apache 2.0 License](LICENSE).
 ---
 
 <p align="center">
-  Made with ❤️ by Theron Lindsay. <a href="https://theronlindsay.github.io/ZephyrOS/">Visit our website</a> for more info and support!
+  Made with ❤️ by Theron Lindsay. <a href="https://theronlindsay.github.io/ZephyrOS/">Visit my website</a> for more info and support!
 </p>

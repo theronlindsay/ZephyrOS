@@ -6,11 +6,11 @@
         <meta name="color-scheme" content="dark only" />
         <meta
             name="description"
-            content="ZephyrOS is a Linux distribution based on Fedora Atomic (Bazzite), optimized for Asus gaming laptops (ROG/TUF) and developers. Featuring pre-configured gaming drivers, developer tools, and a polished GNOME desktop."
+            content="ZephyrOS is a Linux distribution based on Fedora Atomic (Bazzite), optimized for Asus gaming laptops (ROG/TUF) and developers. Featuring pre-configured gaming drivers, developer tools, and a polished GNOME desktop. ZephyrOS is Linux for the modern workstation."
         />
         <meta
             name="keywords"
-            content="ZephyrOS, Linux for Asus Gaming Laptops, Asus G14, G14 Linux, Linux for Laptops, Bazzite, Fedora Atomic, Gaming Linux, Developers Linux, Asus ROG, Asus TUF, Linux Gaming"
+            content="ZephyrOS, Linux for Asus Gaming Laptops, Linux for Asus, Asus G14, G14 Linux, Linux for Laptops, Bazzite, Fedora Atomic, Gaming Linux, Developers Linux, Asus ROG, Asus TUF, Linux Gaming, Easy Linux, Linux for Beginners, Linux for Developers, Linux for Gamers, Linux Distribution, Immutable Linux, Linux with Pre-installed Drivers, Linux with Developer Tools, Linux with Gaming Stack"
         />
         <meta name="author" content="ZephyrOS Project" />
 
@@ -19,11 +19,11 @@
         <meta property="og:url" content="https://zephyros.buzz/" />
         <meta
             property="og:title"
-            content="ZephyrOS - Linux Refined for Gamers & Developers"
+            content="ZephyrOS - Linux for the Modern Workstation"
         />
         <meta
             property="og:description"
-            content="Experience a Linux distribution designed for speed, redundancy, developer productivity, and gaming. Optimized for Asus ROG/TUF laptops."
+            content="Experience an Immutable Linux distribution designed for speed, redundancy, developer productivity, and gaming. Optimized for Asus ROG/TUF laptops."
         />
         <meta
             property="og:image"
@@ -134,6 +134,13 @@
                     drop-shadow(0 0 45px rgba(20, 184, 166, 0.4));
             }
         </style>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
     </head>
     <body class="antialiased">
         <nav
@@ -169,21 +176,9 @@
                         aria-expanded="false"
                     >
                         <span class="sr-only">Open main menu</span>
-                        <svg
-                            class="w-5 h-5"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 17 14"
-                        >
-                            <path
-                                stroke="currentColor"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M1 1h15M1 7h15M1 13h15"
-                            />
-                        </svg>
+                        <i
+                            class="fa-solid fa-bars w-5 h-5 flex items-center justify-center"
+                        ></i>
                     </button>
                 </div>
                 <div
@@ -256,10 +251,7 @@
                     class="mb-6 text-4xl font-extrabold tracking-tight leading-none text-white md:text-6xl lg:text-7xl"
                 >
                     The
-                    <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-zephyr-300 to-blue-500"
-                        >Breeze</span
-                    >
+                    <span class="text-blue">Breeze</span>
                     of Innovation
                 </h1>
                 <p
@@ -271,9 +263,9 @@
                     <span
                         class="block mt-4 text-zephyr-300 text-base lg:text-lg"
                         >Originally created to improve compatibility and
-                        out-of-the-box experience on laptops—including Asus
-                        gaming laptops.</span
-                    >
+                        out-of-the-box Linux experience on laptops with or
+                        without Hybrid Graphics
+                    </span>
                 </p>
                 <div
                     class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4"
@@ -283,21 +275,9 @@
                         class="inline-flex justify-center items-center py-3 px-6 text-base font-medium text-center text-white rounded-lg bg-zephyr-600 hover:bg-zephyr-500 focus:ring-4 focus:ring-zephyr-900 transition-all transform hover:scale-105"
                     >
                         Get Started
-                        <svg
-                            class="w-3.5 h-3.5 ms-2 rtl:rotate-180"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 14 10"
-                        >
-                            <path
-                                stroke="currentColor"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M1 5h12m0 0L9 1m4 4L9 9"
-                            />
-                        </svg>
+                        <i
+                            class="fa-solid fa-arrow-right w-3.5 h-3.5 ms-2 rtl:rotate-180 flex items-center justify-center"
+                        ></i>
                     </a>
                     <a
                         href="#features"
@@ -311,49 +291,25 @@
                     <div
                         class="flex items-center space-x-2 text-sm text-gray-400"
                     >
-                        <svg
-                            class="w-5 h-5 text-zephyr-400"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                clip-rule="evenodd"
-                            ></path>
-                        </svg>
+                        <i
+                            class="fa-solid fa-circle-check w-5 h-5 text-zephyr-400 flex items-center justify-center"
+                        ></i>
                         <span>Open Source</span>
                     </div>
                     <div
                         class="flex items-center space-x-2 text-sm text-gray-400"
                     >
-                        <svg
-                            class="w-5 h-5 text-zephyr-400"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
-                                clip-rule="evenodd"
-                            ></path>
-                        </svg>
+                        <i
+                            class="fa-solid fa-bolt-lightning w-5 h-5 text-zephyr-400 flex items-center justify-center"
+                        ></i>
                         <span>Lightning Fast</span>
                     </div>
                     <div
                         class="flex items-center space-x-2 text-sm text-gray-400"
                     >
-                        <svg
-                            class="w-5 h-5 text-zephyr-400"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                clip-rule="evenodd"
-                            ></path>
-                        </svg>
+                        <i
+                            class="fa-solid fa-shield-halved w-5 h-5 text-zephyr-400 flex items-center justify-center"
+                        ></i>
                         <span>Immutable</span>
                     </div>
                 </div>
@@ -381,19 +337,9 @@
                         <div
                             class="w-12 h-12 bg-zephyr-900/50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-zephyr-600 transition-colors"
                         >
-                            <svg
-                                class="w-6 h-6 text-zephyr-300 group-hover:text-white"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                                ></path>
-                            </svg>
+                            <i
+                                class="fa-solid fa-bolt w-6 h-6 text-zephyr-300 group-hover:text-white flex items-center justify-center"
+                            ></i>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-3">
                             High Performance
@@ -411,19 +357,9 @@
                         <div
                             class="w-12 h-12 bg-zephyr-900/50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-zephyr-600 transition-colors"
                         >
-                            <svg
-                                class="w-6 h-6 text-zephyr-300 group-hover:text-white"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                                ></path>
-                            </svg>
+                            <i
+                                class="fa-solid fa-desktop w-6 h-6 text-zephyr-300 group-hover:text-white flex items-center justify-center"
+                            ></i>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-3">
                             Privacy First
@@ -441,19 +377,9 @@
                         <div
                             class="w-12 h-12 bg-zephyr-900/50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-zephyr-600 transition-colors"
                         >
-                            <svg
-                                class="w-6 h-6 text-zephyr-300 group-hover:text-white"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"
-                                ></path>
-                            </svg>
+                            <i
+                                class="fa-solid fa-puzzle-piece w-6 h-6 text-zephyr-300 group-hover:text-white flex items-center justify-center"
+                            ></i>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-3">
                             Fully Customizable
@@ -493,19 +419,9 @@
                             <div
                                 class="flex-shrink-0 h-6 w-6 rounded-full bg-zephyr-500 flex items-center justify-center mt-1"
                             >
-                                <svg
-                                    class="h-4 w-4 text-white"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M5 13l4 4L19 7"
-                                    />
-                                </svg>
+                                <i
+                                    class="fa-solid fa-screwdriver-wrench h-4 w-4 text-white flex items-center justify-center"
+                                ></i>
                             </div>
                             <p class="ml-4 text-gray-300">
                                 Pre-configured with essential dev tools for the
@@ -516,19 +432,9 @@
                             <div
                                 class="flex-shrink-0 h-6 w-6 rounded-full bg-zephyr-500 flex items-center justify-center mt-1"
                             >
-                                <svg
-                                    class="h-4 w-4 text-white"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M5 13l4 4L19 7"
-                                    />
-                                </svg>
+                                <i
+                                    class="fa-solid fa-boxes-stacked h-4 w-4 text-white flex items-center justify-center"
+                                ></i>
                             </div>
                             <p class="ml-4 text-gray-300">
                                 Optimized for container-based workloads with
@@ -540,19 +446,9 @@
                             <div
                                 class="flex-shrink-0 h-6 w-6 rounded-full bg-zephyr-500 flex items-center justify-center mt-1"
                             >
-                                <svg
-                                    class="h-4 w-4 text-white"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M5 13l4 4L19 7"
-                                    />
-                                </svg>
+                                <i
+                                    class="fa-solid fa-box-open h-4 w-4 text-white flex items-center justify-center"
+                                ></i>
                             </div>
                             <p class="ml-4 text-gray-300">
                                 Easily install software with Flatpak, Brew,
@@ -564,19 +460,9 @@
                             <div
                                 class="flex-shrink-0 h-6 w-6 rounded-full bg-zephyr-500 flex items-center justify-center mt-1"
                             >
-                                <svg
-                                    class="h-4 w-4 text-white"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M5 13l4 4L19 7"
-                                    />
-                                </svg>
+                                <i
+                                    class="fa-solid fa-users h-4 w-4 text-white flex items-center justify-center"
+                                ></i>
                             </div>
                             <p class="ml-4 text-gray-300">
                                 Community driven and completely open source.
@@ -615,15 +501,9 @@
                                 <div
                                     class="w-10 h-10 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-4"
                                 >
-                                    <svg
-                                        class="w-5 h-5 text-zephyr-300"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                                        />
-                                    </svg>
+                                    <i
+                                        class="fa-brands fa-steam w-5 h-5 text-zephyr-300 flex items-center justify-center"
+                                    ></i>
                                 </div>
                                 <div>
                                     <h4 class="text-white font-semibold">
@@ -638,25 +518,21 @@
                                 class="flex items-center p-4 rounded-xl glass-panel hover:border-zephyr-500/50 transition-colors"
                             >
                                 <div
-                                    class="w-10 h-10 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-4"
+                                    class="w-10 h-10 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-5 overflow-hidden p-1"
                                 >
-                                    <svg
-                                        class="w-5 h-5 text-zephyr-300"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                                        />
-                                    </svg>
+                                    <img
+                                        src="https://lutris.net/static/images/logo.png"
+                                        alt="Lutris"
+                                        class="w-full h-full object-contain"
+                                    />
                                 </div>
                                 <div>
                                     <h4 class="text-white font-semibold">
                                         Lutris
                                     </h4>
                                     <p class="text-gray-400 text-sm">
-                                        Play games from GOG, Epic, Origin, and
-                                        more
+                                        Play games and software from Battle.net,
+                                        Origin, and more
                                     </p>
                                 </div>
                             </div>
@@ -664,24 +540,21 @@
                                 class="flex items-center p-4 rounded-xl glass-panel hover:border-zephyr-500/50 transition-colors"
                             >
                                 <div
-                                    class="w-10 h-10 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-4"
+                                    class="w-10 h-10 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-4 p-5 overflow-hidden"
                                 >
-                                    <svg
-                                        class="w-5 h-5 text-zephyr-300"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                                        />
-                                    </svg>
+                                    <i
+                                        class="fa-solid fa-atom w-5 h-5 text-zephyr-300 flex items-center justify-center"
+                                    ></i>
                                 </div>
                                 <div>
                                     <h4 class="text-white font-semibold">
                                         ProtonPlus
                                     </h4>
                                     <p class="text-gray-400 text-sm">
-                                        Easily manage Proton and Wine versions
+                                        Easily manage Proton and Wine versions,
+                                        easily switch between them, and enjoy
+                                        improved compatibility for your games
+                                        and software
                                     </p>
                                 </div>
                             </div>
@@ -689,24 +562,24 @@
                                 class="flex items-center p-4 rounded-xl glass-panel hover:border-zephyr-500/50 transition-colors"
                             >
                                 <div
-                                    class="w-10 h-10 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-4"
+                                    class="w-20 h-10 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-4 p-3"
                                 >
-                                    <svg
-                                        class="w-5 h-5 text-zephyr-300"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                                        />
-                                    </svg>
+                                    <img
+                                        src="https://app.lizardbyte.dev/Sunshine/assets/img/navbar-avatar.png"
+                                        alt="Sunshine"
+                                        class="w-full h-full object-contain w-10 h-10"
+                                    />
                                 </div>
                                 <div>
                                     <h4 class="text-white font-semibold">
                                         Sunshine
                                     </h4>
                                     <p class="text-gray-400 text-sm">
-                                        Stream your games to any device
+                                        Stream your games to any device with
+                                        Moonlight, with support for NVIDIA
+                                        GameStream and AMD Link. Play your games
+                                        on your phone, tablet, or even another
+                                        PC without leaving your couch.
                                     </p>
                                 </div>
                             </div>
@@ -725,18 +598,12 @@
                                     <div
                                         class="w-10 h-10 bg-green-900/50 rounded-lg flex items-center justify-center mr-3"
                                     >
-                                        <svg
-                                            class="w-5 h-5 text-green-400"
-                                            fill="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-                                            />
-                                        </svg>
+                                        <i
+                                            class="fa-solid fa-microchip w-5 h-5 text-green-400 flex items-center justify-center"
+                                        ></i>
                                     </div>
                                     <h4 class="text-white font-bold text-lg">
-                                        NVIDIA Drivers
+                                        NVIDIA Drivers Available
                                     </h4>
                                 </div>
                                 <p class="text-gray-400">
@@ -752,15 +619,9 @@
                                     <div
                                         class="w-10 h-10 bg-purple-900/50 rounded-lg flex items-center justify-center mr-3"
                                     >
-                                        <svg
-                                            class="w-5 h-5 text-purple-400"
-                                            fill="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-                                            />
-                                        </svg>
+                                        <i
+                                            class="fa-solid fa-laptop-code w-5 h-5 text-purple-400 flex items-center justify-center"
+                                        ></i>
                                     </div>
                                     <h4 class="text-white font-bold text-lg">
                                         Hybrid Graphics
@@ -769,8 +630,7 @@
                                 <p class="text-gray-400">
                                     Hybrid laptops with Intel/AMD + NVIDIA just
                                     work. Switch between integrated and discrete
-                                    graphics effortlessly with the GPU Profile
-                                    Selector.
+                                    graphics effortlessly in the control center.
                                 </p>
                             </div>
                             <div
@@ -780,15 +640,9 @@
                                     <div
                                         class="w-10 h-10 bg-red-900/50 rounded-lg flex items-center justify-center mr-3"
                                     >
-                                        <svg
-                                            class="w-5 h-5 text-red-400"
-                                            fill="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-                                            />
-                                        </svg>
+                                        <i
+                                            class="fa-solid fa-gamepad w-5 h-5 text-red-400 flex items-center justify-center"
+                                        ></i>
                                     </div>
                                     <h4 class="text-white font-bold text-lg">
                                         ASUS ROG Support
@@ -813,19 +667,9 @@
                             <div
                                 class="w-12 h-12 bg-blue-900/50 rounded-lg flex items-center justify-center mr-4"
                             >
-                                <svg
-                                    class="w-6 h-6 text-blue-400"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                                    ></path>
-                                </svg>
+                                <i
+                                    class="fa-solid fa-download w-6 h-6 text-blue-400 flex items-center justify-center"
+                                ></i>
                             </div>
                             <h3 class="text-xl font-bold text-white">
                                 Expand Your Library
@@ -837,15 +681,9 @@
                         </p>
                         <div class="space-y-3">
                             <div class="flex items-center">
-                                <svg
-                                    class="w-5 h-5 text-blue-400 mr-3"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-                                    />
-                                </svg>
+                                <i
+                                    class="fa-solid fa-store w-5 h-5 text-blue-400 mr-3 flex items-center justify-center"
+                                ></i>
                                 <span class="text-gray-300"
                                     ><strong class="text-white">Flathub</strong>
                                     — Thousands of games and emulators one click
@@ -853,15 +691,9 @@
                                 >
                             </div>
                             <div class="flex items-center">
-                                <svg
-                                    class="w-5 h-5 text-blue-400 mr-3"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-                                    />
-                                </svg>
+                                <i
+                                    class="fa-solid fa-terminal w-5 h-5 text-blue-400 mr-3 flex items-center justify-center"
+                                ></i>
                                 <span class="text-gray-300"
                                     ><strong class="text-white">ujust</strong> —
                                     Quick install scripts for popular gaming
@@ -869,20 +701,16 @@
                                 >
                             </div>
                             <div class="flex items-center">
-                                <svg
-                                    class="w-5 h-5 text-blue-400 mr-3"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-                                    />
-                                </svg>
+                                <i
+                                    class="fa-solid fa-gamepad w-5 h-5 text-blue-400 mr-3 flex items-center justify-center"
+                                ></i>
                                 <span class="text-gray-300"
                                     ><strong class="text-white"
-                                        >RetroArch</strong
+                                        >Emu-Deck</strong
                                     >
-                                    — Retro gaming made simple</span
+                                    — Get started with retro gaming and
+                                    emulation with one terminal command: ujust
+                                    install-emudeck</span
                                 >
                             </div>
                         </div>
@@ -894,19 +722,9 @@
                             <div
                                 class="w-12 h-12 bg-orange-900/50 rounded-lg flex items-center justify-center mr-4"
                             >
-                                <svg
-                                    class="w-6 h-6 text-orange-400"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                                    ></path>
-                                </svg>
+                                <i
+                                    class="fa-solid fa-code w-6 h-6 text-orange-400 flex items-center justify-center"
+                                ></i>
                             </div>
                             <h3 class="text-xl font-bold text-white">
                                 Create Your Own Games
@@ -918,15 +736,9 @@
                         </p>
                         <div class="space-y-3">
                             <div class="flex items-center">
-                                <svg
-                                    class="w-5 h-5 text-orange-400 mr-3"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-                                    />
-                                </svg>
+                                <i
+                                    class="fa-solid fa-robot w-5 h-5 text-orange-400 mr-3 flex items-center justify-center"
+                                ></i>
                                 <span class="text-gray-300"
                                     ><strong class="text-white"
                                         >Godot Engine</strong
@@ -935,15 +747,9 @@
                                 >
                             </div>
                             <div class="flex items-center">
-                                <svg
-                                    class="w-5 h-5 text-orange-400 mr-3"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-                                    />
-                                </svg>
+                                <i
+                                    class="fa-brands fa-unity w-5 h-5 text-orange-400 mr-3 flex items-center justify-center"
+                                ></i>
                                 <span class="text-gray-300"
                                     ><strong class="text-white"
                                         >Unity Hub</strong
@@ -952,18 +758,21 @@
                                 >
                             </div>
                             <div class="flex items-center">
-                                <svg
-                                    class="w-5 h-5 text-orange-400 mr-3"
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-                                    />
-                                </svg>
+                                <i
+                                    class="fa-solid fa-cube w-5 h-5 text-orange-400 mr-3 flex items-center justify-center"
+                                ></i>
                                 <span class="text-gray-300"
                                     ><strong class="text-white">Blender</strong>
                                     — Industry-standard 3D creation suite</span
+                                >
+                            </div>
+                            <div class="flex items-center">
+                                <i
+                                    class="fa-solid fa-code w-5 h-5 text-orange-400 mr-3 flex items-center justify-center"
+                                ></i>
+                                <span class="text-gray-300"
+                                    ><strong class="text-white">VSCode</strong>
+                                    — Industry-standard IDE/Text Editor</span
                                 >
                             </div>
                         </div>
@@ -985,12 +794,6 @@
                 </div>
 
                 <div class="flex space-x-6 text-sm text-gray-500">
-                    <a href="#" class="hover:text-zephyr-400 transition-colors"
-                        >Documentation</a
-                    >
-                    <a href="#" class="hover:text-zephyr-400 transition-colors"
-                        >Privacy</a
-                    >
                     <a
                         href="https://github.com/theronlindsay/ZephyrOS"
                         class="hover:text-zephyr-400 transition-colors"
