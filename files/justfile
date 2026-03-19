@@ -24,6 +24,37 @@ install-helium:
     curl -L "$LATEST_URL" -o ~/helium.AppImage
     flatpak run it.mijorus.gearlever --integrate ~/helium.AppImage -y
 
+# Install Winboat
+install-winboat:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    # Create AppImages directory if it doesn't exist
+    if [ ! -d ~/AppImages ]; then
+        mkdir ~/AppImages
+    fi
+    # Remove existing Winboat AppImage if present
+    if [ -f ~/AppImages/winboat.AppImage ]; then
+        echo "Removing existing Winboat AppImage..."
+        rm ~/AppImages/winboat.AppImage
+    fi
+    # Get latest Winboat release for x86_64
+    LATEST_URL=$(curl -sL https://api.github.com/repos/TibixDev/winboat/releases/latest \
+    | grep -o "https://.*x86_64.*\.AppImage" \
+    | head -n 1)
+    if [ -z "$LATEST_URL" ]; then
+        echo "Failed to find AppImage download URL"
+    exit 1
+    fi
+    echo "Downloading Winboat from: $LATEST_URL"
+    # Download the AppImage
+    curl -L "$LATEST_URL" -o ~/winboat.AppImage
+    flatpak run it.mijorus.gearlever --integrate ~/winboat.AppImage -y
+
+# Create directory and download the AppImage
+mkdir -p /usr/libexec/winboat
+curl -L "$LATEST_URL" -o /usr/libexec/winboat/winboat.AppImage
+chmod +x /usr/libexec/winboat/winboat.AppImage
+
 
 # Configure hibernate
 setup-hibernate:
@@ -31,4 +62,3 @@ setup-hibernate:
     set -euo pipefail
     sudo /usr/bin/setupHibernate.sh
     echo "Hibernate configured!"
-
