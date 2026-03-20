@@ -13,11 +13,12 @@ dnf -y config-manager setopt rpmfusion-nonfree-updates.enabled=1
 # Bazzite has strictly versioned NVIDIA user-space libraries already installed, which conflicts
 # with standard DNF dependency resolution. We just need the akmod source files!
 cd /tmp
-dnf -y download akmod-nvidia nvidia-kmod-common
+dnf -y download --enablerepo=rpmfusion-nonfree-updates --enablerepo=rpmfusion-nonfree akmod-nvidia xorg-x11-drv-nvidia-kmodsrc
 
 # Step 3: Force install the downloaded akmod RPMs while ignoring dependency checks.
 # This prevents it from attempting to uninstall/reinstall Bazzite's xorg-x11 libraries.
-rpm -ivh --nodeps akmod-nvidia-*.rpm nvidia-kmod-common-*.rpm
+# Bazzite already has nvidia-kmod-common built-in.
+rpm -ivh --nodeps akmod-nvidia-*.rpm xorg-x11-drv-nvidia-kmodsrc-*.rpm
 
 # Step 4: Determine the kernel version that was installed earlier by cachyos-kernel.sh.
 VER=$(ls /lib/modules)
