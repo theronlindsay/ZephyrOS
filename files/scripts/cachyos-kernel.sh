@@ -24,15 +24,15 @@ dnf -y copr enable bieszczaders/kernel-cachyos
 dnf -y copr enable bieszczaders/kernel-cachyos-addons
 dnf -y copr enable ublue-os/akmods
 
-# (Commented out) Step 4: Temporarily disable kernel post-transaction scripts.
+# Step 4: Temporarily disable kernel post-transaction scripts.
 # Sometimes needed in immutable OS builds to prevent RPM tree generation errors.
-# mv /usr/lib/kernel/install.d/05-rpmostree.install /usr/lib/kernel/install.d/05-rpmostree.install.bak
-# mv /usr/lib/kernel/install.d/50-dracut.install /usr/lib/kernel/install.d/50-dracut.install.bak
-# printf '%s\n' '#!/bin/sh' 'exit 0' > /usr/lib/kernel/install.d/05-rpmostree.install
-# printf '%s\n' '#!/bin/sh' 'exit 0' > /usr/lib/kernel/install.d/50-dracut.install
-# chmod +x \
-#      /usr/lib/kernel/install.d/05-rpmostree.install \
-#      /usr/lib/kernel/install.d/50-dracut.install
+mv /usr/lib/kernel/install.d/05-rpmostree.install /usr/lib/kernel/install.d/05-rpmostree.install.bak || true
+mv /usr/lib/kernel/install.d/50-dracut.install /usr/lib/kernel/install.d/50-dracut.install.bak || true
+printf '%s\n' '#!/bin/sh' 'exit 0' > /usr/lib/kernel/install.d/05-rpmostree.install
+printf '%s\n' '#!/bin/sh' 'exit 0' > /usr/lib/kernel/install.d/50-dracut.install
+chmod +x \
+     /usr/lib/kernel/install.d/05-rpmostree.install \
+     /usr/lib/kernel/install.d/50-dracut.install
 
 # Step 5: Install the CachyOS LTO kernel, headers (devel), module builders (akmods),
 # and various performance scheduling tools (scx-scheds, scx-tools).
@@ -47,11 +47,11 @@ dnf -y install --setopt=install_weak_deps=False --skip-unavailable \
 # Step 6: Replace default zram settings with CachyOS's optimized memory compression settings.
 dnf -y swap zram-generator-defaults cachyos-settings
 
-# (Commented out) Step 7: Restore the kernel post-transaction scripts.
-# rm -f /usr/lib/kernel/install.d/05-rpmostree.install \
-#       /usr/lib/kernel/install.d/50-dracut.install
-# mv /usr/lib/kernel/install.d/05-rpmostree.install.bak /usr/lib/kernel/install.d/05-rpmostree.install
-# mv /usr/lib/kernel/install.d/50-dracut.install.bak /usr/lib/kernel/install.d/50-dracut.install
+# Step 7: Restore the kernel post-transaction scripts.
+rm -f /usr/lib/kernel/install.d/05-rpmostree.install \
+      /usr/lib/kernel/install.d/50-dracut.install
+mv /usr/lib/kernel/install.d/05-rpmostree.install.bak /usr/lib/kernel/install.d/05-rpmostree.install || true
+mv /usr/lib/kernel/install.d/50-dracut.install.bak /usr/lib/kernel/install.d/50-dracut.install || true
 
 # Step 8: Manually compile extra kernel modules (zenergy, evdi) for the newly installed kernel.
 # Then update module dependencies (depmod) and generate the initial ramdisk (initramfs) 
