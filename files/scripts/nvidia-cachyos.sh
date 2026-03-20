@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -oue pipefail
 
+# Step 0: Ensure the base module builder tools are installed.
+# Bazzite sometimes removes 'akmods' from the final image, plus RPMfusion's nvidia 
+# source needs 'kmodtool' to actually process the compilation.
+dnf -y install --setopt=install_weak_deps=False akmods kmodtool
+
 # Step 1: Enable the RPMFusion repositories explicitly.
 # We need these to get the raw akmod-nvidia tools.
 dnf -y install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
