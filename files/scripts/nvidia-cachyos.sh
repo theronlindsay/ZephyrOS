@@ -6,9 +6,10 @@ set -oue pipefail
 dnf -y install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
                https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-# Step 2: Install the open-source version of the NVIDIA driver akmod package.
+# Step 2: Install the NVIDIA driver akmod package.
 # 'akmods' will use this package to build the actual kernel module for our specific kernel.
-dnf -y install --setopt=install_weak_deps=False akmod-nvidia-open
+# Note: RPMFusion provides 'akmod-nvidia', which builds the proprietary driver by default.
+dnf -y install --setopt=install_weak_deps=False akmod-nvidia
 
 # Step 3: Determine the kernel version that was installed earlier by cachyos-kernel.sh.
 VER=$(ls /lib/modules)
