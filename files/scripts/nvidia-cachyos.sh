@@ -16,9 +16,11 @@ cd /tmp
 dnf -y download --enablerepo=rpmfusion-nonfree-updates --enablerepo=rpmfusion-nonfree akmod-nvidia xorg-x11-drv-nvidia-kmodsrc
 
 # Step 3: Force install the downloaded akmod RPMs while ignoring dependency checks.
-# This prevents it from attempting to uninstall/reinstall Bazzite's xorg-x11 libraries.
+# We also use --noscripts to prevent RPM from running the %post install scriptlet.
+# The post-install script tries to background-build the module or hit OSTree hooks
+# which fail inside an immutable Podman build container. We will build it manually anyway.
 # Bazzite already has nvidia-kmod-common built-in.
-rpm -ivh --nodeps akmod-nvidia-*.rpm xorg-x11-drv-nvidia-kmodsrc-*.rpm
+rpm -ivh --nodeps --noscripts akmod-nvidia-*.rpm xorg-x11-drv-nvidia-kmodsrc-*.rpm
 
 # Step 4: Determine the kernel version that was installed earlier by cachyos-kernel.sh.
 VER=$(ls /lib/modules)
