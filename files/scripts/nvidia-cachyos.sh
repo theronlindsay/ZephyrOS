@@ -28,8 +28,15 @@ dnf -y download --enablerepo=rpmfusion-nonfree-updates --enablerepo=rpmfusion-no
 rpm -ivh --nodeps --noscripts akmod-nvidia-*.rpm xorg-x11-drv-nvidia-kmodsrc-*.rpm
 
 # Step 4: Determine the kernel version that was installed earlier by cachyos-kernel.sh.
-VER=$(ls /lib/modules)
+VER=$(ls -1 /usr/lib/modules | grep -E -v 'debug|modules.builtin' | head -n 1)
 echo "Building nvidia kmod for kernel $VER..."
+
+# Ensure VER is not empty
+if [ -z "$VER" ]; then
+    echo "ERROR: Could not detect kernel version in /usr/lib/modules!"
+    ls -l /usr/lib/modules
+    exit 1
+fi
 
 # Step 5: Force akmods to build the NVIDIA kernel module for the detected CachyOS kernel.
 akmods --force --kernels $VER --kmod nvidia
