@@ -37,7 +37,6 @@ dnf -y install --setopt=install_weak_deps=False --skip-unavailable \
     kernel-cachyos-devel \
     akmods \
     akmod-evdi \
-    zenergy \
     scx-manager
 
 # Step 6: Replace default zram settings with CachyOS's optimized memory compression settings.
@@ -51,7 +50,6 @@ mv /usr/bin/kernel-install.bak /usr/bin/kernel-install || true
 # Then update module dependencies (depmod) and generate the initial ramdisk (initramfs) 
 # which the system relies on during the Linux boot sequence.
 VER=$(ls /lib/modules) && \
-    akmods --force --kernels $VER --kmod zenergy || true
     akmods --force --kernels $VER --kmod evdi || true
     depmod -a $VER && \
     dracut --kver $VER --force --add ostree --no-hostonly --reproducible /usr/lib/modules/$VER/initramfs.img
