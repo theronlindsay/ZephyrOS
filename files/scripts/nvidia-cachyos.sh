@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 set -oue pipefail
 
-# Step 1: Enable the RPMFusion repositories.
-# These repositories contain the NVIDIA driver packages that are not shipped with Fedora by default.
-dnf -y install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-               https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+# Step 1: Enable the ublue-os akmods copr repository.
+# Bazzite uses its own specific version of the NVIDIA user-space drivers (already in our base image).
+# We MUST use their matching akmod-nvidia package, otherwise we get dependency conflicts 
+# with RPMFusion asserting mismatched xorg-x11-drv-nvidia-libs versions.
+dnf -y copr enable ublue-os/akmods
 
-# Step 2: Install the NVIDIA driver akmod package.
+# Step 2: Install the NVIDIA driver akmod package from the ublue repo.
 # 'akmods' will use this package to build the actual kernel module for our specific kernel.
-# Note: RPMFusion provides 'akmod-nvidia', which builds the proprietary driver by default.
-dnf -y install --setopt=install_weak_deps=False --enablerepo=rpmfusion-nonfree --enablerepo=rpmfusion-nonfree-updates akmod-nvidia
+dnf -y install --setopt=install_weak_deps=False akmod-nvidia
 
 # Step 3: Determine the kernel version that was installed earlier by cachyos-kernel.sh.
 VER=$(ls /lib/modules)
@@ -22,3 +22,6 @@ akmods --force --kernels $VER --kmod nvidia
 # Then, regenerate the initramfs (dracut) to ensure the NVIDIA drivers are loaded early during boot.
 depmod -a $VER
 dracut --kver $VER --force --add ostree --no-hostonly --reproducible /usr/lib/modules/$VER/initramfs.img
+
+# Step 6: Clean up the ublue akmod repo so it doesn't interfere later.
+rm -f /etc/yum.repos.d/*ublue-os-akmods*.repo
