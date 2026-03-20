@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -oue pipefail
+
 # This script replaces the default Fedora kernel with the performance-optimized CachyOS kernel.
 # It was adapted from solarpowered by askpng:
 # https://github.com/askpng/solarpowered/blob/main/files/scripts/kernels/kernel-cachy.sh
@@ -20,9 +22,7 @@ dnf -y install --setopt=install_weak_deps=False \
 # We add CachyOS for the kernel, and multimedia/terra repos for additional dependencies.
 dnf -y copr enable bieszczaders/kernel-cachyos
 dnf -y copr enable bieszczaders/kernel-cachyos-addons
-# dnf -y copr enable ublue-os/akmods
-dnf -y config-manager addrepo --from-repofile=https://negativo17.org/repos/fedora-multimedia.repo
-dnf -y config-manager addrepo --from-repofile=https://raw.githubusercontent.com/terrapkg/subatomic-repos/main/terra.repo
+dnf -y copr enable ublue-os/akmods
 
 # (Commented out) Step 4: Temporarily disable kernel post-transaction scripts.
 # Sometimes needed in immutable OS builds to prevent RPM tree generation errors.
@@ -37,8 +37,8 @@ dnf -y config-manager addrepo --from-repofile=https://raw.githubusercontent.com/
 # Step 5: Install the CachyOS LTO kernel, headers (devel), module builders (akmods),
 # and various performance scheduling tools (scx-scheds, scx-tools).
 dnf -y install --setopt=install_weak_deps=False \
-    kernel-cachyos-lto \
-    kernel-cachyos-lto-devel \
+    kernel-cachyos \
+    kernel-cachyos-devel \
     akmods \
     akmod-evdi \
     zenergy \
