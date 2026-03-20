@@ -24,23 +24,11 @@ dnf -y copr enable bieszczaders/kernel-cachyos
 dnf -y copr enable bieszczaders/kernel-cachyos-addons
 dnf -y copr enable ublue-os/akmods
 
-# Step 4: Temporarily disable kernel post-transaction scripts.
+# Step 4: Temporarily disable kernel-install.
 # Sometimes needed in immutable OS builds to prevent RPM tree generation errors.
-mv /usr/lib/kernel/install.d/05-rpmostree.install /usr/lib/kernel/install.d/05-rpmostree.install.bak || true
-mv /usr/lib/kernel/install.d/50-dracut.install /usr/lib/kernel/install.d/50-dracut.install.bak || true
-mv /usr/lib/kernel/install.d/20-grub.install /usr/lib/kernel/install.d/20-grub.install.bak || true
-mv /usr/lib/kernel/install.d/90-loaderentry.install /usr/lib/kernel/install.d/90-loaderentry.install.bak || true
-
-printf '%s\n' '#!/bin/sh' 'exit 0' > /usr/lib/kernel/install.d/05-rpmostree.install
-printf '%s\n' '#!/bin/sh' 'exit 0' > /usr/lib/kernel/install.d/50-dracut.install
-printf '%s\n' '#!/bin/sh' 'exit 0' > /usr/lib/kernel/install.d/20-grub.install
-printf '%s\n' '#!/bin/sh' 'exit 0' > /usr/lib/kernel/install.d/90-loaderentry.install
-
-chmod +x \
-     /usr/lib/kernel/install.d/05-rpmostree.install \
-     /usr/lib/kernel/install.d/50-dracut.install \
-     /usr/lib/kernel/install.d/20-grub.install \
-     /usr/lib/kernel/install.d/90-loaderentry.install
+mv /usr/bin/kernel-install /usr/bin/kernel-install.bak || true
+printf '%s\n' '#!/bin/sh' 'exit 0' > /usr/bin/kernel-install
+chmod +x /usr/bin/kernel-install
 
 # Step 5: Install the CachyOS LTO kernel, headers (devel), module builders (akmods),
 # and various performance scheduling tools (scx-scheds, scx-tools).
@@ -55,16 +43,9 @@ dnf -y install --setopt=install_weak_deps=False --skip-unavailable \
 # Step 6: Replace default zram settings with CachyOS's optimized memory compression settings.
 dnf -y swap zram-generator-defaults cachyos-settings
 
-# Step 7: Restore the kernel post-transaction scripts.
-rm -f /usr/lib/kernel/install.d/05-rpmostree.install \
-      /usr/lib/kernel/install.d/50-dracut.install \
-      /usr/lib/kernel/install.d/20-grub.install \
-      /usr/lib/kernel/install.d/90-loaderentry.install
-
-mv /usr/lib/kernel/install.d/05-rpmostree.install.bak /usr/lib/kernel/install.d/05-rpmostree.install || true
-mv /usr/lib/kernel/install.d/50-dracut.install.bak /usr/lib/kernel/install.d/50-dracut.install || true
-mv /usr/lib/kernel/install.d/20-grub.install.bak /usr/lib/kernel/install.d/20-grub.install || true
-mv /usr/lib/kernel/install.d/90-loaderentry.install.bak /usr/lib/kernel/install.d/90-loaderentry.install || true
+# Step 7: Restore kernel-install.
+rm -f /usr/bin/kernel-install
+mv /usr/bin/kernel-install.bak /usr/bin/kernel-install || true
 
 # Step 8: Manually compile extra kernel modules (zenergy, evdi) for the newly installed kernel.
 # Then update module dependencies (depmod) and generate the initial ramdisk (initramfs) 
