@@ -29,7 +29,7 @@ rpm -ivh --nodeps --noscripts akmod-nvidia-*.rpm xorg-x11-drv-nvidia-kmodsrc-*.r
 
 # Step 4: Determine the kernel version that was installed earlier by cachyos-kernel.sh.
 # Avoid pipes here to prevent SIGPIPE crashing the script under 'set -e -o pipefail'
-KERNEL_DIRS=( /usr/lib/modules/*/ )
+KERNEL_DIRS=( /lib/modules/*/ )
 # Grab the first directory (ignoring trailing slash)
 VER=$(basename "${KERNEL_DIRS[0]}")
 
@@ -38,8 +38,8 @@ echo "Building nvidia kmod for kernel $VER..."
 
 # Ensure VER is not empty or literally '*'
 if [[ -z "$VER" || "$VER" == "*" ]]; then
-    echo "ERROR: Could not detect kernel version in /usr/lib/modules!"
-    ls -l /usr/lib/modules
+    echo "ERROR: Could not detect kernel version in /lib/modules!"
+    ls -l /lib/modules
     exit 1
 fi
 
