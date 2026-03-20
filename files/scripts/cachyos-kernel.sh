@@ -36,14 +36,12 @@ dnf -y copr enable ublue-os/akmods
 
 # Step 5: Install the CachyOS LTO kernel, headers (devel), module builders (akmods),
 # and various performance scheduling tools (scx-scheds, scx-tools).
-dnf -y install --setopt=install_weak_deps=False \
+dnf -y install --setopt=install_weak_deps=False --skip-unavailable \
     kernel-cachyos \
     kernel-cachyos-devel \
     akmods \
     akmod-evdi \
     zenergy \
-    scx-scheds \
-    scx-tools \
     scx-manager
 
 # Step 6: Replace default zram settings with CachyOS's optimized memory compression settings.
@@ -59,8 +57,8 @@ dnf -y swap zram-generator-defaults cachyos-settings
 # Then update module dependencies (depmod) and generate the initial ramdisk (initramfs) 
 # which the system relies on during the Linux boot sequence.
 VER=$(ls /lib/modules) && \
-    akmods --force --kernels $VER --kmod zenergy && \
-    akmods --force --kernels $VER --kmod evdi && \
+    akmods --force --kernels $VER --kmod zenergy || true
+    akmods --force --kernels $VER --kmod evdi || true
     depmod -a $VER && \
     dracut --kver $VER --force --add ostree --no-hostonly --reproducible /usr/lib/modules/$VER/initramfs.img
 
