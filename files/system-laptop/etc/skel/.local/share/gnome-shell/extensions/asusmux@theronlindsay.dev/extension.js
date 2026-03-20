@@ -20,21 +20,12 @@ const GpuMenuToggle = GObject.registerClass(
       });
 
       this._addGpuMode("Integrated", [
-        "pkexec",
-        "sh",
-        "-c",
         "asusctl armoury set dgpu_disable 1 && asusctl armoury set gpu_mux_mode 1",
       ]);
       this._addGpuMode("Hybrid", [
-        "pkexec",
-        "sh",
-        "-c",
         "asusctl armoury set dgpu_disable 0 && asusctl armoury set gpu_mux_mode 1",
       ]);
-      this._addGpuMode("Dedicated", [
-        "pkexec",
-        "sh",
-        "-c",
+      this._addGpuMode("NVIDIA", [
         "asusctl armoury set dgpu_disable 0 && asusctl armoury set gpu_mux_mode 0",
       ]);
 
