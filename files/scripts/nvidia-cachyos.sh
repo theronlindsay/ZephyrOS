@@ -60,13 +60,42 @@ akmods --force --kernels "$VER" --kmod nvidia
 # akmods can print a failure and still return success, so verify module presence explicitly.
 if ! modinfo -k "$VER" nvidia >/dev/null 2>&1; then
     failed_log=$(find /var/cache/akmods/nvidia -maxdepth 1 -name "*for-${VER}.failed.log" | head -n 1 || true)
-    echo "ERROR: nvidia module was not built for kernel $VER"
-    if [ -n "$failed_log" ] && [ -f "$failed_log" ]; then
-        echo "----- BEGIN $failed_log -----"
-        cat "$failed_log"
-        echo "----- END $failed_log -----"
+    # In some container builders akmods fails when runuser cannot open a PAM session.
+    # Fall back to direct akmodsbuild as root for image-build environments.
+    if [ -n "$failed_log" ] && [ -f "$failed_log" ] && grep -q "runuser: cannot open session: Permission denied" "$failed_log"; then
+        echo "Detected runuser/PAM restriction while building akmods. Falling back to root akmodsbuild."
+        mkdir -p /tmp/akmods-results
+        rm -f /tmp/akmods-results/*.rpm
+
+        akmodsbuild --kernels "$VER" --outputdir /tmp/akmods-results --logfile /tmp/akmodsbuild-root.log /usr/src/akmods/nvidia-kmod.latest
+
+        mapfile -t built_rpms < <(find /tmp/akmods-results -type f -name '*.rpm' | grep -v debuginfo)
+        if [ "${#built_rpms[@]}" -eq 0 ]; then
+            echo "ERROR: akmodsbuild fallback produced no RPMs for kernel $VER"
+            [ -f /tmp/akmodsbuild-root.log ] && cat /tmp/akmodsbuild-root.log
+            exit 1
+        fi
+
+        dnf -y install --nogpgcheck --disablerepo='*' "${built_rpms[@]}"
     fi
-    exit 1
+
+    # Re-check after fallback attempt.
+    if modinfo -k "$VER" nvidia >/dev/null 2>&1; then
+        echo "NVIDIA module build recovered via akmodsbuild fallback."
+    else
+        echo "ERROR: nvidia module was not built for kernel $VER"
+        if [ -f /tmp/akmodsbuild-root.log ]; then
+            echo "----- BEGIN /tmp/akmodsbuild-root.log -----"
+            cat /tmp/akmodsbuild-root.log
+            echo "----- END /tmp/akmodsbuild-root.log -----"
+        fi
+        if [ -n "$failed_log" ] && [ -f "$failed_log" ]; then
+            echo "----- BEGIN $failed_log -----"
+            cat "$failed_log"
+            echo "----- END $failed_log -----"
+        fi
+        exit 1
+    fi
 fi
 
 # Step 6: Update module dependencies (depmod) to register the newly built NVIDIA module.
