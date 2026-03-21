@@ -28,13 +28,38 @@ dnf -y config-manager setopt rpmfusion-nonfree-updates.enabled=1
 # with standard DNF dependency resolution. We just need the akmod source files!
 cd /tmp
 dnf -y download --enablerepo=rpmfusion-nonfree-updates --enablerepo=rpmfusion-nonfree akmod-nvidia xorg-x11-drv-nvidia-kmodsrc
+dnf -y download --enablerepo=rpmfusion-nonfree-updates --enablerepo=rpmfusion-nonfree nvidia-kmod-common || true
 
 # Step 3: Force install the downloaded akmod RPMs while ignoring dependency checks.
 # We also use --noscripts to prevent RPM from running the %post install scriptlet.
 # The post-install script tries to background-build the module or hit OSTree hooks
 # which fail inside an immutable Podman build container. We will build it manually anyway.
 # Bazzite already has nvidia-kmod-common built-in.
-rpm -ivh --nodeps --noscripts akmod-nvidia-*.rpm xorg-x11-drv-nvidia-kmodsrc-*.rpm
+shopt -s nullglob
+akmod_rpms=(/tmp/akmod-nvidia-*.rpm)
+kmodsrc_rpms=(/tmp/xorg-x11-drv-nvidia-kmodsrc-*.rpm)
+kmod_common_rpms=(/tmp/nvidia-kmod-common-*.rpm)
+
+if [ "${#akmod_rpms[@]}" -eq 0 ] || [ "${#kmodsrc_rpms[@]}" -eq 0 ]; then
+    echo "ERROR: Required NVIDIA source RPMs were not downloaded to /tmp"
+    ls -1 /tmp/*nvidia*.rpm 2>/dev/null || true
+    exit 1
+fi
+
+base_rpms=("${akmod_rpms[@]}" "${kmodsrc_rpms[@]}")
+if [ "${#kmod_common_rpms[@]}" -gt 0 ]; then
+    base_rpms+=("${kmod_common_rpms[@]}")
+else
+    echo "WARNING: nvidia-kmod-common RPM was not downloaded; continuing with existing package set"
+fi
+
+rpm -Uvh --nodeps --noscripts "${base_rpms[@]}"
+shopt -u nullglob
+
+# Ensure nvidia-kmod-common exists for local kmod RPM dependency resolution.
+if ! rpm -q nvidia-kmod-common >/dev/null 2>&1; then
+    dnf -y install --setopt=install_weak_deps=False --enablerepo=rpmfusion-nonfree-updates --enablerepo=rpmfusion-nonfree nvidia-kmod-common || true
+fi
 
 # Step 4: Determine the newest installed kernel version from /lib/modules.
 mapfile -t module_dirs < <(find /lib/modules -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort -V)
@@ -61,13 +86,24 @@ akmods --force --kernels "$VER" --kmod nvidia
 if ! modinfo -k "$VER" nvidia >/dev/null 2>&1; then
     failed_log=$(find /var/cache/akmods/nvidia -maxdepth 1 -name "*for-${VER}.failed.log" | head -n 1 || true)
     # In some container builders akmods fails when runuser cannot open a PAM session.
-    # Fall back to direct akmodsbuild as root for image-build environments.
+    # Fall back to direct akmodsbuild as user 'akmods' without PAM session setup.
     if [ -n "$failed_log" ] && [ -f "$failed_log" ] && grep -q "runuser: cannot open session: Permission denied" "$failed_log"; then
-        echo "Detected runuser/PAM restriction while building akmods. Falling back to root akmodsbuild."
-        mkdir -p /tmp/akmods-results
-        rm -f /tmp/akmods-results/*.rpm
+        echo "Detected runuser/PAM restriction while building akmods. Falling back to non-PAM akmodsbuild as user akmods."
+        if ! command -v setpriv >/dev/null 2>&1; then
+            echo "ERROR: setpriv is required for non-PAM akmodsbuild fallback but is not available."
+            exit 1
+        fi
 
-        akmodsbuild --kernels "$VER" --outputdir /tmp/akmods-results --logfile /tmp/akmodsbuild-root.log /usr/src/akmods/nvidia-kmod.latest
+        mkdir -p /tmp/akmods-results
+        rm -f /tmp/akmods-results/*.rpm /tmp/akmodsbuild-root.log
+        chown -R akmods:akmods /tmp/akmods-results
+        touch /tmp/akmodsbuild-root.log
+        chown akmods:akmods /tmp/akmodsbuild-root.log
+
+        # akmodsbuild must run as a non-root user; setpriv avoids PAM/session requirements.
+        setpriv --reuid akmods --regid akmods --init-groups \
+            env HOME=/tmp USER=akmods LOGNAME=akmods \
+            akmodsbuild --kernels "$VER" --outputdir /tmp/akmods-results --logfile /tmp/akmodsbuild-root.log /usr/src/akmods/nvidia-kmod.latest
 
         mapfile -t built_rpms < <(find /tmp/akmods-results -type f -name '*.rpm' | grep -v debuginfo)
         if [ "${#built_rpms[@]}" -eq 0 ]; then
@@ -76,7 +112,18 @@ if ! modinfo -k "$VER" nvidia >/dev/null 2>&1; then
             exit 1
         fi
 
-        dnf -y install --nogpgcheck --disablerepo='*' "${built_rpms[@]}"
+        shopt -s nullglob
+        fallback_common_rpms=(/tmp/nvidia-kmod-common-*.rpm)
+        install_rpms=("${built_rpms[@]}")
+        if ! rpm -q nvidia-kmod-common >/dev/null 2>&1 && [ "${#fallback_common_rpms[@]}" -gt 0 ]; then
+            install_rpms=("${fallback_common_rpms[@]}" "${install_rpms[@]}")
+        fi
+
+        if ! dnf -y install --nogpgcheck --disablerepo='*' "${install_rpms[@]}"; then
+            echo "WARNING: DNF could not resolve local kmod dependencies; retrying with rpm --nodeps"
+            rpm -Uvh --nodeps "${install_rpms[@]}"
+        fi
+        shopt -u nullglob
     fi
 
     # Re-check after fallback attempt.
@@ -104,6 +151,6 @@ depmod -a "$VER"
 dracut --kver "$VER" --force --add ostree --no-hostonly --reproducible "/usr/lib/modules/$VER/initramfs.img"
 
 # Step 7: Clean up RPMs and disable RPMfusion so it doesn't try to auto-update on user systems.
-rm -f /tmp/akmod-nvidia-*.rpm /tmp/xorg-x11-drv-nvidia-kmodsrc-*.rpm
+rm -f /tmp/akmod-nvidia-*.rpm /tmp/xorg-x11-drv-nvidia-kmodsrc-*.rpm /tmp/nvidia-kmod-common-*.rpm
 dnf -y config-manager setopt rpmfusion-nonfree.enabled=0
 dnf -y config-manager setopt rpmfusion-nonfree-updates.enabled=0

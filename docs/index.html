@@ -413,15 +413,61 @@
             </div>
         </section>
 
+        <section id="workflow" class="py-20">
+            <div
+                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-10"
+            >
+                <div class="w-full lg:w-1/2">
+                    <h2 class="text-3xl font-bold text-white mb-4">
+                        Built for Daily Workflows
+                    </h2>
+                    <p class="text-gray-400 mb-6">
+                        ZephyrOS is tuned for day-to-day productivity with a
+                        polished desktop, curated apps, and a clean layout that
+                        feels ready from first boot.
+                    </p>
+                    <div class="space-y-3 text-gray-300">
+                        <div class="flex items-start">
+                            <i
+                                class="fa-solid fa-check w-5 h-5 text-zephyr-400 mt-1 mr-3 flex items-center justify-center"
+                            ></i>
+                            <span>Preconfigured desktop defaults and quality-of-life tools</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i
+                                class="fa-solid fa-check w-5 h-5 text-zephyr-400 mt-1 mr-3 flex items-center justify-center"
+                            ></i>
+                            <span>Many popular apps are available in the Flatpak store, Bazaar.</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i
+                                class="fa-solid fa-check w-5 h-5 text-zephyr-400 mt-1 mr-3 flex items-center justify-center"
+                            ></i>
+                            <span>A modern GNOME workspace that stays out of your way</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full lg:w-1/2">
+                    <img
+                        src="Screenshots/Work.png"
+                        alt="ZephyrOS productivity desktop with file manager and app store"
+                        class="rounded-xl shadow-2xl shadow-zephyr-500/20 border border-gray-700 w-full hover:scale-[1.02] transition-transform duration-500"
+                        loading="lazy"
+                    />
+                </div>
+            </div>
+        </section>
+
         <section id="developers" class="py-20 relative">
             <div
                 class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-12"
             >
                 <div class="w-full md:w-1/2">
                     <img
-                        src="ZephyrOSBackground.png"
-                        alt="ZephyrOS Dark Theme"
+                        src="Screenshots/Develop.png"
+                        alt="ZephyrOS development desktop with terminal, CI logs, and VS Code"
                         class="rounded-xl shadow-2xl shadow-zephyr-500/20 border border-gray-700 w-full hover:scale-[1.02] transition-transform duration-500"
+                        loading="lazy"
                     />
                 </div>
                 <div class="w-full md:w-1/2">
@@ -505,10 +551,17 @@
                     </p>
                 </div>
 
-                <div
-                    class="flex flex-col md:flex-row items-center gap-12 mb-16"
-                >
-                    <div class="w-full md:w-1/2">
+                <div class="max-w-5xl mx-auto mb-12">
+                    <img
+                        src="Screenshots/Games.png"
+                        alt="ZephyrOS gaming desktop showing Steam and Heroic launcher"
+                        class="rounded-2xl shadow-2xl shadow-red-500/20 border border-gray-700 w-full hover:scale-[1.01] transition-transform duration-500"
+                        loading="lazy"
+                    />
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                    <div class="lg:col-span-2">
                         <h3 class="text-2xl font-bold text-white mb-6">
                             Pre-Installed Gaming Stack
                         </h3>
@@ -517,11 +570,15 @@
                                 class="flex items-center p-4 rounded-xl glass-panel hover:border-zephyr-500/50 transition-colors"
                             >
                                 <div
-                                    class="w-10 h-10 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-4"
+                                    class="w-10 h-10 aspect-square shrink-0 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-4 overflow-hidden"
                                 >
-                                    <i
-                                        class="fa-brands fa-steam w-5 h-5 text-zephyr-300 flex items-center justify-center"
-                                    ></i>
+                                    <div
+                                        class="w-full h-full p-1 flex items-center justify-center"
+                                    >
+                                        <i
+                                            class="fa-brands fa-steam text-2xl text-zephyr-300"
+                                        ></i>
+                                    </div>
                                 </div>
                                 <div>
                                     <h4 class="text-white font-semibold">
@@ -536,13 +593,15 @@
                                 class="flex items-center p-4 rounded-xl glass-panel hover:border-zephyr-500/50 transition-colors"
                             >
                                 <div
-                                    class="w-10 h-10 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-5 overflow-hidden p-1"
+                                    class="w-10 h-10 aspect-square shrink-0 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-4 overflow-hidden"
                                 >
-                                    <img
-                                        src="https://lutris.net/static/images/logo.png"
-                                        alt="Lutris"
-                                        class="w-full h-full object-contain"
-                                    />
+                                    <div class="w-full h-full p-1">
+                                        <img
+                                            src="https://lutris.net/static/images/logo.png"
+                                            alt="Lutris"
+                                            class="w-full h-full object-contain"
+                                        />
+                                    </div>
                                 </div>
                                 <div>
                                     <h4 class="text-white font-semibold">
@@ -558,11 +617,15 @@
                                 class="flex items-center p-4 rounded-xl glass-panel hover:border-zephyr-500/50 transition-colors"
                             >
                                 <div
-                                    class="w-10 h-10 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-4 p-5 overflow-hidden"
+                                    class="w-10 h-10 aspect-square shrink-0 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-4 overflow-hidden"
                                 >
-                                    <i
-                                        class="fa-solid fa-atom w-5 h-5 text-zephyr-300 flex items-center justify-center"
-                                    ></i>
+                                    <div
+                                        class="w-full h-full p-1 flex items-center justify-center"
+                                    >
+                                        <i
+                                            class="fa-solid fa-atom text-2xl text-zephyr-300"
+                                        ></i>
+                                    </div>
                                 </div>
                                 <div>
                                     <h4 class="text-white font-semibold">
@@ -580,13 +643,15 @@
                                 class="flex items-center p-4 rounded-xl glass-panel hover:border-zephyr-500/50 transition-colors"
                             >
                                 <div
-                                    class="w-20 h-10 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-4 p-3"
+                                    class="w-10 h-10 aspect-square shrink-0 bg-zephyr-900/50 rounded-lg flex items-center justify-center mr-4 overflow-hidden"
                                 >
-                                    <img
-                                        src="https://app.lizardbyte.dev/Sunshine/assets/img/navbar-avatar.png"
-                                        alt="Sunshine"
-                                        class="w-full h-full object-contain w-10 h-10"
-                                    />
+                                    <div class="w-full h-full p-1">
+                                        <img
+                                            src="https://app.lizardbyte.dev/Sunshine/assets/img/navbar-avatar.png"
+                                            alt="Sunshine"
+                                            class="w-full h-full object-contain"
+                                        />
+                                    </div>
                                 </div>
                                 <div>
                                     <h4 class="text-white font-semibold">
@@ -602,11 +667,130 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                            <!-- Expand Your Library -->
+                            <div class="p-8 rounded-2xl glass-panel">
+                                <div class="flex items-center mb-6">
+                                    <div
+                                        class="w-12 h-12 bg-blue-900/50 rounded-lg flex items-center justify-center mr-4"
+                                    >
+                                        <i
+                                            class="fa-solid fa-download w-6 h-6 text-blue-400 flex items-center justify-center"
+                                        ></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-white">
+                                        Expand Your Library
+                                    </h3>
+                                </div>
+                                <p class="text-gray-400 mb-6">
+                                    Want even more? Install thousands of additional
+                                    games and emulators with ease.
+                                </p>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <i
+                                            class="fa-solid fa-store w-5 h-5 text-blue-400 mr-3 flex items-center justify-center"
+                                        ></i>
+                                        <span class="text-gray-300"
+                                            ><strong class="text-white">Flathub</strong>
+                                            — Thousands of games and emulators one click
+                                            away</span
+                                        >
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i
+                                            class="fa-solid fa-terminal w-5 h-5 text-blue-400 mr-3 flex items-center justify-center"
+                                        ></i>
+                                        <span class="text-gray-300"
+                                            ><strong class="text-white">ujust</strong> —
+                                            Quick install scripts for popular gaming
+                                            tools</span
+                                        >
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i
+                                            class="fa-solid fa-gamepad w-5 h-5 text-blue-400 mr-3 flex items-center justify-center"
+                                        ></i>
+                                        <span class="text-gray-300"
+                                            ><strong class="text-white"
+                                                >Emu-Deck</strong
+                                            >
+                                            — Get started with retro gaming and
+                                            emulation with one terminal command: ujust
+                                            install-emudeck</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Game Development -->
+                            <div class="p-8 rounded-2xl glass-panel">
+                                <div class="flex items-center mb-6">
+                                    <div
+                                        class="w-12 h-12 bg-orange-900/50 rounded-lg flex items-center justify-center mr-4"
+                                    >
+                                        <i
+                                            class="fa-solid fa-code w-6 h-6 text-orange-400 flex items-center justify-center"
+                                        ></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-white">
+                                        Create Your Own Games
+                                    </h3>
+                                </div>
+                                <p class="text-gray-400 mb-6">
+                                    Not just for playing—ZephyrOS comes ready for game
+                                    development too.
+                                </p>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <i
+                                            class="fa-solid fa-robot w-5 h-5 text-orange-400 mr-3 flex items-center justify-center"
+                                        ></i>
+                                        <span class="text-gray-300"
+                                            ><strong class="text-white"
+                                                >Godot Engine</strong
+                                            >
+                                            — Open-source 2D and 3D game engine</span
+                                        >
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i
+                                            class="fa-brands fa-unity w-5 h-5 text-orange-400 mr-3 flex items-center justify-center"
+                                        ></i>
+                                        <span class="text-gray-300"
+                                            ><strong class="text-white"
+                                                >Unity Hub</strong
+                                            >
+                                            — Manage Unity projects and versions</span
+                                        >
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i
+                                            class="fa-solid fa-cube w-5 h-5 text-orange-400 mr-3 flex items-center justify-center"
+                                        ></i>
+                                        <span class="text-gray-300"
+                                            ><strong class="text-white">Blender</strong>
+                                            — Industry-standard 3D creation suite</span
+                                        >
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i
+                                            class="fa-solid fa-code w-5 h-5 text-orange-400 mr-3 flex items-center justify-center"
+                                        ></i>
+                                        <span class="text-gray-300"
+                                            ><strong class="text-white">VSCode</strong>
+                                            — Industry-standard IDE/Text Editor</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="w-full md:w-1/2">
+                    <div>
                         <h3 class="text-2xl font-bold text-white mb-6">
-                            Zero Configuration Hardware
+                            Zero Hardware Configuration Needed
                         </h3>
                         <div class="space-y-6">
                             <div
@@ -645,6 +829,12 @@
                                         Hybrid Graphics
                                     </h4>
                                 </div>
+                                <img
+                                    src="controlCenter.png"
+                                    alt="ZephyrOS quick settings showing GPU mode switching options"
+                                    class="w-40 sm:w-48 rounded-lg border border-purple-500/20 mb-4"
+                                    loading="lazy"
+                                />
                                 <p class="text-gray-400">
                                     Hybrid laptops with Intel/AMD + NVIDIA just
                                     work. Switch between integrated and discrete
@@ -677,125 +867,6 @@
                     </div>
                 </div>
 
-                <!-- More Games & Game Development -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Expand Your Library -->
-                    <div class="p-8 rounded-2xl glass-panel">
-                        <div class="flex items-center mb-6">
-                            <div
-                                class="w-12 h-12 bg-blue-900/50 rounded-lg flex items-center justify-center mr-4"
-                            >
-                                <i
-                                    class="fa-solid fa-download w-6 h-6 text-blue-400 flex items-center justify-center"
-                                ></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-white">
-                                Expand Your Library
-                            </h3>
-                        </div>
-                        <p class="text-gray-400 mb-6">
-                            Want even more? Install thousands of additional
-                            games and emulators with ease.
-                        </p>
-                        <div class="space-y-3">
-                            <div class="flex items-center">
-                                <i
-                                    class="fa-solid fa-store w-5 h-5 text-blue-400 mr-3 flex items-center justify-center"
-                                ></i>
-                                <span class="text-gray-300"
-                                    ><strong class="text-white">Flathub</strong>
-                                    — Thousands of games and emulators one click
-                                    away</span
-                                >
-                            </div>
-                            <div class="flex items-center">
-                                <i
-                                    class="fa-solid fa-terminal w-5 h-5 text-blue-400 mr-3 flex items-center justify-center"
-                                ></i>
-                                <span class="text-gray-300"
-                                    ><strong class="text-white">ujust</strong> —
-                                    Quick install scripts for popular gaming
-                                    tools</span
-                                >
-                            </div>
-                            <div class="flex items-center">
-                                <i
-                                    class="fa-solid fa-gamepad w-5 h-5 text-blue-400 mr-3 flex items-center justify-center"
-                                ></i>
-                                <span class="text-gray-300"
-                                    ><strong class="text-white"
-                                        >Emu-Deck</strong
-                                    >
-                                    — Get started with retro gaming and
-                                    emulation with one terminal command: ujust
-                                    install-emudeck</span
-                                >
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Game Development -->
-                    <div class="p-8 rounded-2xl glass-panel">
-                        <div class="flex items-center mb-6">
-                            <div
-                                class="w-12 h-12 bg-orange-900/50 rounded-lg flex items-center justify-center mr-4"
-                            >
-                                <i
-                                    class="fa-solid fa-code w-6 h-6 text-orange-400 flex items-center justify-center"
-                                ></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-white">
-                                Create Your Own Games
-                            </h3>
-                        </div>
-                        <p class="text-gray-400 mb-6">
-                            Not just for playing—ZephyrOS comes ready for game
-                            development too.
-                        </p>
-                        <div class="space-y-3">
-                            <div class="flex items-center">
-                                <i
-                                    class="fa-solid fa-robot w-5 h-5 text-orange-400 mr-3 flex items-center justify-center"
-                                ></i>
-                                <span class="text-gray-300"
-                                    ><strong class="text-white"
-                                        >Godot Engine</strong
-                                    >
-                                    — Open-source 2D and 3D game engine</span
-                                >
-                            </div>
-                            <div class="flex items-center">
-                                <i
-                                    class="fa-brands fa-unity w-5 h-5 text-orange-400 mr-3 flex items-center justify-center"
-                                ></i>
-                                <span class="text-gray-300"
-                                    ><strong class="text-white"
-                                        >Unity Hub</strong
-                                    >
-                                    — Manage Unity projects and versions</span
-                                >
-                            </div>
-                            <div class="flex items-center">
-                                <i
-                                    class="fa-solid fa-cube w-5 h-5 text-orange-400 mr-3 flex items-center justify-center"
-                                ></i>
-                                <span class="text-gray-300"
-                                    ><strong class="text-white">Blender</strong>
-                                    — Industry-standard 3D creation suite</span
-                                >
-                            </div>
-                            <div class="flex items-center">
-                                <i
-                                    class="fa-solid fa-code w-5 h-5 text-orange-400 mr-3 flex items-center justify-center"
-                                ></i>
-                                <span class="text-gray-300"
-                                    ><strong class="text-white">VSCode</strong>
-                                    — Industry-standard IDE/Text Editor</span
-                                >
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
