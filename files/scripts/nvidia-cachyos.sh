@@ -10,58 +10,77 @@ for d in /tmp /var/tmp; do
 done
 export TMPDIR=/var/tmp
 
-# Step 0: Ensure the base module builder tools are installed.
-# Bazzite sometimes removes 'akmods' from the final image, plus RPMfusion's nvidia 
-# source needs 'kmodtool' to actually process the compilation.
+# Step 0: Ensure module build tools exist, but do not inject a second NVIDIA stack.
+# The base image already provides the NVIDIA userspace set; pulling a different
+# akmod stream with --nodeps can cause kmod/user-space skew.
 dnf -y install --setopt=install_weak_deps=False akmods kmodtool
 
-# Step 1: Enable the RPMFusion repositories explicitly.
-# We need these to get the raw akmod-nvidia tools.
-dnf -y install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-               https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+# Step 1: Ensure NVIDIA akmod sources are present.
+# Avoid RPMFusion NVIDIA packages here because they can conflict with Bazzite's
+# nvidia-driver-libs stack. Prefer the ublue-os/akmods COPR.
+need_akmod_src=0
+if [ ! -e /usr/src/akmods/nvidia-kmod.latest ]; then
+    need_akmod_src=1
+fi
 
-dnf -y config-manager setopt rpmfusion-nonfree.enabled=1
-dnf -y config-manager setopt rpmfusion-nonfree-updates.enabled=1
+if [ "$need_akmod_src" -eq 1 ]; then
+    echo "NVIDIA akmod sources missing; trying ublue-os/akmods COPR first."
+    dnf -y install --setopt=install_weak_deps=False dnf-plugins-core dnf5-plugins || true
+    dnf -y copr enable ublue-os/akmods || true
+    dnf -y install --setopt=install_weak_deps=False --skip-unavailable \
+        akmod-nvidia \
+        xorg-x11-drv-nvidia-kmodsrc \
+        nvidia-kmod-common || true
 
-# Step 2: Download the akmod-nvidia package without immediately resolving dependencies.
-# Bazzite has strictly versioned NVIDIA user-space libraries already installed, which conflicts
-# with standard DNF dependency resolution. We just need the akmod source files!
-cd /tmp
-dnf -y download --enablerepo=rpmfusion-nonfree-updates --enablerepo=rpmfusion-nonfree akmod-nvidia xorg-x11-drv-nvidia-kmodsrc
-dnf -y download --enablerepo=rpmfusion-nonfree-updates --enablerepo=rpmfusion-nonfree nvidia-kmod-common || true
+    # If COPR packages are unavailable, fall back to RPMFusion source RPMs only.
+    # We install only akmod sources with --nodeps/--noscripts to avoid replacing
+    # the base image's NVIDIA userspace stack.
+    if [ ! -e /usr/src/akmods/nvidia-kmod.latest ]; then
+        echo "ublue-os/akmods did not provide nvidia akmod sources; falling back to RPMFusion source RPMs."
+        dnf -y install \
+            https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+            https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+        dnf -y config-manager setopt rpmfusion-nonfree.enabled=1
+        dnf -y config-manager setopt rpmfusion-nonfree-updates.enabled=1
 
-# Step 3: Force install the downloaded akmod RPMs while ignoring dependency checks.
-# We also use --noscripts to prevent RPM from running the %post install scriptlet.
-# The post-install script tries to background-build the module or hit OSTree hooks
-# which fail inside an immutable Podman build container. We will build it manually anyway.
-# Bazzite already has nvidia-kmod-common built-in.
-shopt -s nullglob
-akmod_rpms=(/tmp/akmod-nvidia-*.rpm)
-kmodsrc_rpms=(/tmp/xorg-x11-drv-nvidia-kmodsrc-*.rpm)
-kmod_common_rpms=(/tmp/nvidia-kmod-common-*.rpm)
+        rm -f /tmp/akmod-nvidia-*.rpm /tmp/xorg-x11-drv-nvidia-kmodsrc-*.rpm /tmp/nvidia-kmod-common-*.rpm
+        cd /tmp
+        dnf -y download --enablerepo=rpmfusion-nonfree-updates --enablerepo=rpmfusion-nonfree \
+            akmod-nvidia xorg-x11-drv-nvidia-kmodsrc nvidia-kmod-common
 
-if [ "${#akmod_rpms[@]}" -eq 0 ] || [ "${#kmodsrc_rpms[@]}" -eq 0 ]; then
-    echo "ERROR: Required NVIDIA source RPMs were not downloaded to /tmp"
-    ls -1 /tmp/*nvidia*.rpm 2>/dev/null || true
+        shopt -s nullglob
+        akmod_rpms=(/tmp/akmod-nvidia-*.rpm)
+        kmodsrc_rpms=(/tmp/xorg-x11-drv-nvidia-kmodsrc-*.rpm)
+        common_rpms=(/tmp/nvidia-kmod-common-*.rpm)
+        if [ "${#akmod_rpms[@]}" -eq 0 ] || [ "${#kmodsrc_rpms[@]}" -eq 0 ]; then
+            echo "ERROR: Failed to download required NVIDIA source RPMs from RPMFusion"
+            ls -1 /tmp/*nvidia*.rpm 2>/dev/null || true
+            exit 1
+        fi
+
+        install_rpms=("${kmodsrc_rpms[@]}" "${akmod_rpms[@]}")
+        if [ "${#common_rpms[@]}" -gt 0 ]; then
+            install_rpms=("${common_rpms[@]}" "${install_rpms[@]}")
+        else
+            echo "WARNING: nvidia-kmod-common RPM not found in RPMFusion download; continuing with available source RPMs."
+        fi
+
+        rpm -Uvh --nodeps --noscripts "${install_rpms[@]}"
+        shopt -u nullglob
+
+        dnf -y config-manager setopt rpmfusion-nonfree.enabled=0
+        dnf -y config-manager setopt rpmfusion-nonfree-updates.enabled=0
+    fi
+fi
+
+if [ ! -e /usr/src/akmods/nvidia-kmod.latest ]; then
+    echo "ERROR: /usr/src/akmods/nvidia-kmod.latest is missing after install attempt."
+    echo "Available packages containing 'akmod' and 'nvidia':"
+    dnf -q repoquery '*akmod*nvidia*' || true
     exit 1
 fi
 
-base_rpms=("${akmod_rpms[@]}" "${kmodsrc_rpms[@]}")
-if [ "${#kmod_common_rpms[@]}" -gt 0 ]; then
-    base_rpms+=("${kmod_common_rpms[@]}")
-else
-    echo "WARNING: nvidia-kmod-common RPM was not downloaded; continuing with existing package set"
-fi
-
-rpm -Uvh --nodeps --noscripts "${base_rpms[@]}"
-shopt -u nullglob
-
-# Ensure nvidia-kmod-common exists for local kmod RPM dependency resolution.
-if ! rpm -q nvidia-kmod-common >/dev/null 2>&1; then
-    dnf -y install --setopt=install_weak_deps=False --enablerepo=rpmfusion-nonfree-updates --enablerepo=rpmfusion-nonfree nvidia-kmod-common || true
-fi
-
-# Step 4: Determine the newest installed kernel version from /lib/modules.
+# Step 2: Determine the newest installed kernel version from /lib/modules.
 mapfile -t module_dirs < <(find /lib/modules -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort -V)
 if [ "${#module_dirs[@]}" -gt 0 ]; then
     VER="${module_dirs[$((${#module_dirs[@]} - 1))]}"
@@ -79,7 +98,7 @@ if [ -z "$VER" ]; then
     exit 1
 fi
 
-# Step 5: Force akmods to build the NVIDIA kernel module for the detected CachyOS kernel.
+# Step 3: Force akmods to build the NVIDIA kernel module for the detected CachyOS kernel.
 akmods --force --kernels "$VER" --kmod nvidia
 
 # akmods can print a failure and still return success, so verify module presence explicitly.
@@ -120,8 +139,21 @@ if ! modinfo -k "$VER" nvidia >/dev/null 2>&1; then
         fi
 
         if ! dnf -y install --nogpgcheck --disablerepo='*' "${install_rpms[@]}"; then
-            echo "WARNING: DNF could not resolve local kmod dependencies; retrying with rpm --nodeps"
-            rpm -Uvh --nodeps "${install_rpms[@]}"
+            echo "WARNING: DNF could not resolve local kmod dependencies during fallback install."
+            echo "Installed NVIDIA package versions:"
+            rpm -q akmod-nvidia nvidia-kmod-common xorg-x11-drv-nvidia-kmodsrc || true
+            echo "Built RPM requirements:"
+            rpm -qpR "${install_rpms[@]}" || true
+
+            # If nvidia-kmod-common cannot be satisfied in this build root,
+            # still install the locally built kmod RPMs so the module exists
+            # for the target kernel in the immutable image.
+            if ! rpm -q nvidia-kmod-common >/dev/null 2>&1; then
+                echo "nvidia-kmod-common missing; installing local kmod RPMs with rpm --nodeps"
+                rpm -Uvh --nodeps "${built_rpms[@]}"
+            else
+                exit 1
+            fi
         fi
         shopt -u nullglob
     fi
@@ -145,12 +177,7 @@ if ! modinfo -k "$VER" nvidia >/dev/null 2>&1; then
     fi
 fi
 
-# Step 6: Update module dependencies (depmod) to register the newly built NVIDIA module.
+# Step 4: Update module dependencies (depmod) to register the newly built NVIDIA module.
 # Then, regenerate the initramfs (dracut) to ensure the NVIDIA drivers are loaded early during boot.
 depmod -a "$VER"
 dracut --kver "$VER" --force --add ostree --no-hostonly --reproducible "/usr/lib/modules/$VER/initramfs.img"
-
-# Step 7: Clean up RPMs and disable RPMfusion so it doesn't try to auto-update on user systems.
-rm -f /tmp/akmod-nvidia-*.rpm /tmp/xorg-x11-drv-nvidia-kmodsrc-*.rpm /tmp/nvidia-kmod-common-*.rpm
-dnf -y config-manager setopt rpmfusion-nonfree.enabled=0
-dnf -y config-manager setopt rpmfusion-nonfree-updates.enabled=0

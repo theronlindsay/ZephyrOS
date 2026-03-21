@@ -74,6 +74,17 @@ Choose the right ISO for your hardware:
 - **Automatic updates** with rollback support
 - **No telemetry**, privacy-first
 
+## NVIDIA Troubleshooting
+
+If the NVIDIA card is missing from `lspci` on a laptop image, the dGPU is usually power-gated by firmware/MUX mode instead of failing driver load.
+
+1. In BIOS/UEFI or Armoury Crate, switch graphics mode from `iGPU/Eco` to `Hybrid` or `Standard`, then reboot.
+2. On ZephyrOS NVIDIA Laptop, run `sudo envycontrol -s hybrid` and reboot.
+3. On ZephyrOS NVIDIA ASUS, verify mode with `supergfxctl -g` and set `Hybrid` mode if needed, then reboot.
+4. Re-check with `lspci | grep -Ei 'vga|3d|nvidia'` and `nvidia-smi`.
+
+If `lspci` still does not list NVIDIA after step 1, the device is still disabled at firmware level.
+
 ---
 
 ## 📦 Installation

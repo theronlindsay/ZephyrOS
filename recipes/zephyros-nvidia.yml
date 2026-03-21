@@ -36,6 +36,9 @@ modules:
   - type: script
     scripts:
       - select-fastest-mirror.sh
+      - cachyos-kernel.sh
+      - nvidia-cachyos.sh
+      - verify-nvidia-stack.sh
       - generate-machine-id.sh
       - generate-image-info-zephyros-nvidia.sh
   - type: dnf
@@ -92,7 +95,5 @@ modules:
   - type: script
     scripts:
       - apply-extension-settings.sh
-      - cachyos-kernel.sh
-      - nvidia-cachyos.sh
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
