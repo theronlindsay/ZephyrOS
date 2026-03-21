@@ -20,12 +20,18 @@ const GpuMenuToggle = GObject.registerClass(
       });
 
       this._addGpuMode("Integrated", [
+        "sh",
+        "-c",
         "asusctl armoury set dgpu_disable 1 && asusctl armoury set gpu_mux_mode 1",
       ]);
       this._addGpuMode("Hybrid", [
+        "sh",
+        "-c",
         "asusctl armoury set dgpu_disable 0 && asusctl armoury set gpu_mux_mode 1",
       ]);
       this._addGpuMode("NVIDIA", [
+        "sh",
+        "-c",
         "asusctl armoury set dgpu_disable 0 && asusctl armoury set gpu_mux_mode 0",
       ]);
 
@@ -40,9 +46,11 @@ const GpuMenuToggle = GObject.registerClass(
       const item = new PopupMenu.PopupMenuItem(modeName);
       item.connect("activate", async () => {
         this.subtitle = `Applying ${modeName}...`;
+        console.log(`[GPU Switcher] Starting to apply mode: ${modeName}`);
 
         try {
           const { stdout, stderr } = await this._runCommand(cmdArray);
+          console.log(`[GPU Switcher] Command finished for ${modeName}`);
           await this._refreshCurrentMode();
 
           const output = `${stdout}\n${stderr}`.trim();
@@ -50,12 +58,12 @@ const GpuMenuToggle = GObject.registerClass(
         } catch (error) {
           this.subtitle = "Mode apply failed";
           console.error(
-            `[GPU Switcher] Failed to set mode ${modeName}: ${error}`,
+            `[GPU Switcher] Failed to set mode ${modeName}: ${error}`
           );
           this._showOutputAndRestart(
             modeName,
             `Error: ${error.message || error}`,
-            false,
+            false
           );
         }
       });
@@ -63,65 +71,56 @@ const GpuMenuToggle = GObject.registerClass(
     }
 
     _showOutputAndRestart(modeName, output, success = true) {
+      console.log(`[GPU Switcher] Showing dialog for ${modeName}. Success: ${success}`);
       const dialog = new ModalDialog.ModalDialog();
 
       const title = success
         ? `${modeName} Mode Applied`
         : `${modeName} Mode Failed`;
+      
       const titleLabel = new St.Label({
         text: title,
-        style_class: "headline",
-        x_align: Clutter.ActorAlign.CENTER,
+        style_class: "headline"
       });
+      titleLabel.x_align = Clutter.ActorAlign.CENTER;
       dialog.contentLayout.add_child(titleLabel);
-
-      const outputBox = new St.BoxLayout({
-        vertical: true,
-        style_class: "run-dialog",
-        style:
-          "padding: 12px; background-color: rgba(0, 0, 0, 0.3); border-radius: 8px; margin: 12px 0;",
-      });
 
       const outputLabel = new St.Label({
         text: output || "No output",
-        style_class: "run-dialog-label",
-        style: "font-family: monospace; font-size: 10pt;",
+        style_class: "run-dialog-label"
       });
-      outputBox.add_child(outputLabel);
-      dialog.contentLayout.add_child(outputBox);
+      dialog.contentLayout.add_child(outputLabel);
 
       if (success) {
         const messageLabel = new St.Label({
           text: "A restart is required for the GPU mode change to take effect.",
-          x_align: Clutter.ActorAlign.CENTER,
-          style: "margin-top: 12px;",
         });
+        messageLabel.x_align = Clutter.ActorAlign.CENTER;
         dialog.contentLayout.add_child(messageLabel);
 
-        dialog.addButton({
-          label: "Restart Now",
-          action: () => {
-            dialog.close();
-            this._restartSystem();
+        dialog.setButtons([
+          {
+            label: "Restart Later",
+            action: () => dialog.close(),
+            key: Clutter.KEY_Escape,
           },
-          default: true,
-        });
-
-        dialog.addButton({
-          label: "Restart Later",
-          action: () => {
-            dialog.close();
-          },
-          key: Clutter.KEY_Escape,
-        });
+          {
+            label: "Restart Now",
+            action: () => {
+              dialog.close();
+              this._restartSystem();
+            },
+            default: true,
+          }
+        ]);
       } else {
-        dialog.addButton({
-          label: "Close",
-          action: () => {
-            dialog.close();
-          },
-          key: Clutter.KEY_Escape,
-        });
+        dialog.setButtons([
+          {
+            label: "Close",
+            action: () => dialog.close(),
+            key: Clutter.KEY_Escape,
+          }
+        ]);
       }
 
       dialog.open();

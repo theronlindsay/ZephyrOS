@@ -63,6 +63,7 @@ Choose the right ISO for your hardware:
 
 ### 🔧 Hardware Support
 
+- **CachyOS Kernel**: Increased performance and up-to-date asus-armoury drivers
 - **Hybrid Graphics**: Intel/AMD + NVIDIA laptops just work
 - **ASUS ROG/TUF**: Full support with asusctl & ROG Control Center
 - **Fan profiles, RGB control, performance modes** out of the box

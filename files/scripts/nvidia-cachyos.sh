@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -oue pipefail
 
+# Ensure akmods/rpmbuild can always write temporary build artifacts.
+# In some containerized builds these dirs can lose sticky-bit permissions.
+for d in /tmp /var/tmp; do
+    mkdir -p "$d"
+    chown root:root "$d"
+    chmod 1777 "$d"
+done
+export TMPDIR=/var/tmp
+
 # Step 0: Ensure the base module builder tools are installed.
 # Bazzite sometimes removes 'akmods' from the final image, plus RPMfusion's nvidia 
 # source needs 'kmodtool' to actually process the compilation.
@@ -27,8 +36,13 @@ dnf -y download --enablerepo=rpmfusion-nonfree-updates --enablerepo=rpmfusion-no
 # Bazzite already has nvidia-kmod-common built-in.
 rpm -ivh --nodeps --noscripts akmod-nvidia-*.rpm xorg-x11-drv-nvidia-kmodsrc-*.rpm
 
-# Step 4: Determine the kernel version that was installed earlier by cachyos-kernel.sh.
-VER=$(ls /lib/modules)
+# Step 4: Determine the newest installed kernel version from /lib/modules.
+mapfile -t module_dirs < <(find /lib/modules -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort -V)
+if [ "${#module_dirs[@]}" -gt 0 ]; then
+    VER="${module_dirs[$((${#module_dirs[@]} - 1))]}"
+else
+    VER=""
+fi
 
 echo "Detected Kernel Version: $VER"
 echo "Building nvidia kmod for kernel $VER..."
@@ -41,14 +55,26 @@ if [ -z "$VER" ]; then
 fi
 
 # Step 5: Force akmods to build the NVIDIA kernel module for the detected CachyOS kernel.
-akmods --force --kernels $VER --kmod nvidia
+akmods --force --kernels "$VER" --kmod nvidia
+
+# akmods can print a failure and still return success, so verify module presence explicitly.
+if ! modinfo -k "$VER" nvidia >/dev/null 2>&1; then
+    failed_log=$(find /var/cache/akmods/nvidia -maxdepth 1 -name "*for-${VER}.failed.log" | head -n 1 || true)
+    echo "ERROR: nvidia module was not built for kernel $VER"
+    if [ -n "$failed_log" ] && [ -f "$failed_log" ]; then
+        echo "----- BEGIN $failed_log -----"
+        cat "$failed_log"
+        echo "----- END $failed_log -----"
+    fi
+    exit 1
+fi
 
 # Step 6: Update module dependencies (depmod) to register the newly built NVIDIA module.
 # Then, regenerate the initramfs (dracut) to ensure the NVIDIA drivers are loaded early during boot.
-depmod -a $VER
-dracut --kver $VER --force --add ostree --no-hostonly --reproducible /usr/lib/modules/$VER/initramfs.img
+depmod -a "$VER"
+dracut --kver "$VER" --force --add ostree --no-hostonly --reproducible "/usr/lib/modules/$VER/initramfs.img"
 
 # Step 7: Clean up RPMs and disable RPMfusion so it doesn't try to auto-update on user systems.
-rm -f /tmp/*.rpm
+rm -f /tmp/akmod-nvidia-*.rpm /tmp/xorg-x11-drv-nvidia-kmodsrc-*.rpm
 dnf -y config-manager setopt rpmfusion-nonfree.enabled=0
 dnf -y config-manager setopt rpmfusion-nonfree-updates.enabled=0
