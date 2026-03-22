@@ -9,6 +9,12 @@ for d in /tmp /var/tmp; do
 done
 export TMPDIR=/var/tmp
 
+# Ensure akmods runtime directories exist in build containers.
+mkdir -p /var/log/akmods /var/cache/akmods
+touch /var/log/akmods/akmods.log
+chown -R root:root /var/log/akmods /var/cache/akmods
+chmod 0755 /var/log/akmods /var/cache/akmods
+
 # Install build helpers needed by akmods workflow.
 dnf -y install --setopt=install_weak_deps=False \
     dnf-plugins-core \
@@ -33,7 +39,7 @@ dnf -y install --setopt=install_weak_deps=False --setopt=tsflags=noscripts --ena
     xorg-x11-drv-nvidia-libs \
     xorg-x11-drv-nvidia-cuda \
     xorg-x11-drv-nvidia-kmodsrc \
-    nvidia-kmod-common \
+    xorg-x11-drv-nvidia-power \
     nvidia-modprobe \
     nvidia-persistenced
 
