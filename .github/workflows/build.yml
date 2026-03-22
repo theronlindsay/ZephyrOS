@@ -15,7 +15,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
   cancel-in-progress: true
 jobs:
-  # Stage 1: Base images (no dependencies on other ZephyrOS images)
+  # Stage 1: Build non-NVIDIA base first.
   bluebuild-base:
     name: Build Base Images
     runs-on: ubuntu-latest
@@ -28,7 +28,6 @@ jobs:
       matrix:
         recipe:
           - zephyros.yml
-          - zephyros-nvidia.yml
     steps:
       - name: Build Custom Image
         uses: blue-build/github-action@v1.10
@@ -39,10 +38,29 @@ jobs:
           pr_event_number: ${{ github.event.number }}
           maximize_build_space: true
 
-  # Stage 2: Laptop images (depend on base images)
+  # Stage 2: Build NVIDIA base image (depends on zephyros image existing).
+  bluebuild-nvidia-base:
+    name: Build NVIDIA Base Image
+    needs: bluebuild-base
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    steps:
+      - name: Build Custom Image
+        uses: blue-build/github-action@v1.10
+        with:
+          recipe: zephyros-nvidia.yml
+          cosign_private_key: ${{ secrets.SIGNING_SECRET }}
+          registry_token: ${{ github.token }}
+          pr_event_number: ${{ github.event.number }}
+          maximize_build_space: true
+
+  # Stage 3: Laptop images (depend on both base images)
   bluebuild-laptop:
     name: Build Laptop Images
-    needs: bluebuild-base
+    needs: bluebuild-nvidia-base
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -64,7 +82,7 @@ jobs:
           pr_event_number: ${{ github.event.number }}
           maximize_build_space: true
 
-  # Stage 3: ASUS images (depend on laptop images)
+  # Stage 4: ASUS images (depend on laptop images)
   bluebuild-asus:
     name: Build ASUS Images
     needs: bluebuild-laptop
@@ -89,7 +107,7 @@ jobs:
           pr_event_number: ${{ github.event.number }}
           maximize_build_space: true
 
-  # Stage 4: ISO generation (depends on all images being built/pushed)
+  # Stage 5: ISO generation (depends on all images being built/pushed)
   build-iso:
     name: Build ISOs
     needs: bluebuild-asus
