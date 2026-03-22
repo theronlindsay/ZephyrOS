@@ -24,9 +24,10 @@ dnf -y install \
 dnf -y config-manager setopt rpmfusion-nonfree.enabled=1
 dnf -y config-manager setopt rpmfusion-nonfree-updates.enabled=1
 
-# Install complete NVIDIA stack from the same repository family.
+# Install NVIDIA userspace + kmod source dependencies from one repository family.
+# We install akmod-nvidia separately with --noscripts because its %post tries to
+# build as root, which fails in image build containers.
 dnf -y install --setopt=install_weak_deps=False --enablerepo=rpmfusion-nonfree --enablerepo=rpmfusion-nonfree-updates \
-    akmod-nvidia \
     xorg-x11-drv-nvidia \
     xorg-x11-drv-nvidia-libs \
     xorg-x11-drv-nvidia-cuda \
@@ -34,6 +35,18 @@ dnf -y install --setopt=install_weak_deps=False --enablerepo=rpmfusion-nonfree -
     nvidia-kmod-common \
     nvidia-modprobe \
     nvidia-persistenced
+
+cd /tmp
+rm -f /tmp/akmod-nvidia-*.rpm
+dnf -y download --enablerepo=rpmfusion-nonfree --enablerepo=rpmfusion-nonfree-updates akmod-nvidia
+shopt -s nullglob
+akmod_rpms=(/tmp/akmod-nvidia-*.rpm)
+if [ "${#akmod_rpms[@]}" -eq 0 ]; then
+    echo "ERROR: Failed to download akmod-nvidia package"
+    exit 1
+fi
+rpm -Uvh --noscripts "${akmod_rpms[@]}"
+shopt -u nullglob
 
 # Build for newest installed kernel (CachyOS kernel comes from cachyos-kernel.sh).
 mapfile -t module_dirs < <(find /lib/modules -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort -V)
