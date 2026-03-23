@@ -9,11 +9,6 @@ fi
 
 akmod_ev="$(rpm -q --qf '%{EPOCHNUM}:%{VERSION}\n' akmod-nvidia)"
 
-if [ ! -f /etc/modprobe.d/blacklist-nouveau.conf ]; then
-    echo "ERROR: /etc/modprobe.d/blacklist-nouveau.conf is missing"
-    exit 1
-fi
-
 mapfile -t module_dirs < <(find /lib/modules -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort -V)
 if [ "${#module_dirs[@]}" -eq 0 ]; then
     echo "ERROR: no kernel modules found in /lib/modules"
