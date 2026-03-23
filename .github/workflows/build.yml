@@ -28,6 +28,7 @@ jobs:
       matrix:
         recipe:
           - zephyros.yml
+          - zephyros-console.yml
     steps:
       - name: Build Custom Image
         uses: blue-build/github-action@v1.10
@@ -38,20 +39,26 @@ jobs:
           pr_event_number: ${{ github.event.number }}
           maximize_build_space: true
 
-  # Stage 2: Build NVIDIA base image (depends on zephyros image existing).
+  # Stage 2: Build NVIDIA base images (depend on AMD/Intel base images).
   bluebuild-nvidia-base:
-    name: Build NVIDIA Base Image
+    name: Build NVIDIA Base Images
     needs: bluebuild-base
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
       id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        recipe:
+          - zephyros-nvidia.yml
+          - zephyros-nvidia-console.yml
     steps:
       - name: Build Custom Image
         uses: blue-build/github-action@v1.10
         with:
-          recipe: zephyros-nvidia.yml
+          recipe: ${{ matrix.recipe }}
           cosign_private_key: ${{ secrets.SIGNING_SECRET }}
           registry_token: ${{ github.token }}
           pr_event_number: ${{ github.event.number }}
@@ -118,7 +125,9 @@ jobs:
       matrix:
         image:
           - name: zephyros
+          - name: zephyros-console
           - name: zephyros-nvidia
+          - name: zephyros-nvidia-console
           - name: zephyros-laptop
           - name: zephyros-nvidia-laptop
           - name: zephyros-asus

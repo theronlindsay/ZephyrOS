@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+# image will be published to ghcr.io/<user>/<name>
+name: zephyros-nvidia-console
+# description will be included in the image's metadata
+description: Nvidia GPUs (console edition), opinionated, and more beginner friendly version of bazzite-dx
+
+# the base image to build on top of (FROM) and the version tag to use
+base-image: ghcr.io/theronlindsay/zephyros-console
+image-version: latest # latest is also supported if you want new updates ASAP
+
+# module configuration, executed in order
+# you can include multiple instances of the same module
+modules:
+  - type: os-release
+    properties:
+      VARIANT_ID: zephyros-nvidia-console
+      IMAGE_ID: zephyros-nvidia-console
+  - type: script
+    scripts:
+      - nvidia-cachyos.sh
+      - verify-nvidia-stack.sh
+      - generate-image-info-zephyros-nvidia-console.sh
+
+  - type: signing # this sets up the proper policy & signing files for signed images to work fully

@@ -25,10 +25,16 @@ modules:
       packages:
         - asusctl
         - asusctl-rog-gui
-
+        - supergfxctl
   - type: script
     scripts:
       - generate-image-info-zephyros-asus.sh
+  - type: gnome-extensions
+    install:
+      - GPU Supergfxctl Switch
+    remove:
+      - GPU Profile Selector
+      # Add extension IDs from extensions.gnome.org
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
 

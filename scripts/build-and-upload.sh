@@ -33,11 +33,13 @@ declare -A RECIPES=(
 )
 
 # Build order matters due to dependencies
-# Stage 1: Base images (no dependencies)
-BASE_RECIPES=("zephyros.yml" "zephyros-nvidia.yml" "zephyros-console.yml" "zephyros-nvidia-console.yml")
-# Stage 2: Laptop images (depend on base)
+# Stage 1: AMD/Intel base images (no dependencies)
+BASE_RECIPES=("zephyros.yml" "zephyros-console.yml")
+# Stage 2: NVIDIA base images (depend on Stage 1)
+NVIDIA_BASE_RECIPES=("zephyros-nvidia.yml" "zephyros-nvidia-console.yml")
+# Stage 3: Laptop images (depend on Stage 2)
 LAPTOP_RECIPES=("zephyros-laptop.yml" "zephyros-nvidia-laptop.yml")
-# Stage 3: ASUS images (depend on laptop)
+# Stage 4: ASUS images (depend on Stage 3)
 ASUS_RECIPES=("zephyros-asus.yml" "zephyros-nvidia-asus.yml")
 
 # Colors for output
@@ -177,18 +179,24 @@ build_all_isos() {
     local failed_stages=()
     
     # Build in dependency order
-    # Stage 1: Base images (can all build in parallel)
+    # Stage 1: AMD/Intel base images
     if ! build_stage "Base Images" "${BASE_RECIPES[@]}"; then
         failed_stages+=("Base")
-        log_error "Base images failed - laptop/ASUS images will likely fail too"
+        log_error "Base images failed - NVIDIA/laptop/ASUS images will likely fail too"
+    fi
+
+    # Stage 2: NVIDIA base images (depend on base)
+    if ! build_stage "NVIDIA Base Images" "${NVIDIA_BASE_RECIPES[@]}"; then
+        failed_stages+=("NVIDIA Base")
+        log_error "NVIDIA base images failed - NVIDIA laptop/ASUS images may fail too"
     fi
     
-    # Stage 2: Laptop images (depend on base)
+    # Stage 3: Laptop images (depend on both base tiers)
     if ! build_stage "Laptop Images" "${LAPTOP_RECIPES[@]}"; then
         failed_stages+=("Laptop")
     fi
     
-    # Stage 3: ASUS images (depend on laptop)
+    # Stage 4: ASUS images (depend on laptop)
     if ! build_stage "ASUS Images" "${ASUS_RECIPES[@]}"; then
         failed_stages+=("ASUS")
     fi
@@ -310,12 +318,17 @@ main() {
             echo "  ${recipe} -> ${RECIPES[$recipe]}.iso"
         done
         echo ""
-        echo "Laptop images (Stage 2):"
+        echo "NVIDIA base images (Stage 2):"
+        for recipe in "${NVIDIA_BASE_RECIPES[@]}"; do
+            echo "  ${recipe} -> ${RECIPES[$recipe]}.iso"
+        done
+        echo ""
+        echo "Laptop images (Stage 3):"
         for recipe in "${LAPTOP_RECIPES[@]}"; do
             echo "  ${recipe} -> ${RECIPES[$recipe]}.iso"
         done
         echo ""
-        echo "ASUS images (Stage 3):"
+        echo "ASUS images (Stage 4):"
         for recipe in "${ASUS_RECIPES[@]}"; do
             echo "  ${recipe} -> ${RECIPES[$recipe]}.iso"
         done

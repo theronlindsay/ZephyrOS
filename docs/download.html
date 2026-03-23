@@ -6,7 +6,7 @@
         <meta name="color-scheme" content="dark only" />
         <meta
             name="description"
-            content="Download ZephyrOS - The Linux distribution optimized for Asus gaming laptops, developers, and gamers. Choose from Standard, Nvidia, and Asus editions."
+            content="Download ZephyrOS - Choose between desktop, laptop, ASUS, and console-focused gaming images with CachyOS kernel and Steam Big Picture support."
         />
         <meta
             name="keywords"
@@ -22,7 +22,7 @@
         />
         <meta
             property="og:description"
-            content="Select the perfect ZephyrOS edition for your hardware. Optimized for Asus ROG/TUF, Nvidia GPUs, and Laptops."
+            content="Select the perfect ZephyrOS edition for your hardware, including console-focused images with CachyOS kernel and Steam Big Picture support."
         />
         <meta
             property="og:image"
@@ -41,7 +41,7 @@
         />
         <meta
             property="twitter:description"
-            content="Select the perfect ZephyrOS edition for your hardware. Optimized for Asus ROG/TUF, Nvidia GPUs, and Laptops."
+            content="Select the perfect ZephyrOS edition for your hardware, including console-focused images with CachyOS kernel and Steam Big Picture support."
         />
         <meta
             property="twitter:image"
@@ -263,6 +263,12 @@
                         Answer a few questions to find the right ISO for your
                         system.
                     </p>
+                    <p class="mt-4 text-sm text-gray-500">
+                        Console-focused images are tuned for gaming with the
+                        CachyOS kernel and Steam Big Picture support. NVIDIA
+                        console builds are currently marked experimental due to
+                        known bugs.
+                    </p>
                 </div>
 
                 <div
@@ -356,22 +362,24 @@
                                         <i
                                             class="fa-solid fa-laptop w-5 h-5 text-zephyr-400 mr-2 flex items-center justify-center"
                                         ></i>
-                                        What type of device are you using?
+                                        Which device best matches your setup?
                                     </span>
                                 </label>
                                 <select
-                                    id="device-select"
+                                    id="device-profile-select"
                                     class="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-3 pr-10 cursor-pointer hover:border-gray-500 transition-colors"
                                 >
                                     <option value="">
-                                        Select your device...
+                                        Select your setup...
                                     </option>
-                                    <option value="desktop">Desktop PC</option>
                                     <option value="laptop">Laptop</option>
+                                    <option value="htpc">HTPC</option>
+                                    <option value="handheld">Handheld</option>
+                                    <option value="desktop">Desktop PC</option>
                                 </select>
                                 <p class="text-sm text-gray-500">
-                                    Laptop images include optimized
-                                    sleep/hibernate and battery settings.
+                                    HTPC and handheld paths use the
+                                    console-focused image for your GPU family.
                                 </p>
                             </div>
 
@@ -399,7 +407,7 @@
                                         Yes, ASUS ROG/TUF laptop
                                     </option>
                                     <option value="no">
-                                        No, different brand or desktop
+                                        No, different brand
                                     </option>
                                 </select>
                                 <p class="text-sm text-gray-500">
@@ -452,6 +460,22 @@
                                             class="block bg-gray-900 rounded-lg px-4 py-2 text-sm text-gray-300 font-mono"
                                             >zephyros-stable.iso</code
                                         >
+                                    </div>
+
+                                    <div
+                                        id="nvidia-console-warning"
+                                        class="hidden bg-amber-950/40 border border-amber-500/40 rounded-xl p-4 mb-6 text-left"
+                                    >
+                                        <p class="text-amber-300 font-semibold">
+                                            NVIDIA Console Warning
+                                        </p>
+                                        <p class="text-amber-200 text-sm mt-1">
+                                            The NVIDIA console edition is
+                                            experimental and has known bugs.
+                                            If stability is critical, prefer
+                                            standard NVIDIA desktop/laptop
+                                            images for now.
+                                        </p>
                                     </div>
 
                                     <div
@@ -654,8 +678,13 @@
 
         <script>
             const graphicsSelect = document.getElementById("graphics-select");
-            const deviceSelect = document.getElementById("device-select");
+            const deviceProfileSelect = document.getElementById(
+                "device-profile-select",
+            );
             const asusSelect = document.getElementById("asus-select");
+            const nvidiaConsoleWarning = document.getElementById(
+                "nvidia-console-warning",
+            );
 
             const step1 = document.getElementById("step1");
             const step2 = document.getElementById("step2");
@@ -710,6 +739,20 @@
                     filename: "zephyros-nvidia-asus-stable.iso",
                     link: baseUrl + "zephyros-nvidia-asus-stable.iso",
                 },
+                "zephyros-console": {
+                    name: "ZephyrOS Console",
+                    description:
+                        "Console-focused AMD/Intel image with CachyOS kernel and Steam Big Picture support",
+                    filename: "zephyros-console-stable.iso",
+                    link: baseUrl + "zephyros-console-stable.iso",
+                },
+                "zephyros-nvidia-console": {
+                    name: "ZephyrOS NVIDIA Console",
+                    description:
+                        "Console-focused NVIDIA image with CachyOS kernel and Steam Big Picture support (experimental)",
+                    filename: "zephyros-nvidia-console-stable.iso",
+                    link: baseUrl + "zephyros-nvidia-console-stable.iso",
+                },
             };
 
             function updateStepIndicators(currentStep) {
@@ -738,12 +781,21 @@
                 document.getElementById("download-link").href = config.link;
                 document.getElementById("checksum-link").href =
                     config.link + "-CHECKSUM";
+                if (isoKey === "zephyros-nvidia-console") {
+                    nvidiaConsoleWarning.classList.remove("hidden");
+                } else {
+                    nvidiaConsoleWarning.classList.add("hidden");
+                }
 
                 result.classList.remove("hidden");
                 result.classList.add("fade-in");
 
                 // Mark all steps as completed
-                [step1Indicator, step2Indicator, step3Indicator].forEach(
+                [
+                    step1Indicator,
+                    step2Indicator,
+                    step3Indicator,
+                ].forEach(
                     (ind) => {
                         ind.classList.remove("active");
                         ind.classList.add("completed");
@@ -753,31 +805,37 @@
 
             function determineISO() {
                 const graphics = graphicsSelect.value;
-                const device = deviceSelect.value;
+                const profile = deviceProfileSelect.value;
                 const asus = asusSelect.value;
 
+                if (!graphics) {
+                    return null;
+                }
+
+                if (profile === "handheld" || profile === "htpc") {
+                    return graphics === "nvidia"
+                        ? "zephyros-nvidia-console"
+                        : "zephyros-console";
+                }
+
                 if (graphics === "amd-intel") {
-                    if (device === "laptop") {
-                        // AMD/Intel laptop path
+                    if (profile === "laptop") {
                         if (asus === "yes") {
                             return "zephyros-asus";
-                        } else {
+                        } else if (asus === "no") {
                             return "zephyros-laptop";
                         }
-                    } else {
-                        // Desktop path
+                    } else if (profile === "desktop") {
                         return "zephyros";
                     }
                 } else if (graphics === "nvidia") {
-                    if (device === "laptop") {
-                        // NVIDIA laptop path
+                    if (profile === "laptop") {
                         if (asus === "yes") {
                             return "zephyros-nvidia-asus";
-                        } else {
+                        } else if (asus === "no") {
                             return "zephyros-nvidia-laptop";
                         }
-                    } else {
-                        // Desktop path
+                    } else if (profile === "desktop") {
                         return "zephyros-nvidia";
                     }
                 }
@@ -786,13 +844,14 @@
 
             graphicsSelect.addEventListener("change", function () {
                 result.classList.add("hidden");
+                nvidiaConsoleWarning.classList.add("hidden");
 
                 if (this.value) {
-                    // Show device question
+                    // Show device profile question
                     step2.classList.remove("hidden");
                     step2.classList.add("fade-in");
                     step3.classList.add("hidden");
-                    deviceSelect.value = "";
+                    deviceProfileSelect.value = "";
                     asusSelect.value = "";
                     updateStepIndicators(2);
                 } else {
@@ -802,22 +861,24 @@
                 }
             });
 
-            deviceSelect.addEventListener("change", function () {
+            deviceProfileSelect.addEventListener("change", function () {
                 result.classList.add("hidden");
+                nvidiaConsoleWarning.classList.add("hidden");
 
                 if (this.value === "laptop") {
-                    // Laptop - go to ASUS question
                     step3.classList.remove("hidden");
                     step3.classList.add("fade-in");
                     asusSelect.value = "";
                     updateStepIndicators(3);
-                } else if (this.value === "desktop") {
-                    // Desktop - show result immediately
-                    asusSelect.value = "no";
-                    const isoKey = determineISO();
-                    if (isoKey) {
-                        showResult(isoKey);
-                    }
+                    return;
+                }
+
+                step3.classList.add("hidden");
+                asusSelect.value = "";
+                updateStepIndicators(2);
+                const isoKey = determineISO();
+                if (isoKey) {
+                    showResult(isoKey);
                 }
             });
 
@@ -832,11 +893,12 @@
 
             function resetSelection() {
                 graphicsSelect.value = "";
-                deviceSelect.value = "";
+                deviceProfileSelect.value = "";
                 asusSelect.value = "";
                 step2.classList.add("hidden");
                 step3.classList.add("hidden");
                 result.classList.add("hidden");
+                nvidiaConsoleWarning.classList.add("hidden");
                 updateStepIndicators(1);
             }
 
