@@ -21,18 +21,17 @@ modules:
     repos:
       copr:
         - lukenukem/asus-linux
+        - sunwire/envycontrol
     install:
       packages:
         - asusctl
         - asusctl-rog-gui
-        - supergfxctl
+        - python3-envycontrol
   - type: script
     scripts:
       - generate-image-info-zephyros-nvidia-asus.sh
   - type: gnome-extensions
     install:
-      - GPU Supergfxctl Switch
-    uninstall:
       - GPU Profile Selector
       # Add extension IDs from extensions.gnome.org
 
