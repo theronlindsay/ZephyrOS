@@ -21,17 +21,17 @@ const GpuMenuToggle = GObject.registerClass(
 
       this._addGpuMode("Integrated", [
         "sudo",
-        "/usr/local/sbin/asus-gpu-mode",
+        "/usr/bin/asus-gpu-mode",
         "integrated",
       ]);
       this._addGpuMode("Hybrid", [
         "sudo",
-        "/usr/local/sbin/asus-gpu-mode",
+        "/usr/bin/asus-gpu-mode",
         "hybrid",
       ]);
       this._addGpuMode("NVIDIA", [
         "sudo",
-        "/usr/local/sbin/asus-gpu-mode",
+        "/usr/bin/asus-gpu-mode",
         "nvidia",
       ]);
 
