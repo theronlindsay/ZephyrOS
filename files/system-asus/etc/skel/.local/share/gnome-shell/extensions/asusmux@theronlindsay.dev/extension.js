@@ -20,19 +20,19 @@ const GpuMenuToggle = GObject.registerClass(
       });
 
       this._addGpuMode("Integrated", [
-        "sh",
-        "-c",
-        "asusctl armoury set dgpu_disable 1 && asusctl armoury set gpu_mux_mode 1",
+        "sudo",
+        "/usr/local/sbin/asus-gpu-mode",
+        "integrated",
       ]);
       this._addGpuMode("Hybrid", [
-        "sh",
-        "-c",
-        "asusctl armoury set dgpu_disable 0 && asusctl armoury set gpu_mux_mode 1",
+        "sudo",
+        "/usr/local/sbin/asus-gpu-mode",
+        "hybrid",
       ]);
       this._addGpuMode("NVIDIA", [
-        "sh",
-        "-c",
-        "asusctl armoury set dgpu_disable 0 && asusctl armoury set gpu_mux_mode 0",
+        "sudo",
+        "/usr/local/sbin/asus-gpu-mode",
+        "nvidia",
       ]);
 
       this.menu.connect("open-state-changed", (_menu, isOpen) => {

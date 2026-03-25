@@ -17,6 +17,10 @@ modules:
     properties:
       VARIANT_ID: zephyros-asus
       IMAGE_ID: zephyros-asus
+  - type: files
+    files:
+      - source: system-asus
+        destination: / # ASUS-only extension and helper config
   - type: dnf
     repos:
       copr:
@@ -25,13 +29,9 @@ modules:
       packages:
         - asusctl
         - asusctl-rog-gui
-        - supergfxctl
   - type: script
     scripts:
       - generate-image-info-zephyros-asus.sh
-  - type: gnome-extensions
-    install:
-      - GPU Supergfxctl Switch
       # Add extension IDs from extensions.gnome.org
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully

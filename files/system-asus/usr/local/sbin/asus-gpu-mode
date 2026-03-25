@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DGPU_DISABLE_PATH="/sys/class/firmware-attributes/asus-armoury/attributes/dgpu_disable/current_value"
+GPU_MUX_MODE_PATH="/sys/class/firmware-attributes/asus-armoury/attributes/gpu_mux_mode/current_value"
+
+usage() {
+  echo "Usage: $0 {integrated|hybrid|dedicated|nvidia}" >&2
+  exit 2
+}
+
+write_value() {
+  local value="$1"
+  local path="$2"
+
+  if [[ ! -w "$path" ]]; then
+    echo "Cannot write to $path" >&2
+    exit 1
+  fi
+
+  printf "%s\n" "$value" >"$path"
+}
+
+mode="${1:-}"
+
+case "$mode" in
+  integrated)
+    write_value 1 "$DGPU_DISABLE_PATH"
+    write_value 1 "$GPU_MUX_MODE_PATH"
+    ;;
+  hybrid)
+    write_value 0 "$DGPU_DISABLE_PATH"
+    write_value 1 "$GPU_MUX_MODE_PATH"
+    ;;
+  dedicated|nvidia)
+    write_value 0 "$DGPU_DISABLE_PATH"
+    write_value 0 "$GPU_MUX_MODE_PATH"
+    ;;
+  *)
+    usage
+    ;;
+esac
+
+echo "Applied GPU mode: $mode"

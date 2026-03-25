@@ -1,0 +1,2 @@
+# Allow GPU mode switching helper without a password prompt.
+%wheel ALL=(root) NOPASSWD: /usr/local/sbin/asus-gpu-mode integrated, /usr/local/sbin/asus-gpu-mode hybrid, /usr/local/sbin/asus-gpu-mode dedicated, /usr/local/sbin/asus-gpu-mode nvidia
