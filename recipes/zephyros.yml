@@ -83,6 +83,7 @@ modules:
           title: zephyros
         install:
           - buzz.zephyros.hello
+          - buzz.zephyros.treetrimmer
       - scope: user # Also add Flathub user repo, but no user packages
   - type: gnome-extensions
     install:
