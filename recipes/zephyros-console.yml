@@ -52,10 +52,8 @@ modules:
         - meson
         - ninja-build
         - pkgconf-pkg-config
-        - brave-browser
         - podman-compose
         - papirus-icon-theme
-        - unityhub
     remove:
       packages:
         # example: removing firefox (in favor of the flatpak)
