@@ -42,7 +42,7 @@ Recipes in [recipes/](recipes/) follow BlueBuild schema. Module execution order 
 bash <(curl -s https://raw.githubusercontent.com/blue-build/cli/main/install.sh)
 
 # Build ISO from recipe
-sudo bluebuild generate-iso --iso-name ZephyrOS-nvidia-gnome.iso recipe recipes/zephyros-nvidia.yml
+bluebuild generate-iso --iso-name ZephyrOS-nvidia-gnome.iso recipe recipes/zephyros-nvidia.yml
 ```
 
 ## File Conventions
@@ -69,5 +69,5 @@ ZephyrOS uses a custom Flatpak repo at `https://repo.zephyros.buzz` for apps lik
 ## Hardware-Specific Features
 
 - **ASUS laptops**: `asusctl` and ROG Control Center via `lukenukem/asus-linux` COPR
-- **Hybrid graphics**: `envycontrol` via `sunwire/envycontrol` COPR + GPU Profile Selector extension
+- **Hybrid graphics**: `envycontrol` via `sunwire/envycontrol` COPR in `zephyros-nvidia-laptop` + GPU Profile Selector extension
 - **Hibernation**: Configured via [setupHibernate.sh](files/system/usr/local/sbin/setupHibernate.sh), uses btrfs swapfile with RAM+4GB size

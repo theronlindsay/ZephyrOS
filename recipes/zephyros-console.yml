@@ -44,9 +44,16 @@ modules:
     repos:
       copr:
         - quadratech188/vicinae
+        - bieszczaders/kernel-cachyos
+        - bieszczaders/kernel-cachyos-addons
+        - ublue-os/akmods
     install:
       packages:
         - vicinae
+        - akmods
+        - ublue-os-akmods-addons
+        - scx-manager
+        - cachyos-settings
         - gcc
         - gcc-c++
         - meson
@@ -60,6 +67,7 @@ modules:
         # "firefox" is the main package, "firefox-langpacks" is a dependency
         - firefox
         - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
+        - zram-generator-defaults
   - type: default-flatpaks
     configurations:
       - notify: true # Send notification after install/uninstall is finished (true/false)
@@ -92,7 +100,7 @@ modules:
       # Add extension IDs from extensions.gnome.org
   - type: script
     scripts:
+      - install-cachyos-kernel.sh
       - apply-extension-settings.sh
-      - cachyos-kernel.sh
 
   - type: signing # this sets up the proper policy & signing files for signed images to work fully

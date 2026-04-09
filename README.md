@@ -90,7 +90,7 @@ If the NVIDIA card is missing from `lspci` on a laptop image, the dGPU is usuall
 
 1. In BIOS/UEFI or Armoury Crate, switch graphics mode from `iGPU/Eco` to `Hybrid` or `Standard`, then reboot.
 2. On ZephyrOS NVIDIA Laptop, run `sudo envycontrol -s hybrid` and reboot.
-3. On ZephyrOS NVIDIA ASUS, verify mode with `supergfxctl -g` and set `Hybrid` mode if needed, then reboot.
+3. On ZephyrOS NVIDIA ASUS, verify the mode with `asusctl armoury list` and set Hybrid with `sudo asus-gpu-mode hybrid`, then reboot.
 4. Re-check with `lspci | grep -Ei 'vga|3d|nvidia'` and `nvidia-smi`.
 
 If `lspci` still does not list NVIDIA after step 1, the device is still disabled at firmware level.
@@ -234,13 +234,13 @@ bash <(curl -s https://raw.githubusercontent.com/blue-build/cli/main/install.sh)
 **Generate an ISO:**
 
 ```bash
-sudo bluebuild generate-iso --iso-name ZephyrOS.iso recipe recipes/zephyros.yml
+bluebuild generate-iso --iso-name ZephyrOS.iso recipe recipes/zephyros.yml
 ```
 
 **Generate an ISO from repo:**
 
 ```bash
-sudo bluebuild generate-iso --iso-name ZephyrOS.iso image ghcr.io/theronlindsay/zephyros
+bluebuild generate-iso --iso-name ZephyrOS.iso image ghcr.io/theronlindsay/zephyros
 ```
 
 

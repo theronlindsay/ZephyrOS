@@ -5,3 +5,4 @@ cosign.private
 *.iso
 *.iso-CHECKSUM
 iso-output
+.bb-logs

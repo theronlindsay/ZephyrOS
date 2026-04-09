@@ -73,11 +73,6 @@ check_prerequisites() {
         exit 1
     fi
     
-    # Check for sudo (needed for bluebuild)
-    if [[ $EUID -ne 0 ]]; then
-        log_warn "This script needs sudo for bluebuild. You may be prompted for password."
-    fi
-    
     # Check disk space
     local available_gb=$(df -BG "$PROJECT_DIR" | awk 'NR==2 {print $4}' | tr -d 'G')
     log_info "Available disk space: ${available_gb}GB"
@@ -102,8 +97,8 @@ build_iso() {
     
     echo "[$(date '+%H:%M:%S')] Building ${name} from ${recipe}..." | tee -a "$log_file"
     
-    # Build the ISO. Run bluebuild under sudo but set TMPDIR for the build
-    if sudo env TMPDIR="$TMPDIR" bluebuild generate-iso \
+    # Build the ISO as current user with an explicit writable TMPDIR.
+    if env TMPDIR="$TMPDIR" BB_TEMPDIR="$TMPDIR" bluebuild generate-iso \
         --iso-name "$iso_name" \
         --output-dir "$ISO_OUTPUT_DIR" \
         recipe "${PROJECT_DIR}/recipes/${recipe}" >> "$log_file" 2>&1; then

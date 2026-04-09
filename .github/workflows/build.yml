@@ -119,6 +119,10 @@ jobs:
     name: Build ISOs
     needs: bluebuild-asus
     runs-on: ubuntu-latest
+    env:
+      TMPDIR: ${{ runner.temp }}/bluebuild-tmp
+      BB_TEMPDIR: ${{ runner.temp }}/bluebuild-tmp
+      XDG_CACHE_HOME: ${{ runner.temp }}/bluebuild-cache
     strategy:
       fail-fast: false
       max-parallel: 1
@@ -144,9 +148,13 @@ jobs:
         run: |
           sudo curl -fsSL https://raw.githubusercontent.com/blue-build/cli/main/install.sh | sudo bash
 
+      - name: Prepare BlueBuild temp/cache directories
+        run: |
+          mkdir -p "${TMPDIR}" "${XDG_CACHE_HOME}"
+
       - name: Generate ISO from published image
         run: |
-          sudo bluebuild generate-iso \
+          bluebuild generate-iso \
             --iso-name "${{ matrix.image.name }}-stable.iso" \
             image "ghcr.io/theronlindsay/${{ matrix.image.name }}:latest"
 

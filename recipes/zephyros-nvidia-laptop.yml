@@ -16,6 +16,13 @@ modules:
     properties:
       VARIANT_ID: zephyros-nvidia-laptop
       IMAGE_ID: zephyros-nvidia-laptop
+  - type: dnf
+    repos:
+      copr:
+        - sunwire/envycontrol
+    install:
+      packages:
+        - envycontrol
   - type: files
     files:
       - source: system-laptop
