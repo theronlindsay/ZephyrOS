@@ -120,9 +120,9 @@ jobs:
     needs: bluebuild-asus
     runs-on: ubuntu-latest
     env:
-      TMPDIR: ${{ runner.temp }}/bluebuild-tmp
-      BB_TEMPDIR: ${{ runner.temp }}/bluebuild-tmp
-      XDG_CACHE_HOME: ${{ runner.temp }}/bluebuild-cache
+      TMPDIR: ${{ github.workspace }}/.tmp/bluebuild-tmp
+      BB_TEMPDIR: ${{ github.workspace }}/.tmp/bluebuild-tmp
+      XDG_CACHE_HOME: ${{ github.workspace }}/.tmp/bluebuild-cache
     strategy:
       fail-fast: false
       max-parallel: 1
